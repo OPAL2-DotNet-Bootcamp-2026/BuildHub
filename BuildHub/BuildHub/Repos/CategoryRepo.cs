@@ -31,5 +31,11 @@ namespace BuildHub.Repos
         {
             context.SaveChanges();
         }
+
+        public void Delete (Category category)
+        {
+            context.Categories.Remove(category);
+            context.SaveChanges();
+        }
     }
 }
