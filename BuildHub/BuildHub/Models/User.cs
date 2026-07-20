@@ -31,5 +31,12 @@ namespace BuildHub.Models
         public bool IsVerified { get; set; } = false; //user input
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; //default value
+
+        //navigation properties 
+        public List<Notification> Notifications { get; set; } 
+        public List<QuoteNegotiation> QuoteNegotiations { get; set; }
+        public List<Project> Projects { get; set; }
+        public List<Review> Reviews { get; set; }
+        public VendorProfile VendorProfile { get; set; }
     }
 }
