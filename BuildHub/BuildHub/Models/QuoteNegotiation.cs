@@ -7,11 +7,18 @@ public class QuoteNegotiation
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int quoteNegotiation { get; set; }
+    public int quoteNegotiationId { get; set; }
 
     [Required]
     [ForeignKey("senderId")]
     public int senderId { get; set; }  //ننتظر صاحب المودل هذه يسويها علشان نسوي برايمري كي مالها الصحيحة 
+
+
+    [Required]
+    [ForeignKey(nameof(Quote))]
+    public int quoteId { get; set; }
+    public Quote Quote { get; set; }
+
 
     [Required,Range(0,10) ]
     public decimal proposedPrice { get; set; }
