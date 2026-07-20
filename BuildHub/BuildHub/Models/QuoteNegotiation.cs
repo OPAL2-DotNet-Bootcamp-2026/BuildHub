@@ -32,12 +32,12 @@ public class QuoteNegotiation
 
 
     [Required]
-    public DateTime create { get; set; }  = DateTime.Now;
+    public DateTime create { get; set; }  = DateTime.Now; // system generated 
 
 
 
 
-     
 
-    
+
+
 }
