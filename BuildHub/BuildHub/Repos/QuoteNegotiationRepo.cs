@@ -1,4 +1,6 @@
-﻿namespace BuildHub.Repos
+﻿using BuildHub.Models;
+
+namespace BuildHub.Repos
 {
     public class QuoteNegotiationRepo
     {
@@ -9,6 +11,44 @@
             context = _context;
 
         }
+
+        public List<QuoteNegotiation> GetQuoteNegotiations()
+        {
+            return context.QuoteNegotiations.ToList();
+
+        }
+
+
+
+        public QuoteNegotiation GetQuoteNegotiationById(int id)
+
+        {
+            return context.QuoteNegotiations.FirstOrDefault(q => q.quoteNegotiationId == id);
+        
+        }
+
+        public void  Add (QuoteNegotiation QuoteNegotiationq)
+
+        {
+            context.QuoteNegotiations.Add(QuoteNegotiationq);
+            context.SaveChanges();
+
+        }
+
+        public void Update()
+        {
+            context.SaveChanges ();
+        }
+
+        public void Delete(QuoteNegotiation quoteNegotiation)
+        {
+            context.QuoteNegotiations.Remove(quoteNegotiation);
+            context.SaveChanges();
+        
+        }
+
+
+
 
 
     }
