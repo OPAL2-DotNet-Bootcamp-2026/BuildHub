@@ -13,4 +13,5 @@ public class QuoteRequest
     public Category Category { get; set; }
     [Required]
     public string description { get; set; }     // user input
+    public DateTime? deadline { get; set; }     // user input
 }
