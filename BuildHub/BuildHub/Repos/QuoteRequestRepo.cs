@@ -6,6 +6,11 @@ namespace BuildHub.Repos
     {
         private ProjectContext context;
 
+        public QuoteRequestRepo(ProjectContext _context)
+        {
+            context = _context;
+
+        }
 
 
     }
