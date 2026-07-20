@@ -18,5 +18,10 @@ namespace BuildHub.Repos
 
         }
 
+        public QuoteRequest GetQuoteRequestById(int id)
+        {
+            return context.QuoteRequests.FirstOrDefault(Q => Q.qutoeRequestId == id);
+        
+        }
     }
 }
