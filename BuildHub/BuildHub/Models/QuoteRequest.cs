@@ -8,4 +8,7 @@ public class QuoteRequest
     public int projectId { get; set; }     // foreign key
     [ForeignKey("Project")]
     public Project Project { get; set; }
+    public int categoryId { get; set; }     // foreign key
+    [ForeignKey("Category")]
+    public Category Category { get; set; }
 }
