@@ -1,0 +1,172 @@
+erDiagram
+    USER {
+        uniqueidentifier userId PK
+        nvarchar_150 fullName "NOT NULL"
+        nvarchar_150 email UK "NOT NULL"
+        nvarchar_255 passwordHash "NOT NULL"
+        nvarchar_20 phoneNumber "NULL"
+        nvarchar_20 role "NOT NULL, CHECK IN (Client,Contractor,Designer,StoreOwner,Admin)"
+        nvarchar_100 city "NOT NULL"
+        bit isVerified "NOT NULL, DEFAULT 0"
+        datetime2 createdAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    VENDOR_PROFILE {
+        uniqueidentifier vendorProfileId PK
+        uniqueidentifier userId FK, UK "NOT NULL, references USER"
+        nvarchar_150 companyName "NOT NULL"
+        nvarchar_20 vendorType "NOT NULL, CHECK IN (Contractor,Designer,Store)"
+        nvarchar_100 city "NOT NULL"
+        bit isVerified "NOT NULL, DEFAULT 0"
+        decimal_3_2 averageRating "NULL, DEFAULT 0"
+        decimal_12_2 balance "NOT NULL, DEFAULT 0, CHECK balance >= 0"
+    }
+
+    CATEGORY {
+        uniqueidentifier categoryId PK
+        uniqueidentifier parentCategoryId FK "NULL, self-reference to CATEGORY"
+        nvarchar_150 nameAr "NOT NULL"
+        nvarchar_150 nameEn "NOT NULL"
+        nvarchar_20 type "NOT NULL, CHECK IN (Service,Material)"
+    }
+
+    PROJECT {
+        uniqueidentifier projectId PK
+        uniqueidentifier clientId FK "NOT NULL, references USER"
+        nvarchar_200 title "NOT NULL"
+        nvarchar_max description "NULL"
+        nvarchar_100 city "NOT NULL"
+        decimal_12_2 budget "NOT NULL, CHECK budget > 0"
+        nvarchar_20 status "NOT NULL, DEFAULT Draft"
+        datetime2 createdAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    QUOTE_REQUEST {
+        uniqueidentifier quoteRequestId PK
+        uniqueidentifier projectId FK "NOT NULL, references PROJECT"
+        uniqueidentifier categoryId FK "NOT NULL, references CATEGORY"
+        nvarchar_max description "NOT NULL"
+        datetime2 deadline "NULL"
+        nvarchar_10 visibilityType "NOT NULL, CHECK IN (Public,Direct)"
+        nvarchar_20 status "NOT NULL, DEFAULT Open"
+    }
+
+    QUOTE_REQUEST_INVITE {
+        uniqueidentifier inviteId PK
+        uniqueidentifier quoteRequestId FK "NOT NULL, references QUOTE_REQUEST"
+        uniqueidentifier vendorProfileId FK "NOT NULL, references VENDOR_PROFILE"
+        nvarchar_20 inviteStatus "NOT NULL, DEFAULT Sent, CHECK IN (Sent,Viewed,Responded,Declined)"
+    }
+
+    QUOTE {
+        uniqueidentifier quoteId PK
+        uniqueidentifier quoteRequestId FK "NOT NULL, references QUOTE_REQUEST"
+        uniqueidentifier vendorProfileId FK "NOT NULL, references VENDOR_PROFILE"
+        uniqueidentifier parentQuoteId FK "NULL, self-reference to QUOTE (counter-offer of)"
+        decimal_12_2 price "NOT NULL, CHECK price > 0"
+        int durationDays "NOT NULL, CHECK durationDays > 0"
+        nvarchar_20 status "NOT NULL, DEFAULT Pending, CHECK IN (Pending,Rejected,CounterOffered,Accepted)"
+        datetime2 submittedAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    QUOTE_NEGOTIATION {
+        uniqueidentifier negotiationId PK
+        uniqueidentifier quoteId FK "NOT NULL, references QUOTE"
+        uniqueidentifier senderId FK "NOT NULL, references USER"
+        decimal_12_2 proposedPrice "NOT NULL, CHECK proposedPrice > 0"
+        int proposedDurationDays "NULL"
+        nvarchar_1000 message "NULL"
+        datetime2 createdAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    CONTRACT {
+        uniqueidentifier contractId PK
+        uniqueidentifier quoteId FK, UK "NOT NULL, references QUOTE"
+        decimal_12_2 totalAmount "NOT NULL, CHECK totalAmount > 0"
+        nvarchar_15 paymentType "NOT NULL, CHECK IN (OneTime,PerMilestone)"
+        nvarchar_20 status "NOT NULL, DEFAULT Active, CHECK IN (Active,Completed,Disputed,Cancelled)"
+        datetime2 signedAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    MILESTONE {
+        uniqueidentifier milestoneId PK
+        uniqueidentifier contractId FK "NOT NULL, references CONTRACT"
+        nvarchar_150 title "NOT NULL"
+        decimal_12_2 amount "NOT NULL, CHECK amount > 0"
+        int orderIndex "NOT NULL, CHECK orderIndex >= 0"
+        nvarchar_20 status "NOT NULL, DEFAULT Pending, CHECK IN (Pending,InProgress,SubmittedForReview,Approved,Rejected)"
+        datetime2 dueDate "NULL"
+    }
+
+    ESCROW_TRANSACTION {
+        uniqueidentifier escrowTransactionId PK
+        uniqueidentifier contractId FK "NOT NULL, references CONTRACT"
+        uniqueidentifier milestoneId FK, UK "NULL, references MILESTONE, set only if PaymentType=PerMilestone"
+        decimal_12_2 amount "NOT NULL, CHECK amount > 0"
+        nvarchar_20 status "NOT NULL, DEFAULT Held, CHECK IN (Held,ReleasePending,Released,Refunded,Disputed)"
+        datetime2 heldAt "NULL"
+        datetime2 releasedAt "NULL"
+    }
+
+    PRODUCT {
+        uniqueidentifier productId PK
+        uniqueidentifier vendorProfileId FK "NOT NULL, references VENDOR_PROFILE"
+        uniqueidentifier categoryId FK "NOT NULL, references CATEGORY"
+        nvarchar_150 name "NOT NULL"
+        nvarchar_20 unit "NOT NULL, CHECK IN (m2,piece,set,kg,l)"
+        decimal_12_2 currentPrice "NOT NULL, CHECK currentPrice >= 0"
+        bit isAvailable "NOT NULL, DEFAULT 1"
+    }
+
+    REVIEW {
+        uniqueidentifier reviewId PK
+        uniqueidentifier reviewerId FK "NOT NULL, references USER"
+        uniqueidentifier productId FK "NULL, references PRODUCT"
+        uniqueidentifier vendorProfileId FK "NULL, references VENDOR_PROFILE"
+        uniqueidentifier contractId FK "NULL, references CONTRACT"
+        tinyint rating "NOT NULL, CHECK rating BETWEEN 1 AND 5"
+        nvarchar_1000 comment "NULL"
+        datetime2 reviewDate "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    NOTIFICATION {
+        uniqueidentifier notificationId PK
+        uniqueidentifier userId FK "NOT NULL, references USER"
+        nvarchar_150 title "NOT NULL"
+        nvarchar_30 type "NOT NULL"
+        bit isRead "NOT NULL, DEFAULT 0"
+        datetime2 createdAt "NOT NULL, DEFAULT SYSUTCDATETIME()"
+    }
+
+    %% --- RELATIONSHIPS ---
+    USER ||--o| VENDOR_PROFILE : "has (optional)"
+    USER ||--o{ PROJECT : creates
+    USER ||--o{ REVIEW : writes
+    USER ||--o{ NOTIFICATION : receives
+    USER ||--o{ QUOTE_NEGOTIATION : sends
+
+    VENDOR_PROFILE ||--o{ PRODUCT : lists
+    VENDOR_PROFILE ||--o{ QUOTE : submits
+    VENDOR_PROFILE ||--o{ QUOTE_REQUEST_INVITE : "invited to"
+    VENDOR_PROFILE ||--o{ REVIEW : "receives (optional FK)"
+
+    CATEGORY ||--o{ CATEGORY : "has subcategory"
+    CATEGORY ||--o{ QUOTE_REQUEST : classifies
+    CATEGORY ||--o{ PRODUCT : classifies
+
+    PROJECT ||--o{ QUOTE_REQUEST : contains
+
+    QUOTE_REQUEST ||--o{ QUOTE_REQUEST_INVITE : "sent to (if Direct)"
+    QUOTE_REQUEST ||--o{ QUOTE : receives
+
+    QUOTE ||--o{ QUOTE : "countered by"
+    QUOTE ||--o{ QUOTE_NEGOTIATION : has
+    QUOTE ||--o| CONTRACT : "accepted into"
+
+    CONTRACT ||--o{ MILESTONE : "broken into (if PerMilestone)"
+    CONTRACT ||--o{ ESCROW_TRANSACTION : funds
+    CONTRACT ||--o{ REVIEW : "rated after (optional FK)"
+
+    MILESTONE ||--o| ESCROW_TRANSACTION : "linked to (if PerMilestone)"
+
+    PRODUCT ||--o{ REVIEW : "rated (optional FK)"
