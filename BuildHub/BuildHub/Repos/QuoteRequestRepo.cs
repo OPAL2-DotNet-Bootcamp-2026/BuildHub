@@ -23,5 +23,11 @@ namespace BuildHub.Repos
             return context.QuoteRequests.FirstOrDefault(Q => Q.qutoeRequestId == id);
         
         }
+        public void Add(QuoteRequest quoteRequest)
+        {
+        context.QuoteRequests.Add(quoteRequest);
+            context.SaveChanges();
+        
+        }
     }
 }
