@@ -7,4 +7,5 @@ public class QuoteRequest
     
     public int projectId { get; set; }     // foreign key
     [ForeignKey("Project")]
+    public Project Project { get; set; }
 }
