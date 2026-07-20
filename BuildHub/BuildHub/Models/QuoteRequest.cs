@@ -14,4 +14,7 @@ public class QuoteRequest
     [Required]
     public string description { get; set; }     // user input
     public DateTime? deadline { get; set; }     // user input
+    [Required]
+    [MaxLength(10)]
+    public string visibilityType { get; set; }     // user input
 }
