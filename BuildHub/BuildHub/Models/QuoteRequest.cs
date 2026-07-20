@@ -17,4 +17,7 @@ public class QuoteRequest
     [Required]
     [MaxLength(10)]
     public string visibilityType { get; set; }     // user input
+    [Required]
+    [MaxLength(20)]
+    public string status { get; set; } = "Open";   // default value
 }
