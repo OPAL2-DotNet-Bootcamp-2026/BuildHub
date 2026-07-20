@@ -11,4 +11,6 @@ public class QuoteRequest
     public int categoryId { get; set; }     // foreign key
     [ForeignKey("Category")]
     public Category Category { get; set; }
+    [Required]
+    public string description { get; set; }     // user input
 }
