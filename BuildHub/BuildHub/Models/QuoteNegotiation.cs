@@ -10,13 +10,13 @@ public class QuoteNegotiation
     public int quoteNegotiationId { get; set; } //System generated
 
     [Required]
-    [ForeignKey("senderId")]
-    public int senderId { get; set; }  //foreign key
-
+    [ForeignKey("User")]
+    public int userId { get; set; }  //foreign key
+    public User User { get; set; }
 
 
     [Required]
-    [ForeignKey(nameof(Quote))]
+    [ForeignKey("Quote")]
     public int quoteId { get; set; } //foreign key
     public Quote Quote { get; set; }
 
