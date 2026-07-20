@@ -21,7 +21,7 @@ flowchart TB
 
     QuoteNegotiation["QuoteNegotiation"] --- NegotiationId["negotiationId PK"] & NQuoteId["quoteId FK"] & SenderId["senderId FK (User)"] & ProposedPrice["proposedPrice"] & ProposedDuration["proposedDurationDays (Opt)"] & NegMessage["message (Opt)"] & NegCreatedAt["createdAt"]
 
-    Contract["Contract"] --- ContractId["contractId PK"] & CProjectId["projectId FK UK"] & CQuoteId["quoteId FK UK"] & TotalAmount["totalAmount"] & PaymentType["paymentType (OneTime/PerMilestone)"] & ContractStatus["status"] & SignedAt["signedAt"]
+    Contract["Contract"] --- ContractId["contractId PK"] & CQuoteId["quoteId FK UK"] & TotalAmount["totalAmount"] & PaymentType["paymentType (OneTime/PerMilestone)"] & ContractStatus["status"] & SignedAt["signedAt"]
 
     Milestone["Milestone"] --- MilestoneId["milestoneId PK"] & MContractId["contractId FK"] & MTitle["title"] & Amount["amount"] & OrderIndex["orderIndex"] & MilestoneStatus["status"] & DueDate["dueDate"]
 
@@ -74,8 +74,10 @@ flowchart TB
     %% Project - QuoteRequest -> 1:M (Total on Project, Total on QuoteRequest)
     Project -- 1 --> ContainsQrRel{"Contains"} -- M --> QuoteRequest
 
-    %% Project - Contract -> 1:1 (Partial on Project, Total on Contract)
-    Project -- 1 --> ResultsInRel{"ResultsIn"} -- 1 --> Contract
+    %% NOTE: Project - Contract is intentionally NOT a direct edge.
+    %% It's derived transitively: Project -1:M-> QuoteRequest -1:M-> Quote -1:1-> Contract
+    %% (this also makes Project:Contract effectively 1:M, since a project can have
+    %% several QuoteRequests, each potentially reaching its own accepted Quote/Contract)
 
     %% QuoteRequest - QuoteRequestInvite -> 1:M (Partial on QuoteRequest, only when visibilityType = Direct)
     QuoteRequest -- 1 --> SentToRel{"SentTo"} -- M --> QuoteRequestInvite
@@ -112,7 +114,7 @@ flowchart TB
 
     class UserId,VendorProfileId,CategoryId,ProjectId,QuoteRequestId,InviteId,QuoteId,NegotiationId,ContractId,MilestoneId,EscrowTransactionId,ProductId,ReviewId,NotificationId keyAttribute
 
-    class FullName,Email,PasswordHash,PhoneNumber,Role,City,IsVerified,CreatedAt,VendorUserId,CompanyName,VendorType,VendorCity,VendorIsVerified,AverageRating,Balance,ParentCategoryId,NameAr,NameEn,CatType,ClientId,Title,ProjDescription,ProjCity,Budget,ProjStatus,ProjCreatedAt,QrProjectId,QrCategoryId,QrDescription,Deadline,VisibilityType,QrStatus,IQuoteRequestId,IVendorProfileId,InviteStatus,QQuoteRequestId,QVendorProfileId,ParentQuoteId,Price,DurationDays,QuoteStatus,SubmittedAt,NQuoteId,SenderId,ProposedPrice,ProposedDuration,NegMessage,NegCreatedAt,CProjectId,CQuoteId,TotalAmount,PaymentType,ContractStatus,SignedAt,MContractId,MTitle,Amount,OrderIndex,MilestoneStatus,DueDate,EContractId,EMilestoneId,EAmount,EscrowStatus,HeldAt,ReleasedAt,PVendorProfileId,PCategoryId,ProductName,Unit,CurrentPrice,IsAvailable,ReviewerId,RProductId,RVendorProfileId,RContractId,Rating,Comment,ReviewDate,NUserId,NTitle,NType,IsRead,NCreatedAt attribute
+    class FullName,Email,PasswordHash,PhoneNumber,Role,City,IsVerified,CreatedAt,VendorUserId,CompanyName,VendorType,VendorCity,VendorIsVerified,AverageRating,Balance,ParentCategoryId,NameAr,NameEn,CatType,ClientId,Title,ProjDescription,ProjCity,Budget,ProjStatus,ProjCreatedAt,QrProjectId,QrCategoryId,QrDescription,Deadline,VisibilityType,QrStatus,IQuoteRequestId,IVendorProfileId,InviteStatus,QQuoteRequestId,QVendorProfileId,ParentQuoteId,Price,DurationDays,QuoteStatus,SubmittedAt,NQuoteId,SenderId,ProposedPrice,ProposedDuration,NegMessage,NegCreatedAt,CQuoteId,TotalAmount,PaymentType,ContractStatus,SignedAt,MContractId,MTitle,Amount,OrderIndex,MilestoneStatus,DueDate,EContractId,EMilestoneId,EAmount,EscrowStatus,HeldAt,ReleasedAt,PVendorProfileId,PCategoryId,ProductName,Unit,CurrentPrice,IsAvailable,ReviewerId,RProductId,RVendorProfileId,RContractId,Rating,Comment,ReviewDate,NUserId,NTitle,NType,IsRead,NCreatedAt attribute
 
     classDef entity fill:#1f77b4,stroke:#0d47a1,stroke-width:2px,color:#fff,font-weight:bold
     classDef attribute fill:#f0f4c3,stroke:#afb42b,stroke-width:1px,color:#000
