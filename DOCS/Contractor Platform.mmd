@@ -1,0 +1,119 @@
+---
+config:
+  layout: elk
+---
+flowchart TB
+    %% --- ENTITIES & ATTRIBUTE BINDINGS ---
+
+    User["User"] --- UserId["userId PK"] & FullName["fullName"] & Email["email UK"] & PasswordHash["passwordHash"] & PhoneNumber["phoneNumber (Opt)"] & Role["role"] & City["city"] & IsVerified["isVerified"] & CreatedAt["createdAt"]
+
+    VendorProfile["VendorProfile"] --- VendorProfileId["vendorProfileId PK"] & VendorUserId["userId FK UK"] & CompanyName["companyName"] & VendorType["vendorType"] & VendorCity["city"] & VendorIsVerified["isVerified"] & AverageRating["averageRating"] & Balance["balance (mock wallet)"]
+
+    Category["Category"] --- CategoryId["categoryId PK"] & ParentCategoryId["parentCategoryId FK (Opt)"] & NameAr["nameAr"] & NameEn["nameEn"] & CatType["type"]
+
+    Project["Project"] --- ProjectId["projectId PK"] & ClientId["clientId FK"] & Title["title"] & ProjDescription["description (Opt)"] & ProjCity["city"] & Budget["budget"] & ProjStatus["status"] & ProjCreatedAt["createdAt"]
+
+    QuoteRequest["QuoteRequest"] --- QuoteRequestId["quoteRequestId PK"] & QrProjectId["projectId FK"] & QrCategoryId["categoryId FK"] & QrDescription["description"] & Deadline["deadline"] & VisibilityType["visibilityType (Public/Direct)"] & QrStatus["status"]
+
+    QuoteRequestInvite["QuoteRequestInvite"] --- InviteId["inviteId PK"] & IQuoteRequestId["quoteRequestId FK"] & IVendorProfileId["vendorProfileId FK"] & InviteStatus["inviteStatus (Sent/Viewed/Responded/Declined)"]
+
+    Quote["Quote"] --- QuoteId["quoteId PK"] & QQuoteRequestId["quoteRequestId FK"] & QVendorProfileId["vendorProfileId FK"] & ParentQuoteId["parentQuoteId FK (Opt, counter-offer of)"] & Price["price"] & DurationDays["durationDays"] & QuoteStatus["status (Pending/Rejected/CounterOffered/Accepted)"] & SubmittedAt["submittedAt"]
+
+    QuoteNegotiation["QuoteNegotiation"] --- NegotiationId["negotiationId PK"] & NQuoteId["quoteId FK"] & SenderId["senderId FK (User)"] & ProposedPrice["proposedPrice"] & ProposedDuration["proposedDurationDays (Opt)"] & NegMessage["message (Opt)"] & NegCreatedAt["createdAt"]
+
+    Contract["Contract"] --- ContractId["contractId PK"] & CProjectId["projectId FK UK"] & CQuoteId["quoteId FK UK"] & TotalAmount["totalAmount"] & PaymentType["paymentType (OneTime/PerMilestone)"] & ContractStatus["status"] & SignedAt["signedAt"]
+
+    Milestone["Milestone"] --- MilestoneId["milestoneId PK"] & MContractId["contractId FK"] & MTitle["title"] & Amount["amount"] & OrderIndex["orderIndex"] & MilestoneStatus["status"] & DueDate["dueDate"]
+
+    EscrowTransaction["EscrowTransaction"] --- EscrowTransactionId["escrowTransactionId PK"] & EContractId["contractId FK"] & EMilestoneId["milestoneId FK (Opt)"] & EAmount["amount"] & EscrowStatus["status"] & HeldAt["heldAt (Opt)"] & ReleasedAt["releasedAt (Opt)"]
+
+    Product["Product"] --- ProductId["productId PK"] & PVendorProfileId["vendorProfileId FK"] & PCategoryId["categoryId FK"] & ProductName["name"] & Unit["unit"] & CurrentPrice["currentPrice"] & IsAvailable["isAvailable"]
+
+    Review["Review"] --- ReviewId["reviewId PK"] & ReviewerId["reviewerId FK (User)"] & RProductId["productId FK (Opt)"] & RVendorProfileId["vendorProfileId FK (Opt)"] & RContractId["contractId FK (Opt)"] & Rating["rating"] & Comment["comment (Opt)"] & ReviewDate["reviewDate"]
+
+    Notification["Notification"] --- NotificationId["notificationId PK"] & NUserId["userId FK"] & NTitle["title"] & NType["type"] & IsRead["isRead"] & NCreatedAt["createdAt"]
+
+    %% --- RELATIONSHIPS & RELATION REJECTED ATTRIBUTES ---
+
+    %% User - VendorProfile -> 1:1 (Partial on User, Partial on VendorProfile)
+    User -- 1 --> HasVendorRel{"Has"} -- 1 --> VendorProfile
+
+    %% User - Project -> 1:M (Partial on User, Total on Project)
+    User -- 1 --> CreatesRel{"Creates"} -- M --> Project
+
+    %% User - Review -> 1:M (Partial on User, Total on Review)
+    User -- 1 --> WritesRel{"Writes"} -- M --> Review
+
+    %% User - Notification -> 1:M (Partial on User, Total on Notification)
+    User -- 1 --> ReceivesNotifRel{"Receives"} -- M --> Notification
+
+    %% User - QuoteNegotiation -> 1:M (Partial on User, Total on QuoteNegotiation) - sender can be client or vendor
+    User -- 1 --> SendsNegRel{"Sends"} -- M --> QuoteNegotiation
+
+    %% VendorProfile - Product -> 1:M (Partial on VendorProfile, Total on Product)
+    VendorProfile -- 1 --> ListsRel{"Lists"} -- M --> Product
+
+    %% VendorProfile - Quote -> 1:M (Partial on VendorProfile, Total on Quote)
+    VendorProfile -- 1 --> SubmitsRel{"Submits"} -- M --> Quote
+
+    %% VendorProfile - QuoteRequestInvite -> 1:M (Partial on VendorProfile, Total on Invite)
+    VendorProfile -- 1 --> InvitedToRel{"InvitedTo"} -- M --> QuoteRequestInvite
+
+    %% VendorProfile - Review -> 1:M (Partial on both - review may target Vendor, Product, Contract or a combination)
+    VendorProfile -- 1 --> ReceivesReviewRel{"Receives"} -- M --> Review
+
+    %% Category - Category -> 1:M self-reference (Partial on both sides)
+    Category -- 1 --> HasSubcategoryRel{"HasSubcategory"} -- M --> Category
+
+    %% Category - QuoteRequest -> 1:M (Partial on Category, Total on QuoteRequest)
+    Category -- 1 --> ClassifiesQrRel{"Classifies"} -- M --> QuoteRequest
+
+    %% Category - Product -> 1:M (Partial on Category, Total on Product)
+    Category -- 1 --> ClassifiesProdRel{"Classifies"} -- M --> Product
+
+    %% Project - QuoteRequest -> 1:M (Total on Project, Total on QuoteRequest)
+    Project -- 1 --> ContainsQrRel{"Contains"} -- M --> QuoteRequest
+
+    %% Project - Contract -> 1:1 (Partial on Project, Total on Contract)
+    Project -- 1 --> ResultsInRel{"ResultsIn"} -- 1 --> Contract
+
+    %% QuoteRequest - QuoteRequestInvite -> 1:M (Partial on QuoteRequest, only when visibilityType = Direct)
+    QuoteRequest -- 1 --> SentToRel{"SentTo"} -- M --> QuoteRequestInvite
+
+    %% QuoteRequest - Quote -> 1:M (Total on QuoteRequest, Total on Quote)
+    QuoteRequest -- 1 --> RequestReceivesRel{"Receives"} -- M --> Quote
+
+    %% Quote - Quote -> 1:M self-reference (counter-offer chain after rejection, Partial on both sides)
+    Quote -- 1 --> CounterOfferOfRel{"CounterOfferOf"} -- M --> Quote
+
+    %% Quote - QuoteNegotiation -> 1:M (Partial on Quote, Total on QuoteNegotiation)
+    Quote -- 1 --> HasNegotiationRel{"HasNegotiation"} -- M --> QuoteNegotiation
+
+    %% Quote - Contract -> 1:1 (Partial on Quote, Total on Contract)
+    Quote -- 1 --> AcceptedIntoRel{"AcceptedInto"} -- 1 --> Contract
+
+    %% Contract - Milestone -> 1:M (Partial on Contract - only when paymentType = PerMilestone, Total on Milestone)
+    Contract -- 1 --> BrokenIntoRel{"BrokenInto"} -- M --> Milestone
+
+    %% Contract - EscrowTransaction -> 1:M (Total on Contract - one record if OneTime, one per Milestone if PerMilestone)
+    Contract -- 1 --> FundsRel{"Funds"} -- M --> EscrowTransaction
+
+    %% Contract - Review -> 1:M (Partial on Contract, Total on Review)
+    Contract -- 1 --> RatedAfterRel{"RatedAfter"} -- M --> Review
+
+    %% Milestone - EscrowTransaction -> 1:1 (Partial on both - only linked when paymentType = PerMilestone)
+    Milestone -- 1 --> LinkedToRel{"LinkedTo"} -- 1 --> EscrowTransaction
+
+    %% Product - Review -> 1:M (Partial on Product, Total on Review)
+    Product -- 1 --> RatedRel{"Rated"} -- M --> Review
+
+    %% --- STYLING ---
+    class User,VendorProfile,Category,Project,QuoteRequest,QuoteRequestInvite,Quote,QuoteNegotiation,Contract,Milestone,EscrowTransaction,Product,Review,Notification entity
+
+    class UserId,VendorProfileId,CategoryId,ProjectId,QuoteRequestId,InviteId,QuoteId,NegotiationId,ContractId,MilestoneId,EscrowTransactionId,ProductId,ReviewId,NotificationId keyAttribute
+
+    class FullName,Email,PasswordHash,PhoneNumber,Role,City,IsVerified,CreatedAt,VendorUserId,CompanyName,VendorType,VendorCity,VendorIsVerified,AverageRating,Balance,ParentCategoryId,NameAr,NameEn,CatType,ClientId,Title,ProjDescription,ProjCity,Budget,ProjStatus,ProjCreatedAt,QrProjectId,QrCategoryId,QrDescription,Deadline,VisibilityType,QrStatus,IQuoteRequestId,IVendorProfileId,InviteStatus,QQuoteRequestId,QVendorProfileId,ParentQuoteId,Price,DurationDays,QuoteStatus,SubmittedAt,NQuoteId,SenderId,ProposedPrice,ProposedDuration,NegMessage,NegCreatedAt,CProjectId,CQuoteId,TotalAmount,PaymentType,ContractStatus,SignedAt,MContractId,MTitle,Amount,OrderIndex,MilestoneStatus,DueDate,EContractId,EMilestoneId,EAmount,EscrowStatus,HeldAt,ReleasedAt,PVendorProfileId,PCategoryId,ProductName,Unit,CurrentPrice,IsAvailable,ReviewerId,RProductId,RVendorProfileId,RContractId,Rating,Comment,ReviewDate,NUserId,NTitle,NType,IsRead,NCreatedAt attribute
+
+    classDef entity fill:#1f77b4,stroke:#0d47a1,stroke-width:2px,color:#fff,font-weight:bold
+    classDef attribute fill:#f0f4c3,stroke:#afb42b,stroke-width:1px,color:#000
+    classDef keyAttribute fill:#d1c4e9,stroke:#512da8,stroke-width:2px,color:#000,font-weight:bold
