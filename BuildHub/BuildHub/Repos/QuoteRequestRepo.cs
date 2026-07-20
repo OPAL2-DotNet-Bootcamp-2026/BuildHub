@@ -12,6 +12,11 @@ namespace BuildHub.Repos
 
         }
 
+        public List<QuoteRequest> GetAllQuoteRequestRepo()
+        {
+            return context.QuoteRequests.ToList();
+
+        }
 
     }
 }
