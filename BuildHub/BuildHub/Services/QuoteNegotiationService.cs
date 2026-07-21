@@ -1,4 +1,6 @@
-﻿using BuildHub.Repos;
+﻿using BuildHub.Models;
+using BuildHub.Repos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Services
 {
@@ -11,6 +13,29 @@ namespace BuildHub.Services
         {
             repo = _repo;
         }
+
+
+        public List<QuoteNegotiationOutputDTO> GetNegotiationsByQuoteId(int quoteId)
+        {
+            return repo.GetNegotiationsByQuoteId(quoteId)
+                     .Select(n => new QuoteNegotiationOutputDTO
+                     {
+                         Id = n.QuoteId,
+                         QuoteId = n.QuoteId,
+                         SenderId = n.SenderId,
+                         ProposedPrice = n.ProposedPrice,
+                         ProposeddurationDays = n.ProposeddurationDays,
+                         Message = n.Message,
+                         CreatedAt = n.CreatedAt,
+
+                     })
+                     .ToList();
+
+
+                                                      
+
+        }
+
 
 
 

@@ -12,7 +12,7 @@ namespace BuildHub.Repos
 
         }
 
-        public List<QuoteNegotiation> GetQuoteNegotiations()
+        public List<QuoteNegotiation> GetAllQuoteNegotiations()
         {
             return context.QuoteNegotiations.ToList();
 
@@ -20,7 +20,7 @@ namespace BuildHub.Repos
 
 
 
-        public QuoteNegotiation GetQuoteNegotiationById(int id)
+        public QuoteNegotiation GetAllQuoteNegotiationById(int id)
 
         {
             return context.QuoteNegotiations.FirstOrDefault(q => q.quoteNegotiationId == id);
