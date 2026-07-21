@@ -35,5 +35,15 @@ namespace BuildHub.Controllers
                 return NotFound();
             return Ok("Updated succesfully");
         }
+
+        [HttpDelete("Delete/{categoryId}")]
+        public IActionResult Delete([FromRoute] int categoryId)
+        {
+            bool deleted = categoryService.Delete(categoryId);
+
+            if (!deleted)
+                return NotFound();
+            return Ok ("deleted succesfully");
+        }
     }
 }
