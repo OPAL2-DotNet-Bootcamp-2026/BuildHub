@@ -53,5 +53,6 @@ namespace BuildHub.Services
             return q.qutoeRequestId;
         }
         public bool UpdateCounte(int quoteRequestId, string newCount)
+            QuoteRequest q = repo.GetQuoteRequestById(quoteRequestId);
     }
 }
