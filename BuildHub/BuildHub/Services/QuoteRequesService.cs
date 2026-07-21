@@ -24,5 +24,21 @@ namespace BuildHub.Services
                        })
                        .ToList();
         }
+        public QuoteRequestOutputDTOs GetQuoteRequestById(int id)
+        {
+            QuoteRequest q = repo.GetQuoteRequestById(id);
+            if (q == null)
+            {
+                return null;
+            }
+
+            QuoteRequestOutputDTOs output = new QuoteRequestOutputDTOs();
+            output.QuoteRequestId = q.qutoeRequestId;
+            output.Description = q.description;
+            output.Deadline = q.deadline;
+            output.VisibilityType = q.visibilityType;
+            output.Status = q.status;
+            return output;
+        }
     }
 }
