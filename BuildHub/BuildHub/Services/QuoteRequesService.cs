@@ -67,5 +67,6 @@ namespace BuildHub.Services
             {
                 return false;
             }
+            repo.delete(q);
     }
 }
