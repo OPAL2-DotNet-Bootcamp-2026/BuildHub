@@ -30,3 +30,4 @@ namespace BuildHub.Controllers
             return NoContent(); //204 no data
 }
 
+        [HttpGet("GetQuoteRequestById/{id}")]
