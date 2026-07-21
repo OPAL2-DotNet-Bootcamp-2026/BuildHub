@@ -38,3 +38,4 @@ namespace BuildHub.Controllers
                 return NotFound(); // 404 notfound
             }
             return Ok(quoteRequest); //200 succeeded
+        [HttpPost("AddDTO")]
