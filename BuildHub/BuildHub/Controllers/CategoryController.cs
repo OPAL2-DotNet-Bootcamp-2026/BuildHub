@@ -1,4 +1,5 @@
-﻿using BuildHub.Services;
+﻿using BuildHub.Models;
+using BuildHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
@@ -23,6 +24,16 @@ namespace BuildHub.Controllers
         public IActionResult GetById([FromRoute] int id)
         {
             return Ok(categoryService.GetById(id));
+        }
+
+        [HttpPost("UpdateType/{categoryId}")]
+        public IActionResult UpdateType([FromRoute] int categoryId, [FromQuery] string type)
+        {
+            bool updated = categoryService.UpdateType(categoryId, type);
+
+            if (!updated)
+                return NotFound();
+            return Ok("Updated succesfully");
         }
     }
 }
