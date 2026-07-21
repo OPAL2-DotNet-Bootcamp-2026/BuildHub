@@ -15,6 +15,14 @@ namespace BuildHub.Controllers
             _userService = userService;
         }
 
+        //path: baseUrl/GetAllUsers
+        [HttpGet("GetAllUsers")]
+        public List<User> GetAllUsers()
+        {
+            return _userService.GetAllUsers();
+        }
+
+
         // path: url/user/GetUserById/{id}
         [HttpGet("GetUserById/{id}")]
         public IActionResult GetUserById([FromRoute] int id)
