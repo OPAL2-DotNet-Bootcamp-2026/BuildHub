@@ -20,5 +20,6 @@ namespace BuildHub.Controllers
   
     
         [HttpGet("GetAllQuoteRequest")]
+        public IActionResult GetAllQuoteRequest()
 }
 
