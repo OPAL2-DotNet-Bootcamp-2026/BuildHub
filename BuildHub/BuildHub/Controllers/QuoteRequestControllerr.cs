@@ -54,3 +54,4 @@ namespace BuildHub.Controllers
             bool deleted = quoteRequestService.Delete(id);
             if (!deleted)
                 return NotFound();
+            return Ok("deleted successfully");
