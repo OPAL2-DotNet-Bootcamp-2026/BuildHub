@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,6 +54,19 @@ namespace BuildHub.Controllers
             }
 
             return Ok(created);
+        }
+
+        [HttpPut("UpdateUserEmail")]
+        public IActionResult UpdateUserEmail(int id, UserUpdateDTO user)
+        {
+            UserResponseDTO response = _userService.UpdateUser(id, user);
+            
+            if (response == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(response);
         }
     }
 }
