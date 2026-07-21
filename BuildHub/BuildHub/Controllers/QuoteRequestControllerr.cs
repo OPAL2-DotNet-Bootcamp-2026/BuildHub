@@ -32,3 +32,4 @@ namespace BuildHub.Controllers
 
         [HttpGet("GetQuoteRequestById/{id}")]
         public IActionResult GetQuoteRequestById([FromRoute] int id)
+            QuoteRequestOutputDTOs quoteRequest = quoteRequestService.GetQuoteRequestById(id);
