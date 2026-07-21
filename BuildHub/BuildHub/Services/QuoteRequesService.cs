@@ -9,8 +9,9 @@ namespace BuildHub.Services
         //QuoteRequestRepo repo = new QuoteRequestRepo();
         //apply dependency inversion 
         private QuoteRequestRepo repo;
+
         
-        
+
         public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
         {
             return repo.GetAllQuoteRequest()
@@ -24,6 +25,7 @@ namespace BuildHub.Services
                        })
                        .ToList();
         }
+
         public QuoteRequestOutputDTOs GetQuoteRequestById(int id)
         {
             QuoteRequest q = repo.GetQuoteRequestById(id);
@@ -40,6 +42,7 @@ namespace BuildHub.Services
             output.Status = q.status;
             return output;
         }
+
         public int Create(QuoteRequestInputDTOs input)
         {
             QuoteRequest q = new QuoteRequest();
@@ -49,25 +52,34 @@ namespace BuildHub.Services
             q.deadline = input.Deadline;
             q.visibilityType = input.VisibilityType;
             q.status = "Open"; 
+
             repo.Add(q);
             return q.qutoeRequestId;
         }
+
         public bool UpdateCounte(int quoteRequestId, string newCount)
+        {
             QuoteRequest q = repo.GetQuoteRequestById(quoteRequestId);
             if (q == null)
             {
                 return false;
             }
+
             q.status = newCount;
             repo.update(); 
             return true;
+        }
+
         public bool Delete(int quoteRequestId)
+        {
             QuoteRequest q = repo.GetQuoteRequestById(quoteRequestId);
             if (q == null)
             {
                 return false;
             }
+
             repo.delete(q);
             return true;
+        }
     }
 }
