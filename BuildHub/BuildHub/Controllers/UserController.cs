@@ -17,9 +17,15 @@ namespace BuildHub.Controllers
 
         //path: baseUrl/GetAllUsers
         [HttpGet("GetAllUsers")]
-        public List<User> GetAllUsers()
+        public IActionResult GetAllUsers()
         {
-            return _userService.GetAllUsers();
+            List<User> users = _userService.GetAllUsers();
+            if (users.Count ==0)
+            {
+                return NoContent();
+            }
+
+            return Ok(users);
         }
 
 
