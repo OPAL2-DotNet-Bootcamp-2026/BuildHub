@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
 {
+    [ApiController]
+    [Route("category")]
     public class CategoryController : ControllerBase
     {
         private CategoryService categoryService;
