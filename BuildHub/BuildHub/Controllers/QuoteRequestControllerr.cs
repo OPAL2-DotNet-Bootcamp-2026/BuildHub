@@ -42,3 +42,5 @@ namespace BuildHub.Controllers
         public IActionResult AddDTO([FromBody] QuoteRequestInputDTOs quoteRequest)
             int quoteRequestId = quoteRequestService.Create(quoteRequest);
             return Ok(new { QuoteRequestId = quoteRequestId }); //200, QuoteRequestId=1
+
+        [HttpPut("UpdateCounte/{quoteRequestId}")]
