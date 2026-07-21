@@ -39,3 +39,4 @@ namespace BuildHub.Controllers
             }
             return Ok(quoteRequest); //200 succeeded
         [HttpPost("AddDTO")]
+        public IActionResult AddDTO([FromBody] QuoteRequestInputDTOs quoteRequest)
