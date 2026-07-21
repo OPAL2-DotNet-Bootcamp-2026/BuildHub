@@ -49,5 +49,8 @@ namespace BuildHub.Services
             q.deadline = input.Deadline;
             q.visibilityType = input.VisibilityType;
             q.status = "Open"; 
+            repo.Add(q);
+            return q.qutoeRequestId;
+        }
     }
 }
