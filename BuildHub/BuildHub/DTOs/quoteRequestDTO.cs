@@ -20,10 +20,16 @@ namespace BuildHub.DTOs
         [MaxLength(10)]
         public string VisibilityType { get; set; }
     }
+
     public class QuoteRequestOutputDTOs
+    {
+
         public int QuoteRequestId { get; set; }
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
         public string VisibilityType { get; set; }
         public string Status { get; set; }
+
+
+    }
 }
