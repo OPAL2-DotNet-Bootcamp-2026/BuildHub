@@ -10,6 +10,7 @@ namespace BuildHub.Controllers
     [ApiController]
     [Route("QuoteRequest")]
     public class QuoteRequestController : ControllerBase
+    {
         //QuoteRequestService quoteRequestService = new QuoteRequestService();
         //apply dependency inversion concept
         private QuoteRequestService quoteRequestService;
@@ -17,10 +18,11 @@ namespace BuildHub.Controllers
         {
             quoteRequestService = _quoteRequestService;
         }
-  
-    
+
+        
         [HttpGet("GetAllQuoteRequest")]
         public IActionResult GetAllQuoteRequest()
+        {
             // ask the service layer for all quote requests
             List<QuoteRequestOutputDTOs> result = quoteRequestService.GetAllQuoteRequest();
             if (result.Count > 0)
@@ -28,30 +30,47 @@ namespace BuildHub.Controllers
                 return Ok(result);
             }
             return NoContent(); //204 no data
-}
+        }
 
         [HttpGet("GetQuoteRequestById/{id}")]
         public IActionResult GetQuoteRequestById([FromRoute] int id)
+        {
             QuoteRequestOutputDTOs quoteRequest = quoteRequestService.GetQuoteRequestById(id);
             if (quoteRequest == null)
             {
                 return NotFound(); // 404 notfound
             }
             return Ok(quoteRequest); //200 succeeded
+        }
+
+
         [HttpPost("AddDTO")]
         public IActionResult AddDTO([FromBody] QuoteRequestInputDTOs quoteRequest)
+        {
             int quoteRequestId = quoteRequestService.Create(quoteRequest);
             return Ok(new { QuoteRequestId = quoteRequestId }); //200, QuoteRequestId=1
 
+        }
+
+
         [HttpPut("UpdateCounte/{quoteRequestId}")]
         public IActionResult UpdateCounte([FromRoute] int quoteRequestId, [FromQuery] string newStatus)
+        {
             bool updated = quoteRequestService.UpdateCounte  (quoteRequestId, newStatus);
             if (!updated)
                 return NotFound();
             return Ok("Updated successfully");
+        }
+
+
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
+        {
             bool deleted = quoteRequestService.Delete(id);
             if (!deleted)
                 return NotFound();
             return Ok("deleted successfully");
+        }
+    }
+}
+
