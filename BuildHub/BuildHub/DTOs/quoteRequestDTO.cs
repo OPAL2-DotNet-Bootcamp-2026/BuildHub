@@ -6,4 +6,6 @@ namespace BuildHub.DTOs
         [Required(ErrorMessage = "Value should not be null.")]
         public int ProjectId { get; set; }
 
+        [Required(ErrorMessage = "Value should not be null.")]
+        public int CategoryId { get; set; }
 }
