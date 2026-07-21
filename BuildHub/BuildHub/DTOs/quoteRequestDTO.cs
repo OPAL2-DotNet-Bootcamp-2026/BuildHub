@@ -20,4 +20,5 @@ namespace BuildHub.DTOs
         [MaxLength(10)]
         public string VisibilityType { get; set; }
     }
+    public class QuoteRequestOutputDTOs
 }
