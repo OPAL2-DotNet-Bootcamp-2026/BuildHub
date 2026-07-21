@@ -7,17 +7,17 @@ namespace BuildHub.Services
     public class QuoteNegotiationService
     {
         
-        private QuoteNegotiationRepo _repo;
+        private QuoteNegotiationRepo repo;
 
-        public QuoteNegotiationService(QuoteNegotiationRepo repo)
+        public QuoteNegotiationService(QuoteNegotiationRepo _repo)
         {
             repo = _repo;
         }
 
 
-        public List<QuoteNegotiationOutputDTO> GetNegotiationsByQuoteId(int quoteId)
+        public List<QuoteNegotiationOutputDTO> GetAllQuoteNegotiations()
         {
-            return repo.GetNegotiationsByQuoteId(quoteId)
+            return repo.GetAllQuoteNegotiations()
                      .Select(n => new QuoteNegotiationOutputDTO
                      {
                          Id = n.QuoteId,
@@ -25,7 +25,7 @@ namespace BuildHub.Services
                          SenderId = n.SenderId,
                          ProposedPrice = n.ProposedPrice,
                          ProposeddurationDays = n.ProposeddurationDays,
-                         Message = n.Message,
+                         
                          CreatedAt = n.CreatedAt,
 
                      })

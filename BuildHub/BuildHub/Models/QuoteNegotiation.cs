@@ -32,7 +32,7 @@ public class QuoteNegotiation
 
 
     [Required]
-    public DateTime create { get; set; }  = DateTime.Now; // system generated 
+    public DateTime createIn { get; set; }  = DateTime.Now; // system generated 
 
 
 
