@@ -9,6 +9,7 @@ namespace BuildHub.Controllers
 {
     [ApiController]
     [Route("QuoteRequest")]
+    public class QuoteRequestController : ControllerBase
   
     
 }
