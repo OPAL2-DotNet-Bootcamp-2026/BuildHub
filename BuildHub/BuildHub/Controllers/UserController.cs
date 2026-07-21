@@ -36,10 +36,10 @@ namespace BuildHub.Controllers
         {
             //should replace user with response dto
             User user = _userService.GetUserById(id);
-            
+
             if (user == null)
                 return NotFound(new { message = $"User with ID {id} was not found." });
-            
+
             return Ok(user);
         }
 
@@ -60,13 +60,25 @@ namespace BuildHub.Controllers
         public IActionResult UpdateUserEmail(int id, UserUpdateDTO user)
         {
             UserResponseDTO response = _userService.UpdateUser(id, user);
-            
+
             if (response == null)
             {
                 return BadRequest();
             }
 
             return Ok(response);
+        }
+
+        [HttpDelete("DeleteUser")]
+        public IActionResult DeleteUser(int id) { 
+            bool deleted = _userService.DeleteUser(id);
+            
+            if (!deleted)
+            {
+                return NotFound(new { message = $"User with ID {id} was not found." });
+            }
+
+            return Ok();
         }
     }
 }
