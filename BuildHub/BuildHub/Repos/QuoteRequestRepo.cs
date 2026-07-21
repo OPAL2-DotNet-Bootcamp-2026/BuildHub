@@ -12,7 +12,7 @@ namespace BuildHub.Repos
 
         }
 
-        public List<QuoteRequest> GetAllQuoteRequestRepo()
+        public List<QuoteRequest> GetAllQuoteRequest()
         {
             return context.QuoteRequests.ToList();
 
