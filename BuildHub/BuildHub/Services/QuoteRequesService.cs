@@ -54,5 +54,9 @@ namespace BuildHub.Services
         }
         public bool UpdateCounte(int quoteRequestId, string newCount)
             QuoteRequest q = repo.GetQuoteRequestById(quoteRequestId);
+            if (q == null)
+            {
+                return false;
+            }
     }
 }
