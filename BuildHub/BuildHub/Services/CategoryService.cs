@@ -21,5 +21,33 @@ namespace BuildHub.Services
             return repo.GetById(categoryId);
         }
 
+        public int Create (Category category)
+        {
+            repo.Add(category);
+            return category.categoryId;
+        }
+        
+        public bool UpdateType (int categoryId , string newType)
+        {
+            Category category = repo.GetById(categoryId);
+            if (category == null)
+            {
+                return false;
+            }
+            category.type = newType;
+            repo.Update();
+            return true;
+        }
+
+        public bool Delete (int categoryId)
+        {
+            Category category = repo.GetById(categoryId);
+            if (category == null)
+            {
+                return false;
+            }
+            repo.Delete(category);
+            return true;
+        }
     }
 }
