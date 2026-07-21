@@ -11,4 +11,7 @@ namespace BuildHub.DTOs
         [Required(ErrorMessage = "Value should not be null.")]
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
+        [Required(ErrorMessage = "Value should not be null.")]
+        [MaxLength(10)]
+        public string VisibilityType { get; set; }
 }
