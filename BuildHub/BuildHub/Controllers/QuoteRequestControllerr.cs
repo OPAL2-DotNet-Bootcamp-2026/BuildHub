@@ -49,3 +49,4 @@ namespace BuildHub.Controllers
             if (!updated)
                 return NotFound();
             return Ok("Updated successfully");
+        [HttpDelete("Delete/{id}")]
