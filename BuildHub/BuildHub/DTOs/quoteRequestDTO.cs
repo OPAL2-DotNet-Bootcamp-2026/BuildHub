@@ -22,4 +22,5 @@ namespace BuildHub.DTOs
     }
     public class QuoteRequestOutputDTOs
         public int QuoteRequestId { get; set; }
+        public string Description { get; set; }
 }
