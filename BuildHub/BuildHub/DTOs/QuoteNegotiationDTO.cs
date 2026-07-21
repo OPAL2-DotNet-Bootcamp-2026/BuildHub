@@ -19,7 +19,7 @@ namespace BuildHub.DTOs
         public int quoteNegotiationId { get; set; }
         public int userId { get; set; }
         public decimal proposedPrice { get; set; }
-        public int proposedDurationDays { get; set; }
+        public string proposedDurationDays { get; set; }
         public DateTime createIn { get; set; }
 
     }

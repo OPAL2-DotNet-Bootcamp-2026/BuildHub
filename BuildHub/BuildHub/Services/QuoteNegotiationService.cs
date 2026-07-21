@@ -28,12 +28,10 @@ namespace BuildHub.Services
                        .ToList();
         }
 
-        // 1. تم تعديل نوع المرجع المرتجع ليكون مطابقاً للنوع المستعمل داخلياً
         public QuoteNegotiationOutputDTO GetQuoteNegotiationById(int id)
         {
             QuoteNegotiation q = repo.GetAllQuoteNegotiationById(id);
 
-            // 2. حماية الكود في حال كان السجل غير موجود (null)
             if (q == null)
             {
                 return null;
@@ -52,7 +50,7 @@ namespace BuildHub.Services
         public int Create(QuoteNegotiation quoteNegotiation)
         {
             repo.Add(quoteNegotiation);
-            // 3. تعديل اسم الخاصية إلى quoteNegotiationId كما هو معرف في المودل مالك
+           
             return quoteNegotiation.quoteNegotiationId;
         }
     }

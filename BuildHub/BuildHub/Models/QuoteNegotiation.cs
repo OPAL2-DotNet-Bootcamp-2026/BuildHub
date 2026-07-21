@@ -25,7 +25,7 @@ public class QuoteNegotiation
     public decimal proposedPrice { get; set; }//user input
 
 
-    public int? proposedDurationDays { get; set; }//user input
+    public string? proposedDurationDays { get; set; }//user input
 
     [MaxLength(1000)]
     public string? message { get; set; }//user input
