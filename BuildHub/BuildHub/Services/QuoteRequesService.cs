@@ -11,5 +11,18 @@ namespace BuildHub.Services
         private QuoteRequestRepo repo;
         
         
+        public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
+        {
+            return repo.GetAllQuoteRequest()
+                       .Select(quoteRequest => new QuoteRequestOutputDTOs
+                       {
+                           QuoteRequestId = quoteRequest.qutoeRequestId,
+                           Description = quoteRequest.description,
+                           Deadline = quoteRequest.deadline,
+                           VisibilityType = quoteRequest.visibilityType,
+                           Status = quoteRequest.status
+                       })
+                       .ToList();
+        }
     }
 }
