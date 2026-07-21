@@ -23,5 +23,9 @@ namespace BuildHub.Controllers
         public IActionResult GetAllQuoteRequest()
             // ask the service layer for all quote requests
             List<QuoteRequestOutputDTOs> result = quoteRequestService.GetAllQuoteRequest();
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
 }
 
