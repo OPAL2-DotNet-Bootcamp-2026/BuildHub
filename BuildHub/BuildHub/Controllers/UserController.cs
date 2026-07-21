@@ -17,7 +17,7 @@ namespace BuildHub.Controllers
 
         // path: url/user/GetUserById/{id}
         [HttpGet("GetUserById/{id}")]
-        public IActionResult GetUserById(int id)
+        public IActionResult GetUserById([FromRoute] int id)
         {
             //should replace user with response dto
             User user = _userService.GetUserById(id);
