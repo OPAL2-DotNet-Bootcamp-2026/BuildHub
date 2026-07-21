@@ -58,5 +58,8 @@ namespace BuildHub.Services
             {
                 return false;
             }
+            q.status = newCount;
+            repo.update(); 
+            return true;
     }
 }
