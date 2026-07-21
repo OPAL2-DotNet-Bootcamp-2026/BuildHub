@@ -41,5 +41,18 @@ namespace BuildHub.Controllers
             
             return Ok(user);
         }
+
+
+        [HttpPost("AddUser")]
+        public IActionResult AddUser([FromBody] User user )
+        {
+            int created = _userService.AddUser(user);
+            if (created == 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok(created);
+        }
     }
 }
