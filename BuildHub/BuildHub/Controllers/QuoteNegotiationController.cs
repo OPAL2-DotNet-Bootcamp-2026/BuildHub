@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
 {
+
+    [ApiController]
+    [Route("quote-negotiation")]
+    [Authorize]
     public class QuoteNegotiationController : ControllerBase
     {
         private QuoteNegotiationService negotiationService;
