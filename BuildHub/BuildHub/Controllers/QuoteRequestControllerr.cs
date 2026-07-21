@@ -44,3 +44,4 @@ namespace BuildHub.Controllers
             return Ok(new { QuoteRequestId = quoteRequestId }); //200, QuoteRequestId=1
 
         [HttpPut("UpdateCounte/{quoteRequestId}")]
+        public IActionResult UpdateCounte([FromRoute] int quoteRequestId, [FromQuery] string newStatus)
