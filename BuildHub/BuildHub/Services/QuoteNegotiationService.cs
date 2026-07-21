@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,21 +21,44 @@ namespace BuildHub.Services
             return repo.GetAllQuoteNegotiations()
                      .Select(n => new QuoteNegotiationOutputDTO
                      {
-                         Id = n.QuoteId,
-                         QuoteId = n.QuoteId,
-                         SenderId = n.SenderId,
-                         ProposedPrice = n.ProposedPrice,
-                         ProposeddurationDays = n.ProposeddurationDays,
-                         
-                         CreatedAt = n.CreatedAt,
+                         quoteNegotiationId = n.quoteNegotiationId,
+                         userId = n.userId,
+                         proposedPrice = n.proposedPrice,
+                         proposedDurationDays = n.proposedDurationDays,
+                         createIn = n.createIn,
 
                      })
                      .ToList();
+                                                 
+        }
 
+        public QuoteNegotiationAllOutputDTO GetQuoteNegotiationById(int id)
+        {
 
-                                                      
+            QuoteNegotiation q = repo.GetAllQuoteNegotiationById(id);
+
+            QuoteNegotiationOutputDTO output = new QuoteNegotiationOutputDTO();
+            output.quoteNegotiationId = q.quoteNegotiationId;
+            output.userId = q.userId;
+            output.proposedPrice = q.proposedPrice;
+            output.proposedDurationDays = q.proposedDurationDays;
+            output.createIn = q.createIn;
+            return output;
 
         }
+
+
+        public int Create(QuoteNegotiation quoteNegotiation)
+        {
+            repo.Add(quoteNegotiation);
+            return quoteNegotiation.id;
+
+        }
+
+
+
+
+
 
 
 

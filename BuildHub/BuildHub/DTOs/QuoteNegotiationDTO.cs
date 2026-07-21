@@ -20,7 +20,7 @@ namespace BuildHub.DTOs
         public int userId { get; set; }
         public decimal proposedPrice { get; set; }
         public int proposedDurationDays { get; set; }
-        public DateTime create { get; set; }
+        public DateTime createIn { get; set; }
 
     }
 
