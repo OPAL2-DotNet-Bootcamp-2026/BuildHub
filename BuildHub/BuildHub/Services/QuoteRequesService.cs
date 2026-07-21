@@ -40,5 +40,14 @@ namespace BuildHub.Services
             output.Status = q.status;
             return output;
         }
+        public int Create(QuoteRequestInputDTOs input)
+        {
+            QuoteRequest q = new QuoteRequest();
+            q.projectId = input.ProjectId;
+            q.categoryId = input.CategoryId;
+            q.description = input.Description;
+            q.deadline = input.Deadline;
+            q.visibilityType = input.VisibilityType;
+            q.status = "Open"; 
     }
 }
