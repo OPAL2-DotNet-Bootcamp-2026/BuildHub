@@ -61,5 +61,6 @@ namespace BuildHub.Services
             q.status = newCount;
             repo.update(); 
             return true;
+        public bool Delete(int quoteRequestId)
     }
 }
