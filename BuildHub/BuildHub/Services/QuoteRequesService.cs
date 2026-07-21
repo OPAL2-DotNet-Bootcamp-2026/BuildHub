@@ -63,5 +63,9 @@ namespace BuildHub.Services
             return true;
         public bool Delete(int quoteRequestId)
             QuoteRequest q = repo.GetQuoteRequestById(quoteRequestId);
+            if (q == null)
+            {
+                return false;
+            }
     }
 }
