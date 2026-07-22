@@ -3,7 +3,7 @@
 namespace BuildHub.DTOs
 {
 
-    // Input DTOs 
+    // This is for input DTOs 
     public class CategoryInputDTOs
     {
         [Required(ErrorMessage = "This field is required")]
@@ -18,7 +18,7 @@ namespace BuildHub.DTOs
 
 
 
-    // Output DTOs 
+    // This is for the output DTOs 
     public class CategoryOutputDTOs
     {
         public string nameAr { get; set; }
