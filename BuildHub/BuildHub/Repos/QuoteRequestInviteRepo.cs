@@ -33,4 +33,5 @@ namespace BuildHub.Repos
             context.SaveChanges();
 
         }
+        public void delete(QuoteRequestInvite quoteRequestInvite)
 }
