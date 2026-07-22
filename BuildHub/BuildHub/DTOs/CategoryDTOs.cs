@@ -19,4 +19,9 @@
     // Output DTOs 
     public class CategoryOutputDTOs
     {
+        public string nameAr { get; set; }
+        public string nameEn { get; set; }
+        public string type { get; set; } 
+    }
+
 }
