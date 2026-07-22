@@ -13,4 +13,10 @@
         [Required(ErrorMessage = "This field is required")]
         public string type { get; set; }
     }
+
+
+
+    // Output DTOs 
+    public class CategoryOutputDTOs
+    {
 }
