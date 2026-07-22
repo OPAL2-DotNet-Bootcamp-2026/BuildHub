@@ -11,4 +11,5 @@ public class QuoteRequestInvite
     public int vendorProfileId { get; set; }  // foreign key
     [ForeignKey("VendorProfile")]
     public VendorProfile VendorProfile { get; set; }
+    public string inviteStatus { get; set; } = "Sent";  // default value
 }
