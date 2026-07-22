@@ -1,8 +1,12 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildHub.Models;
 
+
+
+[Index (nameof(quoteId),IsUnique = true   )]
 public class Contract
 {
     [Required]
@@ -19,18 +23,21 @@ public class Contract
 
 
     [Required]
-    public decimal totalAmount { get; set; }
+    [Range(0, int.MaxValue, ErrorMessage = "Should be more than 0")]
+    public decimal totalAmount { get; set; }//User input 
 
 
 
     [Required]
+    [AllowedValues("One time ","PreMilestone")]
     public string paymentType { get; set; }//User input
 
     [Required]
-    public string status { get; set; }//
+    [AllowedValues("Active", "Completed", "Disputted", "Cancelled")]
+    public string status { get; set; } = "Active";//Defult value 
 
     [Required]
-    public DateTime signedAt { get; set; }
+    public DateTime signedAt { get; set; } = DateTime.UtcNow;// User input
 
     
 }
