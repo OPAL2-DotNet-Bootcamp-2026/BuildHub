@@ -1,4 +1,6 @@
-﻿namespace BuildHub.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BuildHub.DTOs
 {
 
     // Input DTOs 
