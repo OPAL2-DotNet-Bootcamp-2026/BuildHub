@@ -34,4 +34,5 @@ namespace BuildHub.Repos
 
         }
         public void delete(QuoteRequestInvite quoteRequestInvite)
+            context.QuoteRequestInvites.Remove(quoteRequestInvite);
 }
