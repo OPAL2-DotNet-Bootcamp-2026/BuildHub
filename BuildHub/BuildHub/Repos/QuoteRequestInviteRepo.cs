@@ -6,4 +6,8 @@ namespace BuildHub.Repos
         private ProjectContext context;
 
         public QuoteRequestInviteRepo(ProjectContext _context)
+        {
+            context = _context;
+
+        }
 }
