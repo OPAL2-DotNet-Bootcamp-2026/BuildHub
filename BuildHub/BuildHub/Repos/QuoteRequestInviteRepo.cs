@@ -10,4 +10,5 @@ namespace BuildHub.Repos
             context = _context;
 
         }
+        public List<QuoteRequestInvite> GetAllquoteRequestInvites()
 }
