@@ -2,5 +2,6 @@
 
 namespace BuildHub.Repos
 {
+    public class QuoteRequestInviteRepo
 
 }
