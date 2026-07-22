@@ -21,7 +21,7 @@ namespace BuildHub.Services
             return repo.GetById(categoryId);
         }
 
-        public int Create (Category category)
+        public int Add (Category category)
         {
             repo.Add(category);
             return category.categoryId;
