@@ -4,6 +4,7 @@ namespace BuildHub.Repos
 {
     public class CategoryRepo
     {
+        // This is a projectContext context = new ProjectContext();
         private ProjectContext context;
 
         public CategoryRepo(ProjectContext context)
