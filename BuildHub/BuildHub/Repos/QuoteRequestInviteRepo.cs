@@ -29,4 +29,8 @@ namespace BuildHub.Repos
 
         }
         public void update()
+        {
+            context.SaveChanges();
+
+        }
 }
