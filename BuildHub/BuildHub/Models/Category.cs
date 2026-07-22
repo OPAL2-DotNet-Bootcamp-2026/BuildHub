@@ -9,7 +9,7 @@ public class Category
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int categoryId { get; set; }
 
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
     public int? parentCategoryId { get; set; }
 
     [Required]
@@ -23,4 +23,8 @@ public class Category
     [Required]
     [MaxLength(20)]
     public string type {  get; set; }
+
+    // Navigation properties 
+    public virtual Category? ParentCategory { get; set; }
+    public virtual ICollection<Category> SubCategories { get; set; } = new List<Category>();
 }
