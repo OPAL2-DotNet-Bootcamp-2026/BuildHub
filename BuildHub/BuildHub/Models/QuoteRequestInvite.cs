@@ -6,4 +6,6 @@ public class QuoteRequestInvite
     public int inviteId { get; set; }  // system generated
     
     public int quoteRequestId { get; set; }   // foreign key
+    [ForeignKey("QuoteRequest")]
+    public QuoteRequest QuoteRequest { get; set; }
 }
