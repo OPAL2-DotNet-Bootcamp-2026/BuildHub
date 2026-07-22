@@ -5,6 +5,7 @@ namespace BuildHub.Models;
 
 public class Category
 {
+    // the data annotation 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int categoryId { get; set; }
@@ -24,7 +25,7 @@ public class Category
     [MaxLength(20)]
     public string type {  get; set; }
 
-    // Navigation properties 
+    // The navigation properties 
     public virtual Category? ParentCategory { get; set; }
     public virtual ICollection<Category> SubCategories { get; set; } = new List<Category>();
 }
