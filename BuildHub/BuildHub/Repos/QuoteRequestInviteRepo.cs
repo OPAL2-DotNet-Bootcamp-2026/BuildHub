@@ -3,5 +3,6 @@
 namespace BuildHub.Repos
 {
     public class QuoteRequestInviteRepo
+        private ProjectContext context;
 
 }
