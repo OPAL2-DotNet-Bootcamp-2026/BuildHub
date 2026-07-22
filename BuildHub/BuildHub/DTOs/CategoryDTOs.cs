@@ -1,6 +1,8 @@
 ﻿namespace BuildHub.DTOs
 {
-    public class CategoryDTOs
+
+    // Input DTOs 
+    public class CategoryInputDTOs
     {
     }
 }
