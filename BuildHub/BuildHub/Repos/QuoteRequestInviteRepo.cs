@@ -23,5 +23,9 @@ namespace BuildHub.Repos
 
         }
         public void Add(QuoteRequestInvite quoteRequestInvite)
+        {
             context.QuoteRequestInvites.Add(quoteRequestInvite);
+            context.SaveChanges();
+
+        }
 }
