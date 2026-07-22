@@ -17,4 +17,5 @@ namespace BuildHub.Repos
 
 
         }
+        public QuoteRequestInvite GetquoteRequestInvitesById(int id)
 }
