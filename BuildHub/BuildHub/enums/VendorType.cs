@@ -1,4 +1,4 @@
-﻿namespace BuildHub
+﻿namespace BuildHub.enums
 {
     public enum VendorType
     {
