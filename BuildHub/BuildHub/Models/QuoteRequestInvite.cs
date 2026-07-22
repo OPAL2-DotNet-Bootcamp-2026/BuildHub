@@ -8,4 +8,5 @@ public class QuoteRequestInvite
     public int quoteRequestId { get; set; }   // foreign key
     [ForeignKey("QuoteRequest")]
     public QuoteRequest QuoteRequest { get; set; }
+    public int vendorProfileId { get; set; }  // foreign key
 }
