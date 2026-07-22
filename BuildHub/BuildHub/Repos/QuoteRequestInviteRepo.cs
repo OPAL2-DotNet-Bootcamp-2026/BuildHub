@@ -22,4 +22,5 @@ namespace BuildHub.Repos
             return context.QuoteRequestInvites.FirstOrDefault(Q => Q.inviteId == id);
 
         }
+        public void Add(QuoteRequestInvite quoteRequestInvite)
 }
