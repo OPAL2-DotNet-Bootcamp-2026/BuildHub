@@ -17,6 +17,7 @@ namespace BuildHub.DTOs
             [Required(ErrorMessage = "Contract Id is required .")]
             public string titel {  get; set; }
 
+
         }
 
 
