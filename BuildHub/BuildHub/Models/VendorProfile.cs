@@ -10,9 +10,8 @@ public class VendorProfile
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int VendorProfileID { get; set; } //system generated
     [Required]
-    [ForeignKey("user")]
+    [ForeignKey("User")]
     public int UserId { get; set; } //user input
-    public User User { get; set; } //navigation property 
     [Required]
     [MaxLength(150)]
     public string CompanyName { get; set; } //user input
@@ -28,4 +27,12 @@ public class VendorProfile
     [Required]
     [Range(0, double.MaxValue)]
     public double Balance { get; set; } = 0; //defualt values
+
+
+    //navigation property 
+    public User User { get; set; } 
+    public List<Product> Products { get; set; }
+    public List<Quote> Quotes { get; set; }
+    public List<QuoteRequestInvite > QuoteRequestInvites { get; set; }
+    public List<Review> Reviews { get; set; }
 }
