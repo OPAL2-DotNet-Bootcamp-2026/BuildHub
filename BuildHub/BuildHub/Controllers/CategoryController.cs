@@ -8,6 +8,8 @@ namespace BuildHub.Controllers
     [Route("category")]
     public class CategoryController : ControllerBase
     {
+
+        // Applied the dependency inversion here:
         private CategoryService categoryService;
         public CategoryController (CategoryService _categoryService)
         {
