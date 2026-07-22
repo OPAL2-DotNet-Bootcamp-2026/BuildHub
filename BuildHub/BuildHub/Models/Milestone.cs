@@ -30,7 +30,9 @@ public class Milestone
 
 
     [Required]
-    public string status { get; set; }//Defualt value 
+    [MaxLength(20)]
+    [AllowedValues("Pending","InProgress","Submitted For Review","Approved","Rejected")]
+    public string status { get; set; } = "Pending";//Defualt value 
 
 
 
