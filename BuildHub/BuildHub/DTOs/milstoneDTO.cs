@@ -14,10 +14,18 @@ namespace BuildHub.DTOs
             public int contractId {  get; set; }
 
 
-            [Required(ErrorMessage = "Contract Id is required .")]
+            [Required(ErrorMessage = "Titel is required .")]
             public string titel {  get; set; }
 
+            [Required]
+            public DateTime dueDate { get; set; }
 
+
+        }
+        public class UbdateMilestoneDto
+        {
+            [Required]
+            public DateTime dueDate { get; set; }
         }
 
 

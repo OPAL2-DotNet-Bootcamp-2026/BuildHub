@@ -12,6 +12,7 @@ public class Milestone
     [Required]
     [ForeignKey("Contract")]
     public int contractId { get; set; } //User input
+    public Contract Contract { get; set; }
 
 
     [Required]
