@@ -18,4 +18,8 @@ namespace BuildHub.Repos
 
         }
         public QuoteRequestInvite GetquoteRequestInvitesById(int id)
+        {
+            return context.QuoteRequestInvites.FirstOrDefault(Q => Q.inviteId == id);
+
+        }
 }
