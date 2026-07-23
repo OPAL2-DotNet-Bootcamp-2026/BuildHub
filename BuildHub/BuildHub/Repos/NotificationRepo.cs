@@ -19,5 +19,9 @@
         {
             return context.Notifications.FirstOrDefault(c => c.notificationId == notificationId);
         }
+
+        public void Add(Notification notification)
+        {
+            context.Notifications.Add(notification);
     }
 }
