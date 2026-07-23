@@ -10,7 +10,7 @@ public class Category
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int categoryId { get; set; }
 
-
+    [ForeignKey(nameof(Category))]
     public int? parentCategoryId { get; set; }
 
     [Required]
