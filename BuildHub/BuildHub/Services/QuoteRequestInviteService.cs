@@ -33,4 +33,9 @@ namespace BuildHub.Services
                 return null;
             }
             QuoteRequestInviteOutputDTOs output = new QuoteRequestInviteOutputDTOs();
+            output.InviteId = invite.inviteId;
+            output.QuoteRequestId = invite.quoteRequestId;
+            output.VendorProfileId = invite.vendorProfileId;
+            output.InviteStatus = invite.inviteStatus;
+            return output;
 }
