@@ -26,5 +26,6 @@ namespace BuildHub.Controllers
                 return Ok(result);
             }
             return NoContent(); //204 no data
+        [HttpGet("GetQuoteRequestInviteById/{id}")]
     
 }
