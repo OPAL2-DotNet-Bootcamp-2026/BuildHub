@@ -66,3 +66,6 @@ namespace BuildHub.Services
             {
                 return false;
             }
+
+            repo.delete(invite);
+            return true;
