@@ -9,5 +9,10 @@
         {
             this.context = context;
         }
+
+        public List<Notification> GetAll()
+        {
+            return context.Notifications.ToList();
+        }
     }
 }
