@@ -26,4 +26,5 @@ namespace BuildHub.Services
                        })
                        .ToList();
         }
+        public QuoteRequestInviteOutputDTOs GetQuoteRequestInviteById(int id)
 }
