@@ -18,4 +18,7 @@ public class Quote
     [Column(TypeName = "decimal(12,2)")]
     [Range(0, double.MaxValue)]
     public decimal price { get; set; }   // user input
+
+    [Required]
+    public int durationDays { get; set; }   // user input
 }
