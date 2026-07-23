@@ -2,6 +2,7 @@ namespace BuildHub.Models;
 
 public class Product
 {
+    [Key]
     public int productId { get; set; }
     public int vendorProfileId { get; set; }
     public int categoryId { get; set; }
