@@ -48,3 +48,5 @@ namespace BuildHub.Controllers
                 return NotFound();
             return Ok("Updated successfully");
 }
+
+        [HttpDelete("Delete/{id}")]
