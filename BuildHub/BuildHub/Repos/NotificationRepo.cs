@@ -4,5 +4,10 @@
     {
         // This is a projectContext context = new ProjectContext();
         private ProjectContext context;
+
+        public NotificationRepo(ProjectContext context)
+        {
+            this.context = context;
+        }
     }
 }
