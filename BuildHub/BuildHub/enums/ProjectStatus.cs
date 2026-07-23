@@ -1,6 +1,8 @@
 ﻿namespace BuildHub.enums
 {
-    public class ProjectStatus
+    public enum ProjectStatus
     {
+        //Added more options later 
+        Draft = 1,
     }
 }
