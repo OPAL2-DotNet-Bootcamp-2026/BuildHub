@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.enums;
+using BuildHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub
@@ -23,6 +24,16 @@ namespace BuildHub
         public ProjectContext(DbContextOptions<ProjectContext> options) : base(options)
         {
             
+        }
+
+        //this method convert the value from enum from number (index) to string
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Project>()
+                .Property(p => p.Status)
+                .HasConversion<string>() // Converts enum to string for database operations
+                .HasMaxLength(20) //navchar(20)
+                .HasDefaultValue(ProjectStatus.Draft); //default value "draft"
         }
     }
 }
