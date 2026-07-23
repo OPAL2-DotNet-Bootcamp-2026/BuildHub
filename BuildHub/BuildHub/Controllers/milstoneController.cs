@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
 {
-    public class milstoneController
-    {
-        [ApiController]
-        [Route("Milestone")]
+    [ApiController]
+    [Route("Milestone")]
         public class MilestoneController : ControllerBase
         {
             private MilestoneService milestoneService;
@@ -24,7 +22,7 @@ namespace BuildHub.Controllers
             {
                 MilestoneDto created = milestoneService.Milestone(dto);
 
-                if (created = null)
+                if (created == null)
                 {
                     return BadRequest(new { message = "Alredy registerd." });
                     return Ok (created);
@@ -40,5 +38,5 @@ namespace BuildHub.Controllers
 
 
 
-    }
+    
 }
