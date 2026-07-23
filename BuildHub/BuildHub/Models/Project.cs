@@ -1,3 +1,4 @@
+using BuildHub.enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub.Models;
@@ -10,6 +11,6 @@ public class Project
     public string Description { get; set; } //user input 
     public string City { get; set; } //user input 
     public decimal Budget { get; set; } //user input 
-    public string Status { get; set; } //from list 
+    public ProjectStatus Status { get; set; } //from list 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow; //default value 
 }
