@@ -32,4 +32,5 @@ namespace BuildHub.Services
             {
                 return null;
             }
+            QuoteRequestInviteOutputDTOs output = new QuoteRequestInviteOutputDTOs();
 }
