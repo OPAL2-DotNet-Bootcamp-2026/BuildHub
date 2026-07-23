@@ -14,4 +14,5 @@ namespace BuildHub.Services
             repo = _repo;
         }
     
+        public List<QuoteRequestInviteOutputDTOs> GetAllQuoteRequestInvite()
 }
