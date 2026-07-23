@@ -34,5 +34,6 @@ namespace BuildHub.Controllers
                 return NotFound(); // 404 notfound
             }
             return Ok(invite); //200 succeeded
+        [HttpPost("AddDTO")]
     
 }
