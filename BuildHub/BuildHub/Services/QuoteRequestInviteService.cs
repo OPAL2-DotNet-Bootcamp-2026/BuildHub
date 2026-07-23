@@ -57,4 +57,7 @@ namespace BuildHub.Services
             {
                 return false;
             }
+            invite.inviteStatus = newStatus;
+            repo.update(); // SaveChanges() 
+            return true;
             QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
