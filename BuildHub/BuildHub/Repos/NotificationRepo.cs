@@ -25,5 +25,12 @@
             context.Notifications.Add(notification);
             context.SaveChanges();
         }
+
+        public void Update()
+        {
+            context.SaveChanges();
+        }
+            context.SaveChanges();
+        }
     }
 }
