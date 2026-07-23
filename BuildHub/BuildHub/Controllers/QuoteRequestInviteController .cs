@@ -46,4 +46,5 @@ namespace BuildHub.Controllers
             bool updated = quoteRequestInviteService.UpdateStatus(inviteId, newStatus);
             if (!updated)
                 return NotFound();
+            return Ok("Updated successfully");
 }
