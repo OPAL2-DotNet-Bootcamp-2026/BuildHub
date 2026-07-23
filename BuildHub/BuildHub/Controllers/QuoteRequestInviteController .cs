@@ -44,4 +44,6 @@ namespace BuildHub.Controllers
         [HttpPut("UpdateStatus/{inviteId}")]
         public IActionResult UpdateStatus([FromRoute] int inviteId, [FromQuery] string newStatus)
             bool updated = quoteRequestInviteService.UpdateStatus(inviteId, newStatus);
+            if (!updated)
+                return NotFound();
 }
