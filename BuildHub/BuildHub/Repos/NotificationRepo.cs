@@ -30,6 +30,10 @@
         {
             context.SaveChanges();
         }
+
+        public void Delete(Notification notification)
+        {
+            context.Notifications.Remove(notification);
             context.SaveChanges();
         }
     }
