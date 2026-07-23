@@ -28,4 +28,8 @@ namespace BuildHub.Services
         }
         public QuoteRequestInviteOutputDTOs GetQuoteRequestInviteById(int id)
             QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(id);
+            if (invite == null)
+            {
+                return null;
+            }
 }
