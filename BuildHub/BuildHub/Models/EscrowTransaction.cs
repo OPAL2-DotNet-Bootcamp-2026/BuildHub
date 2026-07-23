@@ -26,4 +26,7 @@ public class EscrowTransaction
     [Required]
     [MaxLength(20)]
     public string status { get; set; } = "Held";
+
+    public DateTime? heldAt { get; set; }
+
 }
