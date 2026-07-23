@@ -41,4 +41,5 @@ namespace BuildHub.Controllers
             return Ok(new { InviteId = inviteId }); //200, InviteId=1
         }
     
+        [HttpPut("UpdateStatus/{inviteId}")]
 }
