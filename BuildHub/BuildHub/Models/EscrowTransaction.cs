@@ -29,4 +29,6 @@ public class EscrowTransaction
 
     public DateTime? heldAt { get; set; }
 
+    public DateTime? releasedAt { get; set; }
+
 }
