@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BuildHub.Controllers
 {
     [ApiController]
+    [Route("QuoteRequestInvite")]
     
     
 }
