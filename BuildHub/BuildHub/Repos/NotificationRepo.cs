@@ -23,5 +23,7 @@
         public void Add(Notification notification)
         {
             context.Notifications.Add(notification);
+            context.SaveChanges();
+        }
     }
 }
