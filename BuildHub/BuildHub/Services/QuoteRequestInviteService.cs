@@ -50,3 +50,5 @@ namespace BuildHub.Services
             repo.Add(invite);
             return invite.inviteId;
         }
+
+        public bool UpdateStatus(int inviteId, string newStatus)
