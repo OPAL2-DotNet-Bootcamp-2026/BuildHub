@@ -50,3 +50,4 @@ namespace BuildHub.Controllers
 }
 
         [HttpDelete("Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
