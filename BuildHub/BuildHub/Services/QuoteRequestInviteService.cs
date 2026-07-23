@@ -62,3 +62,7 @@ namespace BuildHub.Services
             return true;
         public bool Delete(int inviteId)
             QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
+            if (invite == null)
+            {
+                return false;
+            }
