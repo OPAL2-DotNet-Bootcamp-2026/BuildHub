@@ -53,3 +53,4 @@ namespace BuildHub.Services
 
         public bool UpdateStatus(int inviteId, string newStatus)
             QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
+            QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
