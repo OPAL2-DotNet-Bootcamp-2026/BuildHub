@@ -14,4 +14,8 @@ public class Quote
     public int? parentQuoteId { get; set; }   // foreign key
     [ForeignKey("ParentQuote")]
     public Quote ParentQuote { get; set; }
+    [Required]
+    [Column(TypeName = "decimal(12,2)")]
+    [Range(0, double.MaxValue)]
+    public decimal price { get; set; }   // user input
 }
