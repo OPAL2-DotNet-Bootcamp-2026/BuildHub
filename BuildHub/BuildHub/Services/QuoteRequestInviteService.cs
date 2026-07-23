@@ -10,5 +10,8 @@ namespace BuildHub.Services
         private QuoteRequestInviteRepo repo;
    
         public QuoteRequestInviteService(QuoteRequestInviteRepo _repo)
+        {
+            repo = _repo;
+        }
     
 }
