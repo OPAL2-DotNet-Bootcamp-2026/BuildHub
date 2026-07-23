@@ -29,5 +29,9 @@ namespace BuildHub.Controllers
         [HttpGet("GetQuoteRequestInviteById/{id}")]
         public IActionResult GetQuoteRequestInviteById([FromRoute] int id)
             QuoteRequestInviteOutputDTOs invite = quoteRequestInviteService.GetQuoteRequestInviteById(id);
+            if (invite == null)
+            {
+                return NotFound(); // 404 notfound
+            }
     
 }
