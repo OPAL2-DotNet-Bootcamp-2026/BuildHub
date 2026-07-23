@@ -22,4 +22,8 @@ public class EscrowTransaction
     [Required]
     [Column(TypeName = "decimal(12,2)")]
     public decimal amount { get; set; }
+
+    [Required]
+    [MaxLength(20)]
+    public string status { get; set; } = "Held";
 }
