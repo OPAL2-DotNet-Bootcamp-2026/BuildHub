@@ -41,3 +41,12 @@ namespace BuildHub.Services
 }
 
         public int Create(QuoteRequestInviteInputDTOs input)
+        {
+            QuoteRequestInvite invite = new QuoteRequestInvite();
+            invite.quoteRequestId = input.QuoteRequestId;
+            invite.vendorProfileId = input.VendorProfileId;
+            invite.inviteStatus = "Sent"; // system generated default, not from user input
+
+            repo.Add(invite);
+            return invite.inviteId;
+        }
