@@ -39,3 +39,5 @@ namespace BuildHub.Services
             output.InviteStatus = invite.inviteStatus;
             return output;
 }
+
+        public int Create(QuoteRequestInviteInputDTOs input)
