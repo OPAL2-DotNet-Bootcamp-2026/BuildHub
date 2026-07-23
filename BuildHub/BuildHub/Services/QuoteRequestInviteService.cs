@@ -15,4 +15,15 @@ namespace BuildHub.Services
         }
     
         public List<QuoteRequestInviteOutputDTOs> GetAllQuoteRequestInvite()
+        {
+            return repo.GetAllquoteRequestInvites()
+                       .Select(invite => new QuoteRequestInviteOutputDTOs
+                       {
+                           InviteId = invite.inviteId,
+                           QuoteRequestId = invite.quoteRequestId,
+                           VendorProfileId = invite.vendorProfileId,
+                           InviteStatus = invite.inviteStatus
+                       })
+                       .ToList();
+        }
 }
