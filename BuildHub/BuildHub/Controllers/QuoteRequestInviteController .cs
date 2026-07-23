@@ -16,5 +16,6 @@ namespace BuildHub.Controllers
             quoteRequestInviteService = _quoteRequestInviteService;
         }
     
+        [HttpGet("GetAllQuoteRequestInvite")]
     
 }
