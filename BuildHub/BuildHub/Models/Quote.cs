@@ -24,4 +24,7 @@ public class Quote
     [Required]
     [MaxLength(20)]
     public string status { get; set; } = "Pending";   // default value
+
+    [Required]
+    public DateTime submittedAt { get; set; } = DateTime.UtcNow;   // default value
 }
