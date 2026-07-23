@@ -12,6 +12,9 @@ namespace BuildHub.Controllers
         //apply dependency inversion concept
         private QuoteRequestInviteService quoteRequestInviteService;
         public QuoteRequestInviteController(QuoteRequestInviteService _quoteRequestInviteService) //dependency injection
+        {
+            quoteRequestInviteService = _quoteRequestInviteService;
+        }
     
     
 }
