@@ -17,5 +17,6 @@ namespace BuildHub.Controllers
         }
     
         [HttpGet("GetAllQuoteRequestInvite")]
+        public IActionResult GetAllQuoteRequestInvite()
     
 }
