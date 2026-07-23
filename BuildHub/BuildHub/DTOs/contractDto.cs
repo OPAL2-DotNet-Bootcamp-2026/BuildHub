@@ -53,7 +53,12 @@ namespace BuildHub.DTOs
             public DateTime signedAt { get; set; }
 
         }
+        
 
+        public class UpdateStatusDto
+        {
+            public string status { get; set; }
+        }
   
 
 
