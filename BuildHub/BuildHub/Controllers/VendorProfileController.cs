@@ -1,6 +1,17 @@
-﻿namespace BuildHub.Controllers
+﻿using BuildHub.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BuildHub.Controllers
 {
-    public class VendorProfileController
+    [ApiController]
+    [Route("VendorProfile")]
+    public class VendorProfileController : ControllerBase
     {
+        private VendorProfileService _vendorProfileService;
+
+        public VendorProfileController(VendorProfileService vendorProfileService)
+        {
+            _vendorProfileService = vendorProfileService;
+        }
     }
 }
