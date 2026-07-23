@@ -36,5 +36,9 @@ namespace BuildHub.Controllers
             return Ok(invite); //200 succeeded
         [HttpPost("AddDTO")]
         public IActionResult AddDTO([FromBody] QuoteRequestInviteInputDTOs invite)
+        {
+            int inviteId = quoteRequestInviteService.Create(invite);
+            return Ok(new { InviteId = inviteId }); //200, InviteId=1
+        }
     
 }
