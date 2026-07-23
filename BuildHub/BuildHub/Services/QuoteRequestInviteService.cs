@@ -4,6 +4,7 @@ using BuildHub.Repos;
 
 namespace BuildHub.Services
 {
+    public class QuoteRequestInviteService
    
     
 }
