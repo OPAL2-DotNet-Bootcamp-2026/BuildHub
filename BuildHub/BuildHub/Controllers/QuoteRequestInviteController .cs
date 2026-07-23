@@ -21,5 +21,9 @@ namespace BuildHub.Controllers
         {
             // ask the service layer for all invites
             List<QuoteRequestInviteOutputDTOs> result = quoteRequestInviteService.GetAllQuoteRequestInvite();
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
     
 }
