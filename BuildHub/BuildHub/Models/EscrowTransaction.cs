@@ -19,4 +19,7 @@ public class EscrowTransaction
     [ForeignKey("Milestone")]
     public Milestone Milestone { get; set; }
 
+    [Required]
+    [Column(TypeName = "decimal(12,2)")]
+    public decimal amount { get; set; }
 }
