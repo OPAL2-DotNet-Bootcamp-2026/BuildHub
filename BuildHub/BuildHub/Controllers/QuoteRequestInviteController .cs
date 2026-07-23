@@ -27,5 +27,6 @@ namespace BuildHub.Controllers
             }
             return NoContent(); //204 no data
         [HttpGet("GetQuoteRequestInviteById/{id}")]
+        public IActionResult GetQuoteRequestInviteById([FromRoute] int id)
     
 }
