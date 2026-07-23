@@ -17,6 +17,6 @@ public class EscrowTransaction
 
     public int? milestoneId { get; set; }
     [ForeignKey("Milestone")]
-    public Contract Contract { get; set; }
+    public Milestone Milestone { get; set; }
 
 }
