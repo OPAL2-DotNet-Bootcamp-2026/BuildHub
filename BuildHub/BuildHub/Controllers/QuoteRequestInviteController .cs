@@ -18,5 +18,8 @@ namespace BuildHub.Controllers
     
         [HttpGet("GetAllQuoteRequestInvite")]
         public IActionResult GetAllQuoteRequestInvite()
+        {
+            // ask the service layer for all invites
+            List<QuoteRequestInviteOutputDTOs> result = quoteRequestInviteService.GetAllQuoteRequestInvite();
     
 }
