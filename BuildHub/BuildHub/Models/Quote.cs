@@ -21,4 +21,7 @@ public class Quote
 
     [Required]
     public int durationDays { get; set; }   // user input
+    [Required]
+    [MaxLength(20)]
+    public string status { get; set; } = "Pending";   // default value
 }
