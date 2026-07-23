@@ -14,11 +14,13 @@ namespace BuildHub.DTOs
 
 
             [Required]
+            [Range(0, double.MaxValue, ErrorMessage = "Should be more than 0")]
             public decimal totalAmount { get; set; }
 
 
 
             [Required(ErrorMessage = "Payment Type is required .")]
+            [AllowedValues("One time ", "PreMilestone", ErrorMessage = "Invalid payment type")]
             public string paymentType { get; set; }
 
         }
