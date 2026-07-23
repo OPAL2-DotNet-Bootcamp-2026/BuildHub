@@ -9,5 +9,6 @@ namespace BuildHub.Services
         //apply dependency inversion concept (goal) => using dependency injection (technique/how)
         private QuoteRequestInviteRepo repo;
    
+        public QuoteRequestInviteService(QuoteRequestInviteRepo _repo)
     
 }
