@@ -11,4 +11,7 @@ public class Quote
     public int vendorProfileId { get; set; }  // foreign key
     [ForeignKey("VendorProfile")]
     public VendorProfile VendorProfile { get; set; }
+    public int? parentQuoteId { get; set; }   // foreign key
+    [ForeignKey("ParentQuote")]
+    public Quote ParentQuote { get; set; }
 }
