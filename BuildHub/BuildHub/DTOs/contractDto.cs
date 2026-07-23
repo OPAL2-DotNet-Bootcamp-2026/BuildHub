@@ -42,6 +42,20 @@ namespace BuildHub.DTOs
 
         }
 
+        public class DetailsOutputDto
+        {
+            public int contractId { get; set; }
+            public decimal totalAmount { get; set; }
+
+            public string paymentType { get; set; }
+            public string status { get; set; }
+
+            public DateTime signedAt { get; set; }
+
+        }
+
+  
+
 
 
 
