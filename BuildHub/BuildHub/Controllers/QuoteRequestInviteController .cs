@@ -8,6 +8,9 @@ namespace BuildHub.Controllers
     [ApiController]
     [Route("QuoteRequestInvite")]
     public class QuoteRequestInviteController : ControllerBase
+        //QuoteRequestInviteService quoteRequestInviteService = new QuoteRequestInviteService();
+        //apply dependency inversion concept
+        private QuoteRequestInviteService quoteRequestInviteService;
     
     
 }
