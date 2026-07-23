@@ -51,3 +51,4 @@ namespace BuildHub.Controllers
 
         [HttpDelete("Delete/{id}")]
         public IActionResult Delete([FromRoute] int id)
+            bool deleted = quoteRequestInviteService.Delete(id);
