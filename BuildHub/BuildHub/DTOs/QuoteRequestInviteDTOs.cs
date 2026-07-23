@@ -10,6 +10,7 @@ namespace BuildHub.DTOs
         public int VendorProfileId { get; set; }
     }
     
+    public class QuoteRequestInviteOutputDTOs
 }
 
  
