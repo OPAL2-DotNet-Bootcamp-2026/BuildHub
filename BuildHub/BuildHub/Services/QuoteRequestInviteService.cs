@@ -60,4 +60,5 @@ namespace BuildHub.Services
             invite.inviteStatus = newStatus;
             repo.update(); // SaveChanges() 
             return true;
+        public bool Delete(int inviteId)
             QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
