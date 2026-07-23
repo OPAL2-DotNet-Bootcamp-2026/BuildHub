@@ -42,4 +42,5 @@ namespace BuildHub.Controllers
         }
     
         [HttpPut("UpdateStatus/{inviteId}")]
+        public IActionResult UpdateStatus([FromRoute] int inviteId, [FromQuery] string newStatus)
 }
