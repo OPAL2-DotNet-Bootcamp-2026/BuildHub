@@ -14,5 +14,10 @@
         {
             return context.Notifications.ToList();
         }
+
+        public Notification GetById(int notificationId)
+        {
+            return context.Notifications.FirstOrDefault(c => c.notificationId == notificationId);
+        }
     }
 }
