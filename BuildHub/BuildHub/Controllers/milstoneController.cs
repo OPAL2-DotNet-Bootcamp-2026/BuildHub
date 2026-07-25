@@ -16,18 +16,21 @@ namespace BuildHub.Controllers
             public MilestoneController(MilestoneService _milestoneService)
             {
                 milestoneService = _milestoneService;
-            }
-
-
-
+         }
           
+         
+      [HttpPost("milestone")]
+      public IActionResult Milestone([FromBody] Milestone dto)
+      {
+          MilestoneDto created = milestoneService.Milestone(dto);
 
+          if (created == null)
+          {
+              return BadRequest(new { message = "Alredy registerd." });
+              return Ok (created);
 
+          }
 
-
-        }
-
-
-
-    }
+       }
+     }
 }
