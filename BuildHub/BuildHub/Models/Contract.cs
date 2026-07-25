@@ -6,11 +6,11 @@ namespace BuildHub.Models;
 
 
 
-[Index (nameof(quoteId),IsUnique = true   )]
+[Index (nameof(quoteId),IsUnique = true )]
 public class Contract
 {
     [Required]
-    [Key]
+    [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int contractId {  get; set; }//System generated
 
 

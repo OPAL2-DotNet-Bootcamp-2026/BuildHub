@@ -30,7 +30,7 @@ namespace BuildHub.Repos
             context.SaveChanges();
         }
 
-        public void Ubdate()
+        public void Update()
         {
             context.SaveChanges();
         }

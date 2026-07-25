@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
@@ -37,13 +38,13 @@ namespace BuildHub.DTOs
         //OutPut
         public class MilestoneOutputDto
         {
-            public int mailestoneId {  get; set; }
+            public int milestoneId {  get; set; }
             public int contractId { get; set; }
             public string title { get; set; }
             public decimal amount { get; set; }
             public int orderIndex { get; set; }
             public string status { get; set; }
-            public DateTime dueDate { get; set; }
+            public DateTime? dueDate { get; set; }
         }
 
 
