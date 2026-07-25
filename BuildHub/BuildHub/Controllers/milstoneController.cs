@@ -5,32 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
 {
-    public class MilstoneController
+    [ApiController]
+    [Route("Milestone")]
+    public class MilestoneController : ControllerBase
     {
-        [ApiController]
-        [Route("Milestone")]
-        public class MilestoneController : ControllerBase
+        private MilestoneService milestoneService;
+
+        public MilestoneController(MilestoneService _milestoneService)
         {
-            private MilestoneService milestoneService;
+            milestoneService = _milestoneService;
+        }
 
-            public MilestoneController(MilestoneService _milestoneService)
-            {
-                milestoneService = _milestoneService;
-         }
-          
-         
-      [HttpPost("milestone")]
-      public IActionResult Milestone([FromBody] Milestone dto)
-      {
-          MilestoneDto created = milestoneService.Milestone(dto);
 
-          if (created == null)
-          {
-              return BadRequest(new { message = "Alredy registerd." });
-              return Ok (created);
-
-          }
-
-       }
-     }
+        [HttpPost("milestone")]
+        public IActionResult Milestone([FromBody] Milestone dto)
+        {
+            return Ok();
+        }
+    }
 }
