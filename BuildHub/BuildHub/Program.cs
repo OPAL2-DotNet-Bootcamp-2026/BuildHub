@@ -1,4 +1,8 @@
 
+using BuildHub.Repos;
+using BuildHub.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace BuildHub
 {
     public class Program
@@ -11,7 +15,17 @@ namespace BuildHub
             // 1. SERVICE CONTAINER 
             
             // Add services to the container.
+                        
+            builder.Services.AddDbContext<ProjectContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            //repos 
+            builder.Services.AddScoped<UserRepo>();
 
+            //services 
+            builder.Services.AddScoped<UserService>();
+
+            //controllers
             builder.Services.AddControllers();
 
             var app = builder.Build();
