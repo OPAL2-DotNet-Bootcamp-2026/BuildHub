@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,19 +20,7 @@ namespace BuildHub.Controllers
 
 
 
-            [HttpPost("milestone")]
-            public IActionResult Milestone([FromBody] Milestone dto)
-            {
-                MilestoneDto created = milestoneService.Milestone(dto);
-
-                if (created = null)
-                {
-                    return BadRequest(new { message = "Alredy registerd." });
-                    return Ok (created);
-                        
-                }
-
-            }
+          
 
 
 
