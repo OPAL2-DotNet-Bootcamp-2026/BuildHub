@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class milstoneDTO
+    public class MilstoneDto
     {
 
         //Input
@@ -16,14 +16,13 @@ namespace BuildHub.DTOs
 
 
             [Required(ErrorMessage = "Titel is required .")]
-            public string titel {  get; set; }
-
+            public string title { get; set; }
             [Required]
             public DateTime dueDate { get; set; }
 
 
         }
-        public class UbdateMilestoneDto
+        public class UpdateMilestoneDto
         {
             [Required]
             public DateTime dueDate { get; set; }

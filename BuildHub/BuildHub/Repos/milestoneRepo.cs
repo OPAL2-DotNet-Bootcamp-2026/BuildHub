@@ -2,12 +2,12 @@
 
 namespace BuildHub.Repos
 {
-    public class milestoneRepo
+    public class MilestoneRepo
     {
         private ProjectContext context;
 
 
-        public milestoneRepo(ProjectContext _context)
+        public MilestoneRepo(ProjectContext _context)
         {
             context = _context;
 
@@ -18,6 +18,12 @@ namespace BuildHub.Repos
             return context.Milestones.ToList();
         }
 
+
+
+        public List<Milestone> GetMilestonesByContractId(int contractId)
+        {
+            return context.Milestones.Where(m => m.contractId == contractId).ToList();
+        }
         public Milestone GetAllMilestoneById(int id)
 
         { 

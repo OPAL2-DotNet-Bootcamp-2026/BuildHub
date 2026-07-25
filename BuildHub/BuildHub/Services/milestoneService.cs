@@ -1,16 +1,33 @@
-﻿using BuildHub.Repos;
+﻿using BuildHub.DTOs;
+using BuildHub.Repos;
+using Microsoft.VisualBasic;
+using static BuildHub.DTOs.MilstoneDto;
 
 namespace BuildHub.Services
 {
-    public class milestoneService
+    public class MilestoneService
     {
-        private milestoneRepo milestoneRepo;
-        private AuthService authService;
+        private MilestoneRepo repo;
 
-        public UserService(UserRepo _userRepo, AuthService _authService)
+        public MilestoneService(MilestoneRepo _repo)
         {
-            userRepo = _userRepo;
-            authService = _authService;
+            repo = _repo;
+        }
+
+        public List<MilestoneOutputDto> GetMilestonesByContractId(int contractId)
+        {
+            return repo.GetMilestonesByContractId(contractId)
+                       .Select(m => new MilestoneOutputDto
+                       {
+                           milestoneId = m.milestoneId,
+                           contractId = m.contractId,
+                           title = m.title,
+                           amount = m.amount,
+                           orderIndex = m.orderIndex,
+                           status = m.status,
+                           dueDate =  m.dueDate
+                       })
+                       .ToList();
         }
 
     }
