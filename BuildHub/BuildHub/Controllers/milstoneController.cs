@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Controllers
 {
-    public class milstoneController
+    public class MilstoneController
     {
         [ApiController]
         [Route("Milestone")]

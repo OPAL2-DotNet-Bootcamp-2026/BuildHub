@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class milstoneDto
+    public class MilstoneDto
     {
 
         //Input

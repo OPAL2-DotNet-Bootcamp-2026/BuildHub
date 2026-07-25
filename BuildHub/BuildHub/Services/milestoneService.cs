@@ -1,15 +1,15 @@
 ﻿using BuildHub.DTOs;
 using BuildHub.Repos;
 using Microsoft.VisualBasic;
-using static BuildHub.DTOs.milstoneDto;
+using static BuildHub.DTOs.MilstoneDto;
 
 namespace BuildHub.Services
 {
     public class MilestoneService
     {
-        private milestoneRepo repo;
+        private MilestoneRepo repo;
 
-        public MilestoneService(milestoneRepo _repo)
+        public MilestoneService(MilestoneRepo _repo)
         {
             repo = _repo;
         }

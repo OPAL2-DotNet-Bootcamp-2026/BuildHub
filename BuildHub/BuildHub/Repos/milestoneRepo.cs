@@ -2,12 +2,12 @@
 
 namespace BuildHub.Repos
 {
-    public class milestoneRepo
+    public class MilestoneRepo
     {
         private ProjectContext context;
 
 
-        public milestoneRepo(ProjectContext _context)
+        public MilestoneRepo(ProjectContext _context)
         {
             context = _context;
 
