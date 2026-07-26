@@ -52,6 +52,12 @@ namespace BuildHub
                 .HasConversion<string>() // Converts enum to string for database operations
                 .HasMaxLength(20) //navchar(20)
                 .HasDefaultValue(ProjectStatus.Draft); //default value "draft"
+
+            modelBuilder.Entity<VendorProfile>()
+                .Property(v => v.VendorType)
+                .HasConversion<string>() // Converts enum to string for database operations
+                .HasMaxLength(20); //navchar(20)
+            //default value "draft"
         }
     }
 }
