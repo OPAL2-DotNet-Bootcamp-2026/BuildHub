@@ -11,12 +11,13 @@ public class EscrowTransaction
     public int escrowTransactionId { get; set; }
 
     [Required]
-    public int contractId { get; set; }
     [ForeignKey("Contract")]
+    public int contractId { get; set; }
     public Contract Contract { get; set; }
 
-    public int? milestoneId { get; set; }
+
     [ForeignKey("Milestone")]
+    public int? milestoneId { get; set; }
     public Milestone Milestone { get; set; }
 
     [Required]
