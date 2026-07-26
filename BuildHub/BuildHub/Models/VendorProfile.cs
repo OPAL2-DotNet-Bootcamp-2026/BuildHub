@@ -23,10 +23,10 @@ public class VendorProfile
     public string City { get; set; } //user input
     [Required]
     public bool IsVerfied { get; set; } = false; //defualt values
-    public double? AverageRating { get; set; } = 0; //defualt values
+    public decimal? AverageRating { get; set; } = 0; // default value
     [Required]
-    [Range(0, double.MaxValue)]
-    public double Balance { get; set; } = 0; //defualt values
+    [Range(typeof(decimal), "0", "79228162514264337593543950335")] // decimal.MaxValue as a string literal
+    public decimal Balance { get; set; } = 0; // default value
 
 
     //navigation property 
