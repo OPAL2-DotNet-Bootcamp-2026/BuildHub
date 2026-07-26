@@ -29,11 +29,35 @@ namespace BuildHub
         //this method convert the value from enum from number (index) to string
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<QuoteRequestInvite>()
+                .HasOne(i => i.VendorProfile)
+                .WithMany(v => v.QuoteRequestInvites) 
+                .HasForeignKey(i => i.vendorProfileId)
+                .OnDelete(DeleteBehavior.Restrict); // or Restrict
+            
+            modelBuilder.Entity<Quote>()
+                .HasOne(q => q.VendorProfile)
+                .WithMany(v => v.Quotes)
+                .HasForeignKey(q => q.vendorProfileId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
+            modelBuilder.Entity<QuoteNegotiation>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.QuoteNegotiations)
+                .HasForeignKey(n => n.userId)
+                .OnDelete(DeleteBehavior.Restrict);
+            
             modelBuilder.Entity<Project>()
                 .Property(p => p.Status)
                 .HasConversion<string>() // Converts enum to string for database operations
                 .HasMaxLength(20) //navchar(20)
                 .HasDefaultValue(ProjectStatus.Draft); //default value "draft"
+
+            modelBuilder.Entity<VendorProfile>()
+                .Property(v => v.VendorType)
+                .HasConversion<string>() // Converts enum to string for database operations
+                .HasMaxLength(20); //navchar(20)
+            //default value "draft"
         }
     }
 }
