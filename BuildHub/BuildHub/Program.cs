@@ -20,11 +20,35 @@ namespace BuildHub
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
             //repos 
+            builder.Services.AddScoped<QuoteRequestRepo>();
+            builder.Services.AddScoped<QuoteRequestInviteRepo>();
+            builder.Services.AddScoped<QuoteRepo>();
+            builder.Services.AddScoped<EscrowTransactionRepo>();
+            builder.Services.AddScoped<ReviewRepo>();
             builder.Services.AddScoped<UserRepo>();
+            builder.Services.AddScoped<VendorProfileRepo>();
+            //builder.Services.AddScoped<ProjectRepo>();
+            builder.Services.AddScoped<QuoteNegotiationRepo>();
+            builder.Services.AddScoped<MilestoneRepo>();
+            builder.Services.AddScoped<contractRepo>();
+            builder.Services.AddScoped<NotificationRepo>();
+            builder.Services.AddScoped<CategoryRepo>();
+            builder.Services.AddScoped<ProductRepo>();
 
             //services 
-            builder.Services.AddScoped<UserService>();
-
+            //builder.Services.AddScoped<AuthService>();
+            builder.Services.AddScoped<EmailService>(); 
+            builder.Services.AddScoped<QuoteRequestService>();
+            builder.Services.AddScoped<QuoteService>();
+            builder.Services.AddScoped<EscrowTransactionService>(); 
+            builder.Services.AddScoped<VendorProfileService>();
+            builder.Services.AddScoped<ContractService>();
+            builder.Services.AddScoped<NotificationService>();  
+            //category, milestone, product, QuoteNegotiation, QuoteRequestInvite, UserService
+            
+            //Authentication (JWT) & Authorization
+            
+            
             //controllers
             builder.Services.AddControllers();
 
