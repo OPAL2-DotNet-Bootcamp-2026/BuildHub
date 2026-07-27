@@ -18,7 +18,7 @@ namespace BuildHub.Services
             return _userRepo.GetAll();
         }
 
-        public User GetUserById(int id)
+        public UserResponseDTO GetUserById(int id)
         {
             return _userRepo.GetById(id);
         }
@@ -32,7 +32,7 @@ namespace BuildHub.Services
         // this is example on email update
         public UserResponseDTO UpdateUser(int id, UserUpdateDTO dto)
         {
-            User user = _userRepo.GetById(id);
+            UserResponseDTO user = _userRepo.GetById(id);
             if (user == null)
             {
                 return null;
@@ -51,13 +51,13 @@ namespace BuildHub.Services
 
         public bool DeleteUser(int id)
         {
-            User user = _userRepo.GetById(id);
+            UserResponseDTO user = _userRepo.GetById(id);
             if (user == null)
             {
                 return false;
             }
             
-            _userRepo.Delete(user);
+            _userRepo.Delete(user.UserId);
             return true;
         }
     }
