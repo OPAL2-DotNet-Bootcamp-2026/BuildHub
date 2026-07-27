@@ -2,6 +2,7 @@
 using BuildHub.Repos;
 using BuildHub.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 
 namespace BuildHub
 {
@@ -73,14 +74,18 @@ namespace BuildHub
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Platform API v1");
+                });
+                app.MapGet("/", () => Results.Redirect("/swagger")); //to directly go to swagger 
             }
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
-
-
+            //app.UseAuthorization();
+            
             app.MapControllers();
 
             app.Run();
