@@ -9,8 +9,10 @@ public class Quote
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int quoteId { get; set; }                 // system generated
 
-    [ForeignKey("QuoteRequest")]
-    public int quoteRequestId { get; set; }   // foreign key
+
+    [Required]
+    [ForeignKey(nameof(QuoteRequest))]
+    public int quoteRequestId { get; set; }          
     public QuoteRequest QuoteRequest { get; set; }
 
     [ForeignKey("VendorProfile")]
