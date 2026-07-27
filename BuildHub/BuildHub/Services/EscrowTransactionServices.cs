@@ -31,5 +31,14 @@ namespace BuildHub.Services
         {
             return repo.GetByMilestoneId(milestoneId);
         }
+        public bool UpdateStatus(int milestoneId, string newStatus)
+        {
+            EscrowTransaction escrowTransaction = repo.GetByMilestoneId(milestoneId);
+            if (escrowTransaction == null)
+            {
+                return false;
+            }
+
+            escrowTransaction.status = newStatus;
     }
 }
