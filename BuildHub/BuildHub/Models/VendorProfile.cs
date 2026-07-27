@@ -1,9 +1,11 @@
 using BuildHub.enums;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildHub.Models;
 
+[Index(nameof(UserId), IsUnique = true)]
 public class VendorProfile
 {
     [Key]
