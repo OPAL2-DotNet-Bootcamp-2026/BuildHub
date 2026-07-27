@@ -40,5 +40,10 @@ namespace BuildHub.Services
             }
 
             escrowTransaction.status = newStatus;
+
+            if (newStatus == "Released")
+            {
+                escrowTransaction.releasedAt = DateTime.UtcNow;
+            }
     }
 }
