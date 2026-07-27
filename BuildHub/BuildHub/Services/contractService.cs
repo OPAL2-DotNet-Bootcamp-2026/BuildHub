@@ -8,9 +8,9 @@ namespace BuildHub.Services
     public class ContractService
     {
         private readonly contractRepo _contractRepo;
-        private readonly EscrowTransactionServices _escrowService; 
+        private readonly EscrowTransactionService _escrowService; 
 
-        public ContractService(contractRepo contractRepo, EscrowTransactionServices escrowService)
+        public ContractService(contractRepo contractRepo, EscrowTransactionService escrowService)
         {
             _contractRepo = contractRepo;
             _escrowService = escrowService;
@@ -41,7 +41,7 @@ namespace BuildHub.Services
                 }).ToList(),
 
 
-                escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionDto
+                escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionOutputDTO
                 {
                     escrowTransactionId = e.escrowTransactionId,
                     amount = e.amount,
