@@ -27,6 +27,7 @@ namespace BuildHub.Repos
             VendorProfileResponseDTO response = new VendorProfileResponseDTO()
             {
                 VendorProfileID = vendorProfile.VendorProfileID,
+                UserId = vendorProfile.UserId,
                 CompanyName = vendorProfile.CompanyName,
                 VendorType = vendorProfile.VendorType,
                 City = vendorProfile.City,

@@ -78,9 +78,9 @@ namespace BuildHub.Services
             invite.inviteStatus = "Sent";
             inviteRepo.Add(invite);
 
-            VendorProfile vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
+            VendorProfileResponseDTO vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
 
-            notificationService.Add(vendor.UserId, "New quote request received", "QuoteRequest");
+            notificationService.CreateNotification(vendor.UserId, "New quote request received", "QuoteRequest");
             emailService.SendQuoteRequestAlert(invite.vendorProfileId, q.qutoeRequestId);
 
             return q.qutoeRequestId;
