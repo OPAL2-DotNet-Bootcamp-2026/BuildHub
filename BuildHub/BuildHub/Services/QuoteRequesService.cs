@@ -10,6 +10,7 @@ namespace BuildHub.Services
         //apply dependency inversion 
         private QuoteRequestRepo repo;
         private QuoteRequestInviteRepo inviteRepo;      
+        private VendorProfileRepo vendorProfileRepo;     
 
         
 
