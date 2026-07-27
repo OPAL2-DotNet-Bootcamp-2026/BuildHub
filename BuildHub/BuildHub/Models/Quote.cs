@@ -13,17 +13,14 @@ public class Quote
     [Required]
     [ForeignKey(nameof(QuoteRequest))]
     public int quoteRequestId { get; set; }          
-    public QuoteRequest QuoteRequest { get; set; }
+    public QuoteRequest QuoteRequest { get; set; }   
 
 
     [Required]
     [ForeignKey(nameof(VendorProfile))]
     public int vendorProfileId { get; set; }         
-    public VendorProfile VendorProfile { get; set; }
+    public VendorProfile VendorProfile { get; set; } 
 
-    [ForeignKey("ParentQuote")]
-    public int? parentQuoteId { get; set; }   // foreign key
-    public Quote ParentQuote { get; set; }
 
     [Required]
     [Column(TypeName = "decimal(12,2)")]
