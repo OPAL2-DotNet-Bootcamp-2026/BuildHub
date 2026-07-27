@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Repos;
 
 namespace BuildHub.Services
@@ -15,6 +16,11 @@ namespace BuildHub.Services
         public List<VendorProfile> GetAllVendorProfiles() 
         { 
             return _vendorProfileRepo.GetAll();
+        }
+
+        public VendorProfileResponseDTO GetVendorProfileById(int id) 
+        {
+            return _vendorProfileRepo.GetById(id);
         }
     }
 }
