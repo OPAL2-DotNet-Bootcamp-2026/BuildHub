@@ -71,6 +71,12 @@ namespace BuildHub.Services
             q.status = "Open"; 
 
             repo.Add(q);
+
+            QuoteRequestInvite invite = new QuoteRequestInvite();
+            invite.quoteRequestId = q.qutoeRequestId;
+            invite.vendorProfileId = input.VendorProfileID;
+            invite.inviteStatus = "Sent";
+            inviteRepo.Add(invite);
             return q.qutoeRequestId;
         }
 
