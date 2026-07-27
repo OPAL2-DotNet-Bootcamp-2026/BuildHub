@@ -25,5 +25,19 @@ using BuildHub.Repos;
 
             notificationRepo.Add(notification);
         }
+
+        // for the notifications endpoint
+        public List<NotificationOutputDTO> GetByUserId(int userId)
+        {
+            List<Notification> notifications = notificationRepo.GetByUserId(userId);
+            List<NotificationOutputDTO> result = new List<NotificationOutputDTO>();
+
+            foreach (Notification n in notifications)
+            {
+                result.Add(MapToOutput(n));
+            }
+
+            return result;
+        }
     }
 }
