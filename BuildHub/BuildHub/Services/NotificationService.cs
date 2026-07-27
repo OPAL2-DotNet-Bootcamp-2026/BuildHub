@@ -39,5 +39,9 @@ using BuildHub.Repos;
 
             return result;
         }
+
+        // Converter function 
+        private NotificationOutputDTO MapToOutput(Notification n)
+        {
     }
 }
