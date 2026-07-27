@@ -77,6 +77,7 @@ namespace BuildHub.Services
             invite.vendorProfileId = input.VendorProfileID;
             invite.inviteStatus = "Sent";
             inviteRepo.Add(invite);
+            VendorProfile vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
             return q.qutoeRequestId;
         }
 
