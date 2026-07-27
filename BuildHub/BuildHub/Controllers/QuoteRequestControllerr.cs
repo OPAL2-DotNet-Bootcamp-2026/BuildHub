@@ -51,6 +51,7 @@ namespace BuildHub.Controllers
             int quoteRequestId = quoteRequestService.Create(quoteRequest);
             return Ok(new { QuoteRequestId = quoteRequestId }); //200, QuoteRequestId=1
 
+            return Ok(new { QuoteRequestId = quoteRequestId }); // 200 - return the new id
         }
 
 
