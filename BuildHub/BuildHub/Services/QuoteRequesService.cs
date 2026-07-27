@@ -27,7 +27,6 @@ namespace BuildHub.Services
             notificationService = _notificationService;
             emailService = _emailService;
         }
-        
 
         public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
         {
@@ -60,6 +59,7 @@ namespace BuildHub.Services
             return output;
         }
 
+
         public int Create(QuoteRequestInputDTOs input)
         {
             QuoteRequest q = new QuoteRequest();
@@ -67,17 +67,22 @@ namespace BuildHub.Services
             q.categoryId = input.CategoryId;
             q.description = input.Description;
             q.deadline = input.Deadline;
-            q.visibilityType = input.VisibilityType;
-            q.status = "Open"; 
+            q.visibilityType = "Direct"; 
+            q.status = "Open";
 
-            repo.Add(q);
+            repo.Add(q); 
 
             QuoteRequestInvite invite = new QuoteRequestInvite();
             invite.quoteRequestId = q.qutoeRequestId;
             invite.vendorProfileId = input.VendorProfileID;
             invite.inviteStatus = "Sent";
             inviteRepo.Add(invite);
+
             VendorProfile vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
+
+            notificationService.Add(vendor.UserId, "New quote request received", "QuoteRequest");
+            emailService.SendQuoteRequestAlert(invite.vendorProfileId, q.qutoeRequestId);
+
             return q.qutoeRequestId;
         }
 
@@ -90,7 +95,7 @@ namespace BuildHub.Services
             }
 
             q.status = newCount;
-            repo.update(); 
+            repo.Update();
             return true;
         }
 
@@ -102,7 +107,7 @@ namespace BuildHub.Services
                 return false;
             }
 
-            repo.delete(q);
+            repo.Delete(q);
             return true;
         }
     }
