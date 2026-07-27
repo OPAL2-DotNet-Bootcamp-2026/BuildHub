@@ -14,7 +14,7 @@ namespace BuildHub.Services
             repo = _repo;
         }
 
-        public int Create(int contractId, int milestoneId, decimal amount)
+        public int OpenEscrowHold(int contractId, int milestoneId, decimal amount)
         {
             EscrowTransaction escrowTransaction = new EscrowTransaction();
             escrowTransaction.contractId = contractId;
