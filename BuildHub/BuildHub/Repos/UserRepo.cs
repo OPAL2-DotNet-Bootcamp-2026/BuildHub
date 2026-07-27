@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 
 namespace BuildHub.Repos
 {
@@ -16,9 +17,41 @@ namespace BuildHub.Repos
             return _context.Users.ToList();
         }
 
-        public User? GetById(int id)
+        public UserResponseDTO? GetById(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.UserId == id);
+            User user = _context.Users.FirstOrDefault(u => u.UserId == id);
+
+            UserResponseDTO response = new UserResponseDTO()
+            {
+                UserId = user.UserId,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Role = user.Role,
+                City = user.City,
+                IsVerified = user.IsVerified,
+                CreatedAt = user.CreatedAt,
+            };
+
+            return response;
+        }
+
+        public UserResponseDTO? GetByEmail(string email)
+        {
+            User user = _context.Users.FirstOrDefault(u => u.Email == email);
+
+            UserResponseDTO response = new UserResponseDTO()
+            {
+                UserId = user.UserId,
+                FullName = user.FullName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Role = user.Role,
+                City = user.City,
+                CreatedAt = user.CreatedAt,
+            };
+
+            return response;
         }
 
         public void Add(User user)

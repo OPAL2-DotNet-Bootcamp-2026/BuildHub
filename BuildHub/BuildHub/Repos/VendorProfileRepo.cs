@@ -1,8 +1,11 @@
 ﻿
+using BuildHub.DTOs;
 using BuildHub.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub.Repos
 {
+
     public class VendorProfileRepo
     {
         private ProjectContext _projectContext;
@@ -14,12 +17,25 @@ namespace BuildHub.Repos
 
         public List<VendorProfile> GetAll()
         {
-            return _projectContext.VendorProfiles.ToList();
+            return _projectContext.VendorProfiles.Include(v => v.Reviews).ThenInclude(r => r.Reviewer).ToList();
         }
 
-        public VendorProfile? GetById(int id)
+        public VendorProfileResponseDTO? GetById(int id)
         {
-            return _projectContext.VendorProfiles.FirstOrDefault(v => v.VendorProfileID == id);
+            VendorProfile vendorProfile = _projectContext.VendorProfiles.Include(v => v.Reviews).ThenInclude(r => r.Reviewer).FirstOrDefault(v => v.VendorProfileID == id);
+
+            VendorProfileResponseDTO response = new VendorProfileResponseDTO()
+            {
+                VendorProfileID = vendorProfile.VendorProfileID,
+                CompanyName = vendorProfile.CompanyName,
+                VendorType = vendorProfile.VendorType,
+                City = vendorProfile.City,
+                IsVerfied = vendorProfile.IsVerfied,
+                AverageRating = vendorProfile.AverageRating,
+                Balance = vendorProfile.Balance,
+            };
+
+            return response;
         }
 
         public int Add(VendorProfile vendorProfile)
@@ -37,6 +53,7 @@ namespace BuildHub.Repos
         public void Delete(VendorProfile vendorProfile)
         {
             _projectContext.VendorProfiles.Remove(vendorProfile);
+            _projectContext.SaveChanges();
         }
     }
 }
