@@ -13,7 +13,7 @@ namespace BuildHub.Services
         {
             repo = _repo;
         }
-        
+
         public int Create(int contractId, int milestoneId, decimal amount)
         {
             EscrowTransaction escrowTransaction = new EscrowTransaction();
@@ -27,10 +27,12 @@ namespace BuildHub.Services
             repo.Add(escrowTransaction);
             return escrowTransaction.escrowTransactionId;
         }
+
         public EscrowTransaction GetByMilestoneId(int milestoneId)
         {
             return repo.GetByMilestoneId(milestoneId);
         }
+
         public bool UpdateStatus(int milestoneId, string newStatus)
         {
             EscrowTransaction escrowTransaction = repo.GetByMilestoneId(milestoneId);
@@ -45,5 +47,9 @@ namespace BuildHub.Services
             {
                 escrowTransaction.releasedAt = DateTime.UtcNow;
             }
+
+            repo.Update();
+            return true;
+        }
     }
 }
