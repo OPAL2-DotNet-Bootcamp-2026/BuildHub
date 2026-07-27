@@ -61,7 +61,7 @@ namespace BuildHub.Controllers
             bool updated = quoteRequestService.UpdateCounte(quoteRequestId, newStatus);
             if (!updated)
                 return NotFound(); // 404 - no quote request with this id
-            return Ok("Updated successfully");
+            return Ok("Updated successfully"); // 200 - status changed
         }
 
 
