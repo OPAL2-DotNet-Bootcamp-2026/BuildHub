@@ -40,13 +40,12 @@ namespace BuildHub.Services
                     status = m.status
                 }).ToList(),
 
-
                 escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionOutputDTO
                 {
-                    escrowTransactionId = e.escrowTransactionId,
-                    amount = e.amount,
-                    status = e.status,
-                    heldAt = e.heldAt
+                    EscrowTransactionId = e.escrowTransactionId,
+                    Amount = e.amount,
+                    Status = e.status,
+                    HeldAt = e.heldAt
                 }).ToList()
             };
         }
@@ -77,7 +76,7 @@ namespace BuildHub.Services
 
             _contractRepo.AddContract(newContract);
 
-            _escrowService.OpenEscrowHold(fullProjectMilestone.milestoneId, totalAmount);
+            _escrowService.OpenEscrowHold(newContract.contractId, fullProjectMilestone.milestoneId, totalAmount);
         }
     }
 }
