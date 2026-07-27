@@ -27,5 +27,9 @@ namespace BuildHub.Services
             repo.Add(escrowTransaction);
             return escrowTransaction.escrowTransactionId;
         }
+        public EscrowTransaction GetByMilestoneId(int milestoneId)
+        {
+            return repo.GetByMilestoneId(milestoneId);
+        }
     }
 }
