@@ -10,5 +10,10 @@ namespace BuildHub.Repos
         {
             context = _context;
         }
+        public void Add(EscrowTransaction escrowTransaction)
+        {
+            context.EscrowTransactions.Add(escrowTransaction);
+            context.SaveChanges();
+        }
     }
 }
