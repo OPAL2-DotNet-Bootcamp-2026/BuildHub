@@ -8,9 +8,9 @@ namespace BuildHub.Services
     public class ContractService
     {
         private readonly contractRepo _contractRepo;
-        private readonly EscrowService _escrowService; 
+        private readonly EscrowTransactionServices _escrowService; 
 
-        public ContractService(contractRepo contractRepo, EscrowService escrowService)
+        public ContractService(contractRepo contractRepo, EscrowTransactionServices escrowService)
         {
             _contractRepo = contractRepo;
             _escrowService = escrowService;
@@ -32,10 +32,10 @@ namespace BuildHub.Services
 
                 milstones = contract.Milestones?.Select(m => new MilstoneDto
                 {
-                    milstonesId = m.milestoneId,
+                    milestoneId = m.milestoneId,
                     title = m.title,
                     amount = m.amount,
-                    DueDate = m.dueDate,
+                    DueDate = m.DueDate, 
                     endDate = m.endDate,
                     status = m.status
                 }).ToList(),
@@ -43,10 +43,10 @@ namespace BuildHub.Services
 
                 escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionDto
                 {
-                    transactionId = e.transactionId,
+                    escrowTransactionId = e.escrowTransactionId,
                     amount = e.amount,
                     status = e.status,
-                    createdAt = e.createdAt
+                    heldAt = e.heldAt
                 }).ToList()
             };
         }
@@ -62,6 +62,8 @@ namespace BuildHub.Services
                 signedAt = DateTime.Now
             };
 
+            _contractRepo.AddContract(newContract);
+            
             var fullProjectMilestone = new Milestone
             {
                 title = "Full Project Milestone",

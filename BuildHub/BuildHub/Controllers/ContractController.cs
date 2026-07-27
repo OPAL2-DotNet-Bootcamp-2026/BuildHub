@@ -5,13 +5,12 @@ namespace BuildHub.Controllers
 {
 
     [ApiController]
-    [Route("Contract")]
+    [Route("api/[controller]")]
     public class ContractController : ControllerBase
     {
-
         private readonly ContractService _contractService;
 
-        public ContractsController(ContractService contractService)
+        public ContractController(ContractService contractService)
         {
             _contractService = contractService;
         }
@@ -28,11 +27,5 @@ namespace BuildHub.Controllers
 
             return Ok(result);
         }
-
-
-
-
-
-
     }
 }
