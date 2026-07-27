@@ -35,7 +35,7 @@ namespace BuildHub.Controllers
         public IActionResult GetUserById([FromRoute] int id)
         {
             //should replace user with response dto
-            User user = _userService.GetUserById(id);
+            UserResponseDTO user = _userService.GetUserById(id);
 
             if (user == null)
                 return NotFound(new { message = $"User with ID {id} was not found." });

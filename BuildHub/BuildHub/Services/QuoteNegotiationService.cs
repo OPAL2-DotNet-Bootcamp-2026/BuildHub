@@ -20,7 +20,7 @@ namespace BuildHub.Services
                        .Select(n => new QuoteNegotiationOutputDTO
                        {
                            quoteNegotiationId = n.quoteNegotiationId,
-                           userId = n.userId,
+                           userId = n.UserId,
                            proposedPrice = n.proposedPrice,
                            proposedDurationDays = n.proposedDurationDays,
                            createIn = n.createIn,
@@ -39,7 +39,7 @@ namespace BuildHub.Services
 
             QuoteNegotiationOutputDTO output = new QuoteNegotiationOutputDTO();
             output.quoteNegotiationId = q.quoteNegotiationId;
-            output.userId = q.userId;
+            output.userId = q.UserId;
             output.proposedPrice = q.proposedPrice;
             output.proposedDurationDays = q.proposedDurationDays;
             output.createIn = q.createIn;

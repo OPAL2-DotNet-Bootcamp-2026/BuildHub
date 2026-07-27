@@ -44,7 +44,7 @@ namespace BuildHub
             modelBuilder.Entity<QuoteNegotiation>()
                 .HasOne(n => n.User)
                 .WithMany(u => u.QuoteNegotiations)
-                .HasForeignKey(n => n.userId)
+                .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Project>()

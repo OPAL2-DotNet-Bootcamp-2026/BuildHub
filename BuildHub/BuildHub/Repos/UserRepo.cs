@@ -65,8 +65,9 @@ namespace BuildHub.Repos
             _context.SaveChanges();
         }
 
-        public void Delete(User user)
+        public void Delete(int id)
         {
+            User user = _context.Users.FirstOrDefault(u => u.UserId == id);
             _context.Users.Remove(user);
             _context.SaveChanges();
         }

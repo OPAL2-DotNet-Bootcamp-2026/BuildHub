@@ -8,14 +8,14 @@ namespace BuildHub.Services
     {
         private QuoteRepo quoteRepo;
         private NotificationService notificationService;
-        private contractService contractService;      // Dev D
+        private ContractService contractService;      // Dev D
         private QuoteRequestRepo quoteRequestRepo;     // Dev B - read-only lookup
         private VendorProfileRepo vendorProfileRepo;   // Dev A - read-only lookup
 
         public QuoteService(
             QuoteRepo quoteRepo,
             NotificationService notificationService,
-            contractService contractService,
+            ContractService contractService,
             QuoteRequestRepo quoteRequestRepo,
             VendorProfileRepo vendorProfileRepo)
         {
@@ -60,7 +60,7 @@ namespace BuildHub.Services
             quoteRepo.Update();
 
             // notify the vendor who submitted the quote
-            VendorProfile vendor = vendorProfileRepo.GetById(quote.vendorProfileId);
+            VendorProfileResponseDTO vendor = vendorProfileRepo.GetById(quote.vendorProfileId);
             int vendorUserId = vendor.UserId;   // <-- depends on Dev A's VendorProfile shape
             notificationService.CreateNotification(vendorUserId, "Your quote was accepted", "QuoteAccepted");
 

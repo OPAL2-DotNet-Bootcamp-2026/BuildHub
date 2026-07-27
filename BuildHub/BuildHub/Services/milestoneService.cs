@@ -25,7 +25,7 @@ namespace BuildHub.Services
                            amount = m.amount,
                            orderIndex = m.orderIndex,
                            status = m.status,
-                           dueDate =  m.dueDate
+                           dueDate =  m.DueDate
                        })
                        .ToList();
         }

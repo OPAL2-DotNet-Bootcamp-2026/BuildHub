@@ -18,7 +18,8 @@ namespace BuildHub.DTOs
 
 
         public List<MilstoneDto> milstones { get; set; }
-        public List<EscrowTransactionDto> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
+
+        public List<EscrowTransactionOutputDTO> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
 
     }
 
