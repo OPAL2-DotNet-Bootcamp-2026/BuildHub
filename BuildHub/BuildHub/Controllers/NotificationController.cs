@@ -8,5 +8,11 @@ namespace BuildHub.Controllers
     [Route("api/notifications")]
     public class NotificationController : ControllerBase
     {
+        private NotificationService notificationService;
+
+        public NotificationController(NotificationService _notificationService) //dependency injection
+        {
+            notificationService = _notificationService;
+        }
     }
 }
