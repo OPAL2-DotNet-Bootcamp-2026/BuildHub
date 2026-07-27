@@ -6,6 +6,7 @@ namespace BuildHub.Controllers
 {
     [ApiController]
     [Route("api/notifications")]
+    public class NotificationController : ControllerBase
     {
     }
 }
