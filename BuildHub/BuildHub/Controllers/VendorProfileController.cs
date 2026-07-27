@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace BuildHub.Controllers
             _vendorProfileService = vendorProfileService;
         }
 
-        [HttpGet("GetAllVendorProfiles")]
+        [HttpGet("Vendors")]
         public IActionResult GetAllVendorProfiles() 
         {
             List<VendorProfile> vendorProfiles = _vendorProfileService.GetAllVendorProfiles();
@@ -26,5 +27,19 @@ namespace BuildHub.Controllers
 
             return Ok(vendorProfiles);
         }
+
+        [HttpGet("Vendors/{id}")]
+        public IActionResult GetVendorById([FromRoute] int id)
+        {
+            VendorProfileResponseDTO vendorProfile = _vendorProfileService.GetVendorProfileById(id);
+
+            if (vendorProfile == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(vendorProfile);
+        }
+
     }
 }
