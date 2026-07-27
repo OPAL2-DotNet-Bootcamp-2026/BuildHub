@@ -12,6 +12,7 @@ namespace BuildHub.Services
         private QuoteRequestInviteRepo inviteRepo;      
         private VendorProfileRepo vendorProfileRepo;     
         private NotificationService notificationService; 
+        private EmailService emailService;               
 
         
 
