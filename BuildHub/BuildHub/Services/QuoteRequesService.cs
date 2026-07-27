@@ -14,6 +14,19 @@ namespace BuildHub.Services
         private NotificationService notificationService; 
         private EmailService emailService;               
 
+        public QuoteRequestService(
+            QuoteRequestRepo _repo,
+            QuoteRequestInviteRepo _inviteRepo,
+            VendorProfileRepo _vendorProfileRepo,
+            NotificationService _notificationService,
+            EmailService _emailService)
+        {
+            repo = _repo;
+            inviteRepo = _inviteRepo;
+            vendorProfileRepo = _vendorProfileRepo;
+            notificationService = _notificationService;
+            emailService = _emailService;
+        }
         
 
         public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
