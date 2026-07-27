@@ -58,7 +58,7 @@ namespace BuildHub.Controllers
         [HttpPut("UpdateCounte/{quoteRequestId}")]
         public IActionResult UpdateCounte([FromRoute] int quoteRequestId, [FromQuery] string newStatus)
         {
-            bool updated = quoteRequestService.UpdateCounte  (quoteRequestId, newStatus);
+            bool updated = quoteRequestService.UpdateCounte(quoteRequestId, newStatus);
             if (!updated)
                 return NotFound();
             return Ok("Updated successfully");
