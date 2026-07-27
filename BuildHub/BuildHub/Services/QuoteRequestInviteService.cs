@@ -64,7 +64,7 @@ namespace BuildHub.Services
             }
 
             invite.inviteStatus = newStatus;
-            repo.update(); // SaveChanges() 
+            repo.Update(); // SaveChanges() 
             return true;
         }
 
@@ -76,7 +76,7 @@ namespace BuildHub.Services
                 return false;
             }
 
-            repo.delete(invite);
+            repo.Delete(invite);
             return true;
         }
     }
