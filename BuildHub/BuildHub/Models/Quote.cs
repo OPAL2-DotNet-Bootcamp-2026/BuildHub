@@ -37,8 +37,9 @@ public class Quote
 
     [Required]
     [MaxLength(20)]
-    public string status { get; set; } = "Pending";   // default value
+    public string status { get; set; } = "Pending";  
+
 
     [Required]
-    public DateTime submittedAt { get; set; } = DateTime.UtcNow;   // default value
+    public DateTime submittedAt { get; set; }        
 }
