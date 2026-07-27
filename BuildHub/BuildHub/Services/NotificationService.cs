@@ -2,7 +2,7 @@
 using BuildHub.Models;
 using BuildHub.Repos;
 
-﻿namespace BuildHub.Services
+namespace BuildHub.Services
 {
     public class NotificationService
     {
@@ -43,5 +43,15 @@ using BuildHub.Repos;
         // Converter function 
         private NotificationOutputDTO MapToOutput(Notification n)
         {
+            // Create an empty object
+            NotificationOutputDTO dto = new NotificationOutputDTO();
+            dto.notificationId = n.notificationId;
+            dto.userId = n.userId;
+            dto.title = n.title;
+            dto.type = n.type;
+            dto.isRead = n.isRead;
+            dto.createdAt = n.createdAt;
+            return dto;
+        }
     }
 }
