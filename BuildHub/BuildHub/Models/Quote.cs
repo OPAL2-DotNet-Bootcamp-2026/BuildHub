@@ -5,8 +5,9 @@ namespace BuildHub.Models;
 
 public class Quote
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int quoteId { get; set; }  // system generated
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int quoteId { get; set; }                 // system generated
 
     [ForeignKey("QuoteRequest")]
     public int quoteRequestId { get; set; }   // foreign key
