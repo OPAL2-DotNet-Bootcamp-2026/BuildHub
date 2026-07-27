@@ -3,8 +3,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
+    public class ContractDeatailsOutputDto
+    {
+        public int contractId { get; set; }
+        public int quoteId { get; set; }
+
+        public decimal totalAmount { get; set; }
+
+        public string paymentType { get; set; }
+
+        public string status { get; set; }
+
+        public DateTime signedAt { get; set; }
+
+
+        public List<MilstoneDto> milstones { get; set; }
+        public List<EscrowTransactionDto> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
+
+    }
+
+
     public class contractDto
     {
+
+
         //Input
         public class ContractInputDto
         {
@@ -45,17 +67,7 @@ namespace BuildHub.DTOs
 
         }
 
-        public class DetailsOutputDto
-        {
-            public int contractId { get; set; }
-            public decimal totalAmount { get; set; }
-
-            public string paymentType { get; set; }
-            public string status { get; set; }
-
-            public DateTime signedAt { get; set; }
-
-        }
+        
         
 
         public class UpdateStatusDto
@@ -63,26 +75,7 @@ namespace BuildHub.DTOs
             public string status { get; set; }
         }
 
-        public class ContractDeatailsOutputDto
-        {
-            public int contractId { get; set; }
-            public int quoteId { get; set; }
-
-            public decimal totalAmount { get; set; }
-
-            public string paymentType { get; set; }
-
-            public string status { get; set; }
-
-            public DateTime signedAt { get; set; }
-
-
-            public List<MilstoneDto> milstones { get; set; }
-            public List<EscrowTransactionDto> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
-
-        }
-  
-
+      
 
 
 
