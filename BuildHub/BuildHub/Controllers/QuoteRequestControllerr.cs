@@ -33,7 +33,7 @@ namespace BuildHub.Controllers
             return NoContent(); //204 no data
         }
 
-        [HttpGet("GetQuoteRequestById/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetQuoteRequestById([FromRoute] int id)
         {
             QuoteRequestOutputDTOs quoteRequest = quoteRequestService.GetQuoteRequestById(id);
