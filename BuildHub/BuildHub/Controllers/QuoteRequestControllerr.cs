@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BuildHub.Controllers
 {
     [ApiController]
-    [Route("QuoteRequest")]
+    [Route("api/quote-requests")] 
     public class QuoteRequestController : ControllerBase
     {
         //QuoteRequestService quoteRequestService = new QuoteRequestService();
