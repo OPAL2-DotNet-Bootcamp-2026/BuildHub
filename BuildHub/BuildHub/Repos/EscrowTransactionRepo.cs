@@ -6,5 +6,9 @@ namespace BuildHub.Repos
     {
         private ProjectContext context;
         
+        public EscrowTransactionRepo(ProjectContext _context)
+        {
+            context = _context;
+        }
     }
 }
