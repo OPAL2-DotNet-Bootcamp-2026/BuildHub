@@ -15,5 +15,10 @@ namespace BuildHub.Repos
             context.EscrowTransactions.Add(escrowTransaction);
             context.SaveChanges();
         }
+        public EscrowTransaction GetByMilestoneId(int milestoneId)
+        {
+            return context.EscrowTransactions
+                           .FirstOrDefault(e => e.milestoneId == milestoneId);
+        }
     }
 }
