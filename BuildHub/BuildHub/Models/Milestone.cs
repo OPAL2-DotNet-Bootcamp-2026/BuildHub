@@ -35,9 +35,11 @@ public class Milestone
     [AllowedValues("Pending","InProgress","Submitted For Review","Approved","Rejected")]
     public string status { get; set; } = "Pending";//Defualt value 
 
+    public DateTime endDate { get; set; } // I added for contract Service 
 
 
-    public DateTime? dueDate { get; set; } // user input
+
+    public DateTime? DueDate { get; set; } // user input
 
     
 }

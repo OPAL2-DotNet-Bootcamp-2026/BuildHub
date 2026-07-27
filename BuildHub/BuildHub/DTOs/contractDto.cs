@@ -1,9 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BuildHub.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
+    public class ContractDetailsOutputDto
+    {
+        public int contractId { get; set; }
+        public int quoteId { get; set; }
+
+        public decimal totalAmount { get; set; }
+
+        public string paymentType { get; set; }
+
+        public string status { get; set; }
+
+        public DateTime signedAt { get; set; }
+
+
+        public List<MilstoneDto> milstones { get; set; }
+        public List<EscrowTransactionDto> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
+
+    }
+
+
     public class contractDto
     {
+
+
         //Input
         public class ContractInputDto
         {
@@ -44,25 +67,15 @@ namespace BuildHub.DTOs
 
         }
 
-        public class DetailsOutputDto
-        {
-            public int contractId { get; set; }
-            public decimal totalAmount { get; set; }
-
-            public string paymentType { get; set; }
-            public string status { get; set; }
-
-            public DateTime signedAt { get; set; }
-
-        }
+        
         
 
         public class UpdateStatusDto
         {
             public string status { get; set; }
         }
-  
 
+      
 
 
 

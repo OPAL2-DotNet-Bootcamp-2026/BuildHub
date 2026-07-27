@@ -39,5 +39,8 @@ public class Contract
     [Required]
     public DateTime signedAt { get; set; } = DateTime.UtcNow;// User input
 
-    
+    public List<Milestone> Milestones { get; set; }
+    public List<EscrowTransaction> EscrowTransactions { get; set; }
+
+
 }

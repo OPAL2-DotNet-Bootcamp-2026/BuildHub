@@ -1,5 +1,6 @@
 ﻿
 using BuildHub.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub.Repos
 {
@@ -14,17 +15,21 @@ namespace BuildHub.Repos
 
 
 
+          public Contract GetContractByIdWithDetails(int id)
+        {
+            return context.Contracts
+                .Include(c => c.Milestones)
+                .Include(c => c.EscrowTransactions)
+                .FirstOrDefault(c => c.contractId == id);
+        }
+
         public List<Contract> GetAllContracts()
         {
             return context.Contracts.ToList();
         }
 
 
-        public Contract GetAllContractById(int id)
-
-        { 
-            return context.Contracts.FirstOrDefault(c => c.contractId == id);
-        }
+       
         public void AddContract(Contract contract)
         { 
             context.Contracts.Add(contract);

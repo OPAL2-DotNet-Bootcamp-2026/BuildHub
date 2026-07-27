@@ -45,6 +45,12 @@ namespace BuildHub.DTOs
             public string status { get; set; }
             public DateTime? dueDate { get; set; }
         }
+        public int milestoneId { get; set; }
+        public string title { get; set; }
+        public decimal amount { get; set; }
+        public DateTime? DueDate { get; set; }
+        public DateTime? endDate { get; set; }
+        public string status { get; set; }
 
 
 

@@ -11,13 +11,13 @@ public class QuoteNegotiation
 
     [Required]
     [ForeignKey("User")]
-    public int userId { get; set; }  //foreign key
+    public int UserId { get; set; }  //foreign key
     public User User { get; set; }
 
 
     [Required]
     [ForeignKey("Quote")]
-    public int quoteId { get; set; } //foreign key
+    public int QuoteId { get; set; } //foreign key
     public Quote Quote { get; set; }
 
 
