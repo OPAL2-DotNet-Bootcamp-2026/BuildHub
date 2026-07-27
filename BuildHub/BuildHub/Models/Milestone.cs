@@ -37,7 +37,7 @@ public class Milestone
 
 
 
-    public DateTime? dueDate { get; set; } // user input
+    public DateTime? DueDate { get; set; } // user input
 
     
 }

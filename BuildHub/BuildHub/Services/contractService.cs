@@ -35,7 +35,7 @@ namespace BuildHub.Services
                     milestoneId = m.milestoneId,
                     title = m.title,
                     amount = m.amount,
-                    startDate = m.startDate,
+                    DueDate = m.dueDate,
                     endDate = m.endDate,
                     status = m.status
                 }).ToList(),
@@ -65,7 +65,7 @@ namespace BuildHub.Services
             {
                 title = "Full Project Milestone",
                 amount = totalAmount,
-                startDate = startDate,
+                DueDate = startDate,
                 endDate = finishDate,
                 status = "Pending"
             };
