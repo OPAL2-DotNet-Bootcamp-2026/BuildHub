@@ -1,4 +1,5 @@
 ﻿using BuildHub.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub.Repos
 {
@@ -9,44 +10,36 @@ namespace BuildHub.Repos
         public QuoteRequestRepo(ProjectContext _context)
         {
             context = _context;
-
         }
 
         public List<QuoteRequest> GetAllQuoteRequest()
         {
             return context.QuoteRequests.ToList();
-
         }
 
+        // includes QuoteRequestInvite
         public QuoteRequest GetQuoteRequestById(int id)
         {
-            return context.QuoteRequests.FirstOrDefault(Q => Q.qutoeRequestId == id);
-        
+            return context.QuoteRequests
+                           .Include(q => q.qutoeRequestId)
+                           .FirstOrDefault(q => q.qutoeRequestId == id);
         }
 
         public void Add(QuoteRequest quoteRequest)
         {
-        context.QuoteRequests.Add(quoteRequest);
+            context.QuoteRequests.Add(quoteRequest);
             context.SaveChanges();
-        
         }
 
-
-        public void update()
+        public void Update()
         {
             context.SaveChanges();
-
         }
 
-
-        public void delete(QuoteRequest quoteRequest)
-        { 
-        context.QuoteRequests.Remove(quoteRequest);
+        public void Delete(QuoteRequest quoteRequest)
+        {
+            context.QuoteRequests.Remove(quoteRequest);
             context.SaveChanges();
-        
         }
-
-
-
     }
 }
