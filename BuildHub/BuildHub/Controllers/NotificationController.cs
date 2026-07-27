@@ -1,6 +1,10 @@
-﻿namespace BuildHub.Controllers
+﻿using BuildHub.DTOs;
+using BuildHub.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BuildHub.Controllers
 {
-    public class NotificationController
+    [ApiController]
     {
     }
 }
