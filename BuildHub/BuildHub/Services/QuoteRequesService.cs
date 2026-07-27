@@ -9,6 +9,7 @@ namespace BuildHub.Services
         //QuoteRequestRepo repo = new QuoteRequestRepo();
         //apply dependency inversion 
         private QuoteRequestRepo repo;
+        private QuoteRequestInviteRepo inviteRepo;      
 
         
 
