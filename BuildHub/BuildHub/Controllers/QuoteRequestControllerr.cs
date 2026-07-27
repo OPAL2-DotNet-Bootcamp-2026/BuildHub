@@ -8,58 +8,60 @@ using Microsoft.AspNetCore.Mvc;
 namespace BuildHub.Controllers
 {
     [ApiController]
-    [Route("QuoteRequest")]
+    [Route("api/quote-requests")] 
     public class QuoteRequestController : ControllerBase
     {
-        //QuoteRequestService quoteRequestService = new QuoteRequestService();
-        //apply dependency inversion concept
         private QuoteRequestService quoteRequestService;
-        public QuoteRequestController(QuoteRequestService _quoteRequestService) //dependency injection
+
+        public QuoteRequestController(QuoteRequestService _quoteRequestService)
         {
             quoteRequestService = _quoteRequestService;
         }
 
-        
+
         [HttpGet("GetAllQuoteRequest")]
         public IActionResult GetAllQuoteRequest()
         {
-            // ask the service layer for all quote requests
             List<QuoteRequestOutputDTOs> result = quoteRequestService.GetAllQuoteRequest();
+
             if (result.Count > 0)
             {
-                return Ok(result);
+                return Ok(result); // 200 - return the list
             }
-            return NoContent(); //204 no data
+            return NoContent(); // 204 - no quote requests exist yet
         }
 
-        [HttpGet("GetQuoteRequestById/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetQuoteRequestById([FromRoute] int id)
         {
             QuoteRequestOutputDTOs quoteRequest = quoteRequestService.GetQuoteRequestById(id);
+
             if (quoteRequest == null)
             {
-                return NotFound(); // 404 notfound
+                return NotFound(); // 404 - no quote request with this id
             }
-            return Ok(quoteRequest); //200 succeeded
+            return Ok(quoteRequest); // 200 - found, return it
         }
 
 
-        [HttpPost("AddDTO")]
+        [HttpPost]
         public IActionResult AddDTO([FromBody] QuoteRequestInputDTOs quoteRequest)
         {
-            int quoteRequestId = quoteRequestService.Create(quoteRequest);
-            return Ok(new { QuoteRequestId = quoteRequestId }); //200, QuoteRequestId=1
 
+            int quoteRequestId = quoteRequestService.Create(quoteRequest);
+
+            return Ok(new { QuoteRequestId = quoteRequestId }); // 200 - return the new id
         }
 
 
         [HttpPut("UpdateCounte/{quoteRequestId}")]
         public IActionResult UpdateCounte([FromRoute] int quoteRequestId, [FromQuery] string newStatus)
         {
-            bool updated = quoteRequestService.UpdateCounte  (quoteRequestId, newStatus);
+            bool updated = quoteRequestService.UpdateCounte(quoteRequestId, newStatus);
+
             if (!updated)
-                return NotFound();
-            return Ok("Updated successfully");
+                return NotFound(); // 404 - no quote request with this id
+            return Ok("Updated successfully"); // 200 - status changed
         }
 
 
@@ -67,10 +69,10 @@ namespace BuildHub.Controllers
         public IActionResult Delete([FromRoute] int id)
         {
             bool deleted = quoteRequestService.Delete(id);
+
             if (!deleted)
-                return NotFound();
-            return Ok("deleted successfully");
+                return NotFound(); // 404 - nothing to delete
+            return Ok("deleted successfully"); // 200 - deletion succeeded
         }
     }
 }
-

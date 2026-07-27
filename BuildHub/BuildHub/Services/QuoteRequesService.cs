@@ -9,8 +9,24 @@ namespace BuildHub.Services
         //QuoteRequestRepo repo = new QuoteRequestRepo();
         //apply dependency inversion 
         private QuoteRequestRepo repo;
+        private QuoteRequestInviteRepo inviteRepo;      
+        private VendorProfileRepo vendorProfileRepo;     
+        private NotificationService notificationService; 
+        private EmailService emailService;               
 
-        
+        public QuoteRequestService(
+            QuoteRequestRepo _repo,
+            QuoteRequestInviteRepo _inviteRepo,
+            VendorProfileRepo _vendorProfileRepo,
+            NotificationService _notificationService,
+            EmailService _emailService)
+        {
+            repo = _repo;
+            inviteRepo = _inviteRepo;
+            vendorProfileRepo = _vendorProfileRepo;
+            notificationService = _notificationService;
+            emailService = _emailService;
+        }
 
         public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
         {
@@ -43,6 +59,7 @@ namespace BuildHub.Services
             return output;
         }
 
+
         public int Create(QuoteRequestInputDTOs input)
         {
             QuoteRequest q = new QuoteRequest();
@@ -50,10 +67,22 @@ namespace BuildHub.Services
             q.categoryId = input.CategoryId;
             q.description = input.Description;
             q.deadline = input.Deadline;
-            q.visibilityType = input.VisibilityType;
-            q.status = "Open"; 
+            q.visibilityType = "Direct"; 
+            q.status = "Open";
 
-            repo.Add(q);
+            repo.Add(q); 
+
+            QuoteRequestInvite invite = new QuoteRequestInvite();
+            invite.quoteRequestId = q.qutoeRequestId;
+            invite.vendorProfileId = input.VendorProfileID;
+            invite.inviteStatus = "Sent";
+            inviteRepo.Add(invite);
+
+            VendorProfile vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
+
+            notificationService.Add(vendor.UserId, "New quote request received", "QuoteRequest");
+            emailService.SendQuoteRequestAlert(invite.vendorProfileId, q.qutoeRequestId);
+
             return q.qutoeRequestId;
         }
 
@@ -66,7 +95,7 @@ namespace BuildHub.Services
             }
 
             q.status = newCount;
-            repo.update(); 
+            repo.Update();
             return true;
         }
 
@@ -78,7 +107,7 @@ namespace BuildHub.Services
                 return false;
             }
 
-            repo.delete(q);
+            repo.Delete(q);
             return true;
         }
     }
