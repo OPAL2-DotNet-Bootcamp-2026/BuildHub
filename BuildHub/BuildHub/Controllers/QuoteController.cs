@@ -42,6 +42,16 @@ namespace BuildHub.Controllers
             return Ok(quote); //200 succeeded
         }
 
+        // POST http://localhost:5153/api/quotes/3/accept   (customer accepts)
+        [HttpPost("{quoteId}/accept")]
+        public IActionResult AcceptQuote([FromRoute] int quoteId)
+        {
+            bool accepted = quoteService.AcceptQuote(quoteId);
 
+            if (!accepted)
+                return NotFound();
+
+            return Ok("Quote accepted"); //200
+        }
     }
 }
