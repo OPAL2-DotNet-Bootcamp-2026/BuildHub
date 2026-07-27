@@ -28,10 +28,12 @@ public class Quote
     [Required]
     [Column(TypeName = "decimal(12,2)")]
     [Range(0, double.MaxValue)]
-    public decimal price { get; set; }   // user input
+    public decimal price { get; set; }               
+
 
     [Required]
-    public int durationDays { get; set; }   // user input
+    public int durationDays { get; set; }            
+
 
     [Required]
     [MaxLength(20)]
