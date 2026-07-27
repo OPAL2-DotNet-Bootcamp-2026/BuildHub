@@ -15,8 +15,10 @@ public class Quote
     public int quoteRequestId { get; set; }          
     public QuoteRequest QuoteRequest { get; set; }
 
-    [ForeignKey("VendorProfile")]
-    public int vendorProfileId { get; set; }  // foreign key
+
+    [Required]
+    [ForeignKey(nameof(VendorProfile))]
+    public int vendorProfileId { get; set; }         
     public VendorProfile VendorProfile { get; set; }
 
     [ForeignKey("ParentQuote")]
