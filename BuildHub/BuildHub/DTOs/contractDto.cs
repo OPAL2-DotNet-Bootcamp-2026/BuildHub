@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BuildHub.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
@@ -60,6 +61,13 @@ namespace BuildHub.DTOs
         public class UpdateStatusDto
         {
             public string status { get; set; }
+        }
+
+        public class ContractDeatailsOutputDto
+        {
+            public List<MilstoneDto> milstones { get; set; }
+            public List<EscrowTransactionDto> escrowTransactions { get; set; } //we are waiting abo yousif to adde Escrow DTO
+
         }
   
 
