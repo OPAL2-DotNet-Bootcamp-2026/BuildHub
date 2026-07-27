@@ -52,6 +52,20 @@ namespace BuildHub
             //controllers
             builder.Services.AddControllers();
 
+            //swagger 
+            
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Contracting & Home Decor Platform API",
+                    Version = "v1",
+                    Description = "Demo path (no auth): browse vendors/reviews -> direct quote request -> quote -> accept -> contract -> escrow."
+                });
+            });
+            
+            
             var app = builder.Build();
             
             // 2. MIDDLEWARE PIPELINE
