@@ -16,12 +16,12 @@ namespace BuildHub.Services
             _escrowService = escrowService;
         }
 
-        public ContractDeatailsOutputDto GetById(int id)
+        public ContractDetailsOutputDto GetById(int id)
         {
             var contract = _contractRepo.GetContractByIdWithDetails(id);
             if (contract == null) return null;
 
-            return new ContractDeatailsOutputDto
+            return new ContractDetailsOutputDto
             {
                 contractId = contract.contractId,
                 quoteId = contract.quoteId,
@@ -30,15 +30,16 @@ namespace BuildHub.Services
                 status = contract.status,
                 signedAt = contract.signedAt,
 
-                milestones = contract.Milestones?.Select(m => new MilstoneDto
+                milstones = contract.Milestones?.Select(m => new MilstoneDto
                 {
-                    milestoneId = m.milestoneId,
+                    milstonesId = m.milestoneId,
                     title = m.title,
                     amount = m.amount,
                     DueDate = m.dueDate,
                     endDate = m.endDate,
                     status = m.status
                 }).ToList(),
+
 
                 escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionDto
                 {

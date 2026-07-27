@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class ContractDeatailsOutputDto
+    public class ContractDetailsOutputDto
     {
         public int contractId { get; set; }
         public int quoteId { get; set; }

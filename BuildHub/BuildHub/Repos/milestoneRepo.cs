@@ -12,11 +12,25 @@ namespace BuildHub.Repos
             context = _context;
 
         }
-        
+
+        public void AddMilestone(Milestone milestone)
+        {
+            context.Milestones.Add(milestone);
+            context.SaveChanges();
+        }
+
+
+
+
+        /*
         public List<Milestone> GetAllMilestones()
         {
             return context.Milestones.ToList();
         }
+
+        */
+
+
 
 
 
@@ -30,12 +44,7 @@ namespace BuildHub.Repos
             return context.Milestones.FirstOrDefault(m => m.milestoneId == id);
 
         }
-        public void AddMilestone(Milestone milestone)
-        { 
-            context.Milestones.Add(milestone);
-            context.SaveChanges();
-        }
-
+        
         public void Update()
         {
             context.SaveChanges();
