@@ -15,6 +15,8 @@ namespace BuildHub.DTOs
         public int durationDays { get; set; }
     }
 
+
+    // Quote Output
     public class QuoteOutputDTO
     {
         public int quoteId { get; set; }
