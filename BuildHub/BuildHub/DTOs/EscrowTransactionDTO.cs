@@ -15,7 +15,15 @@ namespace BuildHub.DTOs
 
     public class EscrowTransactionInputDTO
     {
-    
+        [Required(ErrorMessage = "Value should not be null.")]
+        public int ContractId { get; set; }
+
+        [Required(ErrorMessage = "Value should not be null.")]
+        public int MilestoneId { get; set; }
+
+        [Required(ErrorMessage = "Value should not be null.")]
+        [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
+        public decimal Amount { get; set; }
     }
 
 
