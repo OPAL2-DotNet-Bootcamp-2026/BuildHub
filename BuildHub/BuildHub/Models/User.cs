@@ -33,10 +33,10 @@ namespace BuildHub.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; //default value
 
         //navigation properties 
-        public List<Notification> Notifications { get; set; } 
-        public List<QuoteNegotiation> QuoteNegotiations { get; set; }
-        public List<Project> Projects { get; set; }
-        public List<Review> Reviews { get; set; }
-        public VendorProfile VendorProfile { get; set; }
+        public List<Notification>? Notifications { get; set; } 
+        public List<QuoteNegotiation>? QuoteNegotiations { get; set; }
+        public List<Project>? Projects { get; set; }
+        public List<Review>? Reviews { get; set; }
+        public VendorProfile? VendorProfile { get; set; }
     }
 }
