@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Repos;
 
 namespace BuildHub.Services
@@ -24,14 +25,21 @@ namespace BuildHub.Services
         }
 
         // Function used to add or create 
-        public int Add (Category category)
+        public int Add(CategoryInputDTOs categoryDTO)
         {
+            Category category = new Category()
+            {
+                nameAr = categoryDTO.nameAr,
+                nameEn = categoryDTO.nameEn,
+                type = categoryDTO.type,
+            };
+
             repo.Add(category);
             return category.categoryId;
         }
         
         // Function to update 
-        public bool UpdateType (int categoryId , string newType)
+        public bool UpdateType(int categoryId , string newType)
         {
             Category category = repo.GetById(categoryId);
             if (category == null)

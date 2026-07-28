@@ -9,7 +9,6 @@ namespace BuildHub.Controllers
 
     [ApiController]
     [Route("quote-negotiation")]
-    [Authorize]
     public class QuoteNegotiationController : ControllerBase
     {
         private QuoteNegotiationService negotiationService;
@@ -19,7 +18,6 @@ namespace BuildHub.Controllers
             negotiationService = _negotiationService;
         }
 
-        [AllowAnonymous]
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {

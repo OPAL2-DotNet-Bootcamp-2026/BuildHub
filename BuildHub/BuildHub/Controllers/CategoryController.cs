@@ -1,4 +1,5 @@
-﻿using BuildHub.Models;
+﻿using BuildHub.DTOs;
+using BuildHub.Models;
 using BuildHub.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,16 @@ namespace BuildHub.Controllers
         public IActionResult GetById([FromRoute] int id)
         {
             return Ok(categoryService.GetById(id));
+        }
+
+        [HttpPost("AddCategory")]
+        public IActionResult UpdateType([FromQuery] CategoryInputDTOs category)
+        {
+            int updated = categoryService.Add(category);
+
+            if (updated == null)
+                return NotFound();
+            return Ok("Updated succesfully");
         }
 
         [HttpPost("UpdateType/{categoryId}")]

@@ -21,6 +21,8 @@ namespace BuildHub.Repos
         {
             User user = _context.Users.FirstOrDefault(u => u.UserId == id);
 
+            if (user == null) { return null; }
+
             UserResponseDTO response = new UserResponseDTO()
             {
                 UserId = user.UserId,

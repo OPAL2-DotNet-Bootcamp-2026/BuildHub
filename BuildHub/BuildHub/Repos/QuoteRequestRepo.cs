@@ -17,12 +17,9 @@ namespace BuildHub.Repos
             return context.QuoteRequests.ToList();
         }
 
-        // includes QuoteRequestInvite
         public QuoteRequest GetQuoteRequestById(int id)
         {
-            return context.QuoteRequests
-                           .Include(q => q.qutoeRequestId)
-                           .FirstOrDefault(q => q.qutoeRequestId == id);
+            return context.QuoteRequests.FirstOrDefault(q => q.qutoeRequestId == id);
         }
 
         public void Add(QuoteRequest quoteRequest)

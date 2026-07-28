@@ -1,4 +1,5 @@
 
+using BuildHub.Models;
 using BuildHub.Repos;
 using BuildHub.Services;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace BuildHub
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,7 @@ namespace BuildHub
             builder.Services.AddScoped<ReviewRepo>();
             builder.Services.AddScoped<UserRepo>();
             builder.Services.AddScoped<VendorProfileRepo>();
-            //builder.Services.AddScoped<ProjectRepo>();
+            builder.Services.AddScoped<ProjectRepo>();
             builder.Services.AddScoped<QuoteNegotiationRepo>();
             builder.Services.AddScoped<MilestoneRepo>();
             builder.Services.AddScoped<contractRepo>();
@@ -44,17 +45,27 @@ namespace BuildHub
             builder.Services.AddScoped<EscrowTransactionService>(); 
             builder.Services.AddScoped<VendorProfileService>();
             builder.Services.AddScoped<ContractService>();
-            builder.Services.AddScoped<NotificationService>();  
-            //category, milestone, product, QuoteNegotiation, QuoteRequestInvite, UserService
-            
+            builder.Services.AddScoped<NotificationService>();
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<MilestoneService>();
+            builder.Services.AddScoped<QuoteNegotiationService>();
+            builder.Services.AddScoped<CategoryService>();
+            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<QuoteRequestInviteService>();
+
+
             //Authentication (JWT) & Authorization
-            
-            
+
+
             //controllers
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler =
+                    System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
 
             //swagger 
-            
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
@@ -87,6 +98,16 @@ namespace BuildHub
             //app.UseAuthorization();
             
             app.MapControllers();
+
+
+            //dataseed 
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ProjectContext>();
+                await db.Database.MigrateAsync();          // applies any pending migrations
+                await DbSeeder.SeedAsync(db);               // inserts demo data if not already present
+            }
 
             app.Run();
         }
