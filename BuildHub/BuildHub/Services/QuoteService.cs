@@ -8,9 +8,9 @@ namespace BuildHub.Services
     {
         private QuoteRepo quoteRepo;
         private NotificationService notificationService;
-        private ContractService contractService;      // Dev D
-        private QuoteRequestRepo quoteRequestRepo;     // Dev B - read-only lookup
-        private VendorProfileRepo vendorProfileRepo;   // Dev A - read-only lookup
+        private ContractService contractService;      
+        private QuoteRequestRepo quoteRequestRepo;     
+        private VendorProfileRepo vendorProfileRepo;   
 
         public QuoteService(
             QuoteRepo quoteRepo,
@@ -26,7 +26,7 @@ namespace BuildHub.Services
             this.vendorProfileRepo = vendorProfileRepo;
         }
 
-        // (1) vendor submits a quote against a quote request -> notify the customer
+        // vendor submits a quote against a quote request / notify the customer
         public int SubmitQuote(int quoteRequestId, int vendorProfileId, decimal price, int durationDays)
         {
             Quote quote = new Quote();
@@ -41,13 +41,16 @@ namespace BuildHub.Services
 
             // find the customer who created this request, then notify them
             QuoteRequest request = quoteRequestRepo.GetQuoteRequestById(quoteRequestId);
-            int customerUserId = request.Project.ClientId;   // <-- depends on Dev B exposing the client (adjust if reachable differently)
-            notificationService.CreateNotification(customerUserId, "A vendor submitted a quote for your request", "QuoteSubmitted");
+            if (request != null && request.Project != null)
+            {
+                int customerUserId = request.Project.ClientId;
+                notificationService.CreateNotification(customerUserId, "A vendor submitted a quote for your request", "QuoteSubmitted");
+            }
 
             return quote.quoteId;
         }
 
-        // (2) customer accepts a quote -> mark accepted, notify vendor, trigger contract
+        // customer accepts a quote -> mark accepted, notify vendor, trigger contract
         public bool AcceptQuote(int quoteId)
         {
             Quote quote = quoteRepo.GetById(quoteId);
