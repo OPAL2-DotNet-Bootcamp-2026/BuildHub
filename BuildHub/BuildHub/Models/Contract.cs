@@ -29,7 +29,7 @@ public class Contract
 
 
     [Required]
-    [AllowedValues("One time ","PreMilestone")]
+    [AllowedValues("OneTime", "PerMilestone")]
     public string paymentType { get; set; }//User input
 
     [Required]
