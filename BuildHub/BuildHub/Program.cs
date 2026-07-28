@@ -28,7 +28,7 @@ namespace BuildHub
             builder.Services.AddScoped<ReviewRepo>();
             builder.Services.AddScoped<UserRepo>();
             builder.Services.AddScoped<VendorProfileRepo>();
-            //builder.Services.AddScoped<ProjectRepo>();
+            builder.Services.AddScoped<ProjectRepo>();
             builder.Services.AddScoped<QuoteNegotiationRepo>();
             builder.Services.AddScoped<MilestoneRepo>();
             builder.Services.AddScoped<contractRepo>();
@@ -45,13 +45,23 @@ namespace BuildHub
             builder.Services.AddScoped<VendorProfileService>();
             builder.Services.AddScoped<ContractService>();
             builder.Services.AddScoped<NotificationService>();  
-            //category, milestone, product, QuoteNegotiation, QuoteRequestInvite, UserService
+            builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<MilestoneService>();
+            builder.Services.AddScoped<QuoteNegotiationService>();
+            builder.Services.AddScoped<CategoryService>();
+            builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<QuoteRequestInviteService>();
             
+
             //Authentication (JWT) & Authorization
             
             
             //controllers
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler =
+                    System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
 
             //swagger 
             
