@@ -61,12 +61,11 @@ namespace BuildHub.Services
                 signedAt = DateTime.Now
             };
 
-            _contractRepo.AddContract(newContract);
-            
             var fullProjectMilestone = new Milestone
             {
                 title = "Full Project Milestone",
                 amount = totalAmount,
+                orderIndex = 0,                  
                 DueDate = startDate,
                 endDate = finishDate,
                 status = "Pending"
@@ -74,7 +73,7 @@ namespace BuildHub.Services
 
             newContract.Milestones = new List<Milestone> { fullProjectMilestone };
 
-            _contractRepo.AddContract(newContract);
+            _contractRepo.AddContract(newContract);   
 
             _escrowService.OpenEscrowHold(newContract.contractId, fullProjectMilestone.milestoneId, totalAmount);
         }
