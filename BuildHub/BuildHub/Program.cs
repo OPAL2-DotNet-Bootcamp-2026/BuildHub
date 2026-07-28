@@ -106,6 +106,15 @@ namespace BuildHub
             {
                 var db = scope.ServiceProvider.GetRequiredService<ProjectContext>();
                 await db.Database.MigrateAsync();          // applies any pending migrations
+
+                // Dev-only: set "Seeding:ResetOnStartup": true in appsettings.Development.json
+                // to wipe all seeded tables and reseed from scratch on every startup.
+                if (app.Environment.IsDevelopment() &&
+                    builder.Configuration.GetValue<bool>("Seeding:ResetOnStartup"))
+                {
+                    await DbSeeder.ResetAsync(db);
+                }
+
                 await DbSeeder.SeedAsync(db);               // inserts demo data if not already present
             }
 
