@@ -19,7 +19,7 @@ namespace BuildHub.Repos
 
         public QuoteRequest GetQuoteRequestById(int id)
         {
-            return context.QuoteRequests.FirstOrDefault(q => q.qutoeRequestId == id);
+            return context.QuoteRequests.Include(q => q.Project).FirstOrDefault(q => q.qutoeRequestId == id);
         }
 
         public void Add(QuoteRequest quoteRequest)
