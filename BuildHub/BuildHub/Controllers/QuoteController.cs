@@ -27,7 +27,7 @@ namespace BuildHub.Controllers
                 input.durationDays
             );
 
-            return Ok(new { quoteId = quoteId }); //200
+            return Ok(new { quoteId }); //200
         }
 
         // GET http://localhost:5153/api/quotes/3   (customer fetches)
