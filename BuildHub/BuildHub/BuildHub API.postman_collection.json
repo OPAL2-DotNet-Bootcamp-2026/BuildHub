@@ -1,0 +1,2170 @@
+{
+  "info": {
+    "_postman_id": "064629fd-fcc4-4901-a3db-b13616e914cd",
+    "name": "BuildHub API",
+    "description": "Routes reverse-engineered directly from the Controllers/ and DTOs/ folders. Seed data comes from DbSeeder (BuildHub/DataSeeder.cs).\n\n## Running it as an automated test\n\n1. Set \"Seeding:ResetOnStartup\": true in appsettings.Development.json and start the API, so the database is wiped and reseeded.\n2. Run the whole collection in the Collection Runner (or `newman run`). The '00 - Setup (run first)' folder resolves every seeded row's real id into a collection variable, so nothing depends on identity values happening to start at 1.\n\n## Why the deletes moved\n\nEvery destructive request used to point at a row other requests read - deleting the client user, the Ceramics category or the bathroom quote request took their children with them (cascade FKs) and left the rest of the run looking up rows that no longer existed. Each update/delete now targets either a row this run created ('Add Category' -> 'Delete Category', 'Add User' -> 'Delete User', and so on) or a dedicated throwaway seed row that nothing else references:\n\n| Request | Target |\n| --- | --- |\n| Update Category Type | seeded 'QA Spare Category' |\n| Delete Category | category created by 'Add Category' (fallback: 'QA Scrap Category') |\n| Update User Email | seeded 'QA Email Update User' |\n| Delete User | user created by 'Add User' (fallback: 'QA Delete Target User') |\n| Update Quote Request Status | seeded [QA-STATUS-TARGET] request |\n| Delete Quote Request | request created by 'Create Quote Request' (fallback: [QA-DELETE-TARGET]) |\n| Update Invite Status | throwaway invite on [QA-STATUS-TARGET] |\n| Delete Invite | invite created by 'Create Invite' (fallback: second throwaway invite) |\n| Accept Quote | quote created by 'Submit Quote' (fallback: seeded qaAcceptQuoteId) |\n\n## Known quirks in the current controllers, kept as-is\n\n- category/GetById has no {id} route placeholder, so [FromRoute] int id can't bind (id is always 0 server-side) - it returns 204 No Content no matter what you pass.\n- category/AddCategory binds CategoryInputDTOs via [FromQuery], so it takes query params, not a JSON body.\n- user/UpdateUserEmail and user/DeleteUser take id as a plain query param.\n- Milestone/milestone accepts a body but the handler just returns Ok() and ignores it.\n- QuoteService.SubmitQuote dereferences request.Project without an Include, so 'Submit Quote' returns 500 until the repo eager-loads Project.\n- There's no controller yet for EscrowTransaction, Project or Product.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "46991637",
+    "_collection_link": "https://go.postman.co/collection/46991637-064629fd-fcc4-4901-a3db-b13616e914cd?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "00 - Setup (run first)",
+      "item": [
+        {
+          "name": "Resolve Category Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/GetAll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "GetAll"
+              ]
+            },
+            "description": "Looks each seeded category up by nameEn and stores its real id, so the rest of the collection never depends on identity values starting at 1."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Category list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "function idOf(matchValue) {",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        if (String(field(list[i], \"nameEn\")) === matchValue) return field(list[i], \"categoryId\");",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "var wanted = {\n    \"categoryKitchensId\": \"Kitchens\",\n    \"categoryCabinetsId\": \"Cabinets\",\n    \"categoryCeramicsId\": \"Ceramics\",\n    \"categoryWallTilesId\": \"Wall Tiles\",\n    \"categoryPlumbingId\": \"Plumbing\",\n    \"categoryElectricalId\": \"Electrical\",\n    \"categoryFlooringId\": \"Flooring\",\n    \"qaSpareCategoryId\": \"QA Spare Category\",\n    \"qaScrapCategoryId\": \"QA Scrap Category\"\n};",
+                  "",
+                  "var missing = [];",
+                  "Object.keys(wanted).forEach(function (variable) {",
+                  "    var id = idOf(wanted[variable]);",
+                  "    if (id === undefined) { missing.push(wanted[variable]); return; }",
+                  "    pm.collectionVariables.set(variable, id);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set(\"updateCategoryTargetId\", pm.collectionVariables.get(\"qaSpareCategoryId\"));",
+                  "pm.collectionVariables.set(\"deleteCategoryTargetId\", pm.collectionVariables.get(\"qaScrapCategoryId\"));",
+                  "",
+                  "pm.test(\"every seeded category row was found\", function () {",
+                  "    pm.expect(missing, \"missing seed rows - restart the API with Seeding:ResetOnStartup=true\").to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve User Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/GetAllUsers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "GetAllUsers"
+              ]
+            },
+            "description": "Matches on FullName, not Email - 'Update User Email' rewrites an email, so matching on email would stop resolving after the first run."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"User list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "function idOf(matchValue) {",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        if (String(field(list[i], \"fullName\")) === matchValue) return field(list[i], \"userId\");",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "var wanted = {\n    \"clientUserId\": \"Sara Al-Balushi\",\n    \"vendorUserId\": \"Khalid Al-Habsi\",\n    \"vendorUserId2\": \"Fatma Al-Riyami\",\n    \"clientUserId2\": \"Ahmed Al-Saidi\",\n    \"vendorUserId3\": \"Noor Al-Kindi\",\n    \"qaEmailUserId\": \"QA Email Update User\",\n    \"qaDeleteUserId\": \"QA Delete Target User\"\n};",
+                  "",
+                  "var missing = [];",
+                  "Object.keys(wanted).forEach(function (variable) {",
+                  "    var id = idOf(wanted[variable]);",
+                  "    if (id === undefined) { missing.push(wanted[variable]); return; }",
+                  "    pm.collectionVariables.set(variable, id);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set(\"updateUserTargetId\", pm.collectionVariables.get(\"qaEmailUserId\"));",
+                  "pm.collectionVariables.set(\"deleteUserTargetId\", pm.collectionVariables.get(\"qaDeleteUserId\"));",
+                  "",
+                  "pm.test(\"every seeded user row was found\", function () {",
+                  "    pm.expect(missing, \"missing seed rows - restart the API with Seeding:ResetOnStartup=true\").to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve Vendor Profile Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/VendorProfile/Vendors",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "VendorProfile",
+                "Vendors"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"VendorProfile list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "function idOf(matchValue) {",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        if (String(field(list[i], \"companyName\")) === matchValue) return field(list[i], \"vendorProfileID\");",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "var wanted = {\n    \"vendorProfileId\": \"Al-Habsi Kitchens & Interiors\",\n    \"vendorProfileId2\": \"Al-Riyami Ceramics & Tiles\",\n    \"vendorProfileId3\": \"Al-Kindi Electrical Works\"\n};",
+                  "",
+                  "var missing = [];",
+                  "Object.keys(wanted).forEach(function (variable) {",
+                  "    var id = idOf(wanted[variable]);",
+                  "    if (id === undefined) { missing.push(wanted[variable]); return; }",
+                  "    pm.collectionVariables.set(variable, id);",
+                  "});",
+                  "",
+                  "pm.test(\"every seeded vendorprofile row was found\", function () {",
+                  "    pm.expect(missing, \"missing seed rows - restart the API with Seeding:ResetOnStartup=true\").to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve Quote Request Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/GetAllQuoteRequest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "GetAllQuoteRequest"
+              ]
+            },
+            "description": "The output DTO only exposes description/status, so the seeded rows are matched on their description. The two throwaway rows carry a [QA-...] marker so they are easy to spot in the database too."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"QuoteRequest list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "function idOf(matchValue) {",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        if (String(field(list[i], \"description\")) === matchValue) return field(list[i], \"quoteRequestId\");",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "var wanted = {\n    \"quoteRequestKitchenId\": \"Need custom cabinets designed and installed for a full kitchen renovation.\",\n    \"quoteRequestBathroomId\": \"Need ceramic floor and wall tiles supplied and installed for a bathroom retile.\",\n    \"quoteRequestFlooringId\": \"Supply and install 60 m2 of flooring in a majlis, material choice open.\",\n    \"quoteRequestElectricalId\": \"Rewire ground floor and install 24 ceiling spotlights.\",\n    \"qaStatusQuoteRequestId\": \"[QA-STATUS-TARGET] Throwaway quote request for the status-update request.\",\n    \"qaDeleteQuoteRequestId\": \"[QA-DELETE-TARGET] Throwaway quote request for the delete request.\"\n};",
+                  "",
+                  "var missing = [];",
+                  "Object.keys(wanted).forEach(function (variable) {",
+                  "    var id = idOf(wanted[variable]);",
+                  "    if (id === undefined) { missing.push(wanted[variable]); return; }",
+                  "    pm.collectionVariables.set(variable, id);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.set(\"updateQuoteRequestTargetId\", pm.collectionVariables.get(\"qaStatusQuoteRequestId\"));",
+                  "pm.collectionVariables.set(\"deleteQuoteRequestTargetId\", pm.collectionVariables.get(\"qaDeleteQuoteRequestId\"));",
+                  "",
+                  "pm.test(\"every seeded quoterequest row was found\", function () {",
+                  "    pm.expect(missing, \"missing seed rows - restart the API with Seeding:ResetOnStartup=true\").to.eql([]);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve Invite Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/GetAllQuoteRequestInvite",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "GetAllQuoteRequestInvite"
+              ]
+            },
+            "description": "Invites have no name to match on, so they are located by the (quoteRequestId, vendorProfileId) pair resolved in the requests above. Both throwaway invites hang off the [QA-STATUS-TARGET] quote request."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Invite list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "function inviteId(quoteRequestId, vendorProfileId) {",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        if (String(field(list[i], \"quoteRequestId\")) === String(quoteRequestId) &&",
+                  "            String(field(list[i], \"vendorProfileId\")) === String(vendorProfileId)) {",
+                  "            return field(list[i], \"inviteId\");",
+                  "        }",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "var qaRequest = pm.collectionVariables.get(\"qaStatusQuoteRequestId\");",
+                  "var kitchenRequest = pm.collectionVariables.get(\"quoteRequestKitchenId\");",
+                  "var vendor1 = pm.collectionVariables.get(\"vendorProfileId\");",
+                  "var vendor2 = pm.collectionVariables.get(\"vendorProfileId2\");",
+                  "",
+                  "var resolved = {",
+                  "    inviteKitchenId: inviteId(kitchenRequest, vendor1),",
+                  "    updateInviteTargetId: inviteId(qaRequest, vendor1),",
+                  "    deleteInviteTargetId: inviteId(qaRequest, vendor2)",
+                  "};",
+                  "",
+                  "Object.keys(resolved).forEach(function (variable) {",
+                  "    if (resolved[variable] !== undefined) pm.collectionVariables.set(variable, resolved[variable]);",
+                  "});",
+                  "",
+                  "pm.test(\"throwaway invites were found\", function () {",
+                  "    pm.expect(resolved.updateInviteTargetId, \"QA update invite\").to.not.eql(undefined);",
+                  "    pm.expect(resolved.deleteInviteTargetId, \"QA delete invite\").to.not.eql(undefined);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resolve Negotiation Ids",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/quote-negotiation/GetAll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "quote-negotiation",
+                "GetAll"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Negotiation list is reachable\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var list = pm.response.json();",
+                  "",
+                  "// Property casing differs between endpoints (entities are lowerCamel, DTOs",
+                  "// come back PascalCase-ish), so read fields case-insensitively.",
+                  "function field(obj, name) {",
+                  "    var keys = Object.keys(obj || {});",
+                  "    for (var i = 0; i < keys.length; i++) {",
+                  "        if (keys[i].toLowerCase() === String(name).toLowerCase()) return obj[keys[i]];",
+                  "    }",
+                  "    return undefined;",
+                  "}",
+                  "",
+                  "if (list.length > 0) {",
+                  "    pm.collectionVariables.set(\"quoteNegotiationId\", field(list[0], \"quoteNegotiationId\"));",
+                  "}",
+                  "",
+                  "pm.test(\"at least one negotiation is seeded\", function () {",
+                  "    pm.expect(list.length).to.be.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Reads the seeded rows back and writes their real ids into collection variables.\n\nRun this folder first (the Collection Runner does it automatically, since it runs folders top to bottom). Every other request uses those variables, so a reseed that hands out different identity values can no longer produce 404s.\n\nQuote, contract and milestone ids cannot be resolved this way - those controllers have no list endpoint - so they stay as literal seed-order values in the collection variables."
+    },
+    {
+      "name": "Category",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/GetAll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "GetAll"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"returns the seeded categories\", function () {",
+                  "    pm.expect(pm.response.json().length).to.be.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Category By Id (route bug: id never binds)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/GetById?id={{categoryKitchensId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "GetById"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{categoryKitchensId}}"
+                }
+              ]
+            },
+            "description": "The action is [FromRoute] int id but the route template is just \"GetById\" with no {id} segment, so id can't bind - verified live: this always returns 204 No Content regardless of what you pass here."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"204 No Content (known route bug)\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/AddCategory?nameAr={{tempCategoryNameAr}}&nameEn={{tempCategoryName}}&type=Service",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "AddCategory"
+              ],
+              "query": [
+                {
+                  "key": "nameAr",
+                  "value": "{{tempCategoryNameAr}}"
+                },
+                {
+                  "key": "nameEn",
+                  "value": "{{tempCategoryName}}"
+                },
+                {
+                  "key": "type",
+                  "value": "Service"
+                }
+              ]
+            },
+            "description": "[FromQuery] CategoryInputDTOs - fields are bound from the query string, not a JSON body.\n\nThe name gets a timestamp suffix so each run creates a distinct row, and the test script looks that row's id up (the controller only returns a string) and points 'Delete Category' at it. That keeps the delete repeatable without a reseed; if this request fails, the delete falls back to the throwaway 'QA Scrap Category' seed row."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Unique name per run so the created row can be found again below.",
+                  "pm.collectionVariables.set(\"tempCategoryName\", \"QA Temp Category \" + Date.now());",
+                  "pm.collectionVariables.set(\"tempCategoryNameAr\", \"فئة مؤقتة\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "// The controller returns a plain string, so fetch the list to learn the new id.",
+                  "var createdName = pm.collectionVariables.get(\"tempCategoryName\");",
+                  "pm.sendRequest(pm.collectionVariables.get(\"baseUrl\") + \"/category/GetAll\", function (err, res) {",
+                  "    if (err || res.code !== 200) { return; }",
+                  "    var list = res.json();",
+                  "    for (var i = 0; i < list.length; i++) {",
+                  "        var row = list[i];",
+                  "        var name = row.nameEn !== undefined ? row.nameEn : row.NameEn;",
+                  "        var id = row.categoryId !== undefined ? row.categoryId : row.CategoryId;",
+                  "        if (name === createdName) {",
+                  "            pm.collectionVariables.set(\"createdCategoryId\", id);",
+                  "            pm.collectionVariables.set(\"deleteCategoryTargetId\", id);",
+                  "            return;",
+                  "        }",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Category Type",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/UpdateType/{{updateCategoryTargetId}}?type=Material",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "UpdateType",
+                "{{updateCategoryTargetId}}"
+              ],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "Material"
+                }
+              ]
+            },
+            "description": "Targets the seeded 'QA Spare Category'. No product, quote request or sub-category points at it, so flipping its type can't affect any other request."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/category/Delete/{{deleteCategoryTargetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "category",
+                "Delete",
+                "{{deleteCategoryTargetId}}"
+              ]
+            },
+            "description": "Deletes the category created by 'Add Category' in this same run; falls back to the seeded 'QA Scrap Category' when run on its own.\n\nIt deliberately does NOT target Ceramics/Kitchens any more: Products and QuoteRequests cascade-delete with their category, and a parent category with sub-categories can't be deleted at all (the self-reference FK is restrict)."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/GetAllUsers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "GetAllUsers"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get User By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/GetUserById/{{clientUserId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "GetUserById",
+                "{{clientUserId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"returns the requested user\", function () {",
+                  "    var body = pm.response.json();",
+                  "    var id = body.userId !== undefined ? body.userId : body.UserId;",
+                  "    pm.expect(String(id)).to.eql(String(pm.collectionVariables.get(\"clientUserId\")));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/AddUser",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "AddUser"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"QA Created User\",\n  \"email\": \"qa.created.{{$timestamp}}@example.com\",\n  \"passwordHash\": \"placeholder-hash\",\n  \"phoneNumber\": \"+96890000100\",\n  \"role\": \"Client\",\n  \"city\": \"Muscat\",\n  \"isVerified\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Returns the new UserId as a bare number. That id becomes the target of 'Delete User' below, so the delete cleans up after itself and can run again and again without touching any seeded row."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var createdId = pm.response.json();",
+                  "if (createdId) {",
+                  "    pm.collectionVariables.set(\"createdUserId\", createdId);",
+                  "    pm.collectionVariables.set(\"deleteUserTargetId\", createdId);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update User Email",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/user/UpdateUserEmail?id={{updateUserTargetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "UpdateUserEmail"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{updateUserTargetId}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"qa.email.updated@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "id has no [FromQuery]/[FromRoute] attribute and no route placeholder - ASP.NET Core infers it from the query string because the body is already claimed by the UserUpdateDTO.\n\nTargets the seeded 'QA Email Update User', which owns no projects, vendor profile, notifications, negotiations or reviews - so rewriting its email is invisible to every other request."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/DeleteUser?id={{deleteUserTargetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "DeleteUser"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "{{deleteUserTargetId}}"
+                }
+              ]
+            },
+            "description": "Deletes the user created by 'Add User' in this run; falls back to the seeded 'QA Delete Target User' when run on its own.\n\nIt no longer targets the client user: deleting them cascades away their projects, quote requests, quotes, contracts, notifications and reviews - and would fail outright, because QuoteNegotiation.UserId is a restrict FK."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "VendorProfile",
+      "item": [
+        {
+          "name": "Get All Vendor Profiles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/VendorProfile/Vendors",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "VendorProfile",
+                "Vendors"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"three vendor profiles are seeded\", function () {",
+                  "    pm.expect(pm.response.json().length).to.be.at.least(3);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Vendor Profile By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/VendorProfile/Vendors/{{vendorProfileId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "VendorProfile",
+                "Vendors",
+                "{{vendorProfileId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Vendor Profile By Id (store)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/VendorProfile/Vendors/{{vendorProfileId2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "VendorProfile",
+                "Vendors",
+                "{{vendorProfileId2}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Vendor Profile By Id (unverified)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/VendorProfile/Vendors/{{vendorProfileId3}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "VendorProfile",
+                "Vendors",
+                "{{vendorProfileId3}}"
+              ]
+            },
+            "description": "Al-Kindi Electrical Works - seeded unverified with a non-zero balance, so the response covers the IsVerfied=false / Balance>0 shape too."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "QuoteRequest",
+      "item": [
+        {
+          "name": "Get All Quote Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/GetAllQuoteRequest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "GetAllQuoteRequest"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Quote Request By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/{{quoteRequestKitchenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "{{quoteRequestKitchenId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Quote Request By Id (open, public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/{{quoteRequestBathroomId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "{{quoteRequestBathroomId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Quote Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectId\": {{bathroomProjectId}},\n  \"categoryId\": {{categoryCeramicsId}},\n  \"description\": \"QA created quote request - safe to delete.\",\n  \"deadline\": \"2026-09-15T00:00:00Z\",\n  \"visibilityType\": \"Public\",\n  \"vendorProfileID\": {{vendorProfileId2}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "The service also creates an invite and a notification for the invited vendor. The new id is captured and becomes the target of 'Delete Quote Request'."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var body = pm.response.json();",
+                  "var id = body.quoteRequestId !== undefined ? body.quoteRequestId : body.QuoteRequestId;",
+                  "if (id) {",
+                  "    pm.collectionVariables.set(\"createdQuoteRequestId\", id);",
+                  "    pm.collectionVariables.set(\"deleteQuoteRequestTargetId\", id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Quote Request Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/UpdateCounte/{{updateQuoteRequestTargetId}}?newStatus=Closed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "UpdateCounte",
+                "{{updateQuoteRequestTargetId}}"
+              ],
+              "query": [
+                {
+                  "key": "newStatus",
+                  "value": "Closed"
+                }
+              ]
+            },
+            "description": "Targets the seeded [QA-STATUS-TARGET] request. Nothing reads its status, so closing it repeatedly is harmless - unlike the bathroom request, which 'Submit Quote' and 'Create Invite' still need to be open."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Quote Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/Delete/{{deleteQuoteRequestTargetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "Delete",
+                "{{deleteQuoteRequestTargetId}}"
+              ]
+            },
+            "description": "Deletes the request created above (together with the invite the service auto-created for it); falls back to the seeded [QA-DELETE-TARGET] request, which has no quotes and no invites.\n\nIt no longer targets the bathroom request - invites, quotes and their contracts cascade with a quote request, which is what left later requests looking up rows that no longer existed."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "QuoteRequestInvite",
+      "item": [
+        {
+          "name": "Get All Invites",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/GetAllQuoteRequestInvite",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "GetAllQuoteRequestInvite"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Invite By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/GetQuoteRequestInviteById/{{inviteKitchenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "GetQuoteRequestInviteById",
+                "{{inviteKitchenId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Invite",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/AddDTO",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "AddDTO"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quoteRequestId\": {{quoteRequestFlooringId}},\n  \"vendorProfileId\": {{vendorProfileId3}}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Invites a vendor that is not already invited to this request. The new id becomes the target of 'Delete Invite'."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "var body = pm.response.json();",
+                  "var id = body.inviteId !== undefined ? body.inviteId : body.InviteId;",
+                  "if (id) {",
+                  "    pm.collectionVariables.set(\"createdInviteId\", id);",
+                  "    pm.collectionVariables.set(\"deleteInviteTargetId\", id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update Invite Status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/UpdateStatus/{{updateInviteTargetId}}?newStatus=Accepted",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "UpdateStatus",
+                "{{updateInviteTargetId}}"
+              ],
+              "query": [
+                {
+                  "key": "newStatus",
+                  "value": "Accepted"
+                }
+              ]
+            },
+            "description": "Targets the throwaway invite on the [QA-STATUS-TARGET] request (vendor profile 1), not the bathroom invite that 'Get Invite By Id' reads."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Invite",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/QuoteRequestInvite/Delete/{{deleteInviteTargetId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "QuoteRequestInvite",
+                "Delete",
+                "{{deleteInviteTargetId}}"
+              ]
+            },
+            "description": "Deletes the invite created above; falls back to the second throwaway invite on the [QA-STATUS-TARGET] request (vendor profile 2). Invites are leaf rows, so nothing cascades."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Quote",
+      "item": [
+        {
+          "name": "Submit Quote (vendor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/quote-requests/{{quoteRequestBathroomId}}/quotes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quote-requests",
+                "{{quoteRequestBathroomId}}",
+                "quotes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vendorProfileId\": {{vendorProfileId2}},\n  \"price\": 900.0,\n  \"durationDays\": 6\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Note the route is an absolute override on QuoteController (starts with '/'), so it lives under /api/quote-requests, not /api/quotes.\n\nKNOWN SERVER BUG: QuoteService.SubmitQuote reads request.Project.ClientId, but QuoteRequestRepo.GetQuoteRequestById does not Include(q => q.Project) and lazy loading is off - so Project is null and this returns 500. Adding the Include to the repo fixes it. Until then this test fails on purpose rather than hiding it."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "if (pm.response.code === 200) {",
+                  "    var body = pm.response.json();",
+                  "    var id = body.quoteId !== undefined ? body.quoteId : body.QuoteId;",
+                  "    if (id) {",
+                  "        pm.collectionVariables.set(\"createdQuoteId\", id);",
+                  "        // Accepting a quote creates a contract, and Contract.quoteId is unique -",
+                  "        // so accept the quote this run just created rather than a seeded one.",
+                  "        pm.collectionVariables.set(\"acceptQuoteTargetId\", id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Quote By Id (customer)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quotes/{{quoteKitchenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quotes",
+                "{{quoteKitchenId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Accept Quote (customer)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/quotes/{{acceptQuoteTargetId}}/accept",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "quotes",
+                "{{acceptQuoteTargetId}}",
+                "accept"
+              ]
+            },
+            "description": "Accepting creates a contract, and Contract.quoteId is UNIQUE - so accepting the same quote twice fails on a duplicate key. This targets the quote created by 'Submit Quote' in the same run; the fallback is the seeded 'qaAcceptQuoteId', the one seeded quote deliberately left without a contract (good for one run per reseed)."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "QuoteNegotiation",
+      "item": [
+        {
+          "name": "Get All Negotiations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/quote-negotiation/GetAll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "quote-negotiation",
+                "GetAll"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Negotiation By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/quote-negotiation/GetById/{{quoteNegotiationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "quote-negotiation",
+                "GetById",
+                "{{quoteNegotiationId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add Negotiation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/quote-negotiation/Add",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "quote-negotiation",
+                "Add"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{clientUserId}},\n  \"quoteId\": {{quoteBathroomId}},\n  \"proposedPrice\": 8,\n  \"proposedDurationDays\": \"5\",\n  \"message\": \"Could you do it in 5 days instead of 7?\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Binds the full QuoteNegotiation entity, not a slim DTO. proposedPrice carries a [Range(0,10)] annotation on the model - looks like a leftover bug (unrealistic for a real price), but ModelState will reject anything above 10, so the example uses 8."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Contract",
+      "item": [
+        {
+          "name": "Get Contract By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Contract/{{contractId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contract",
+                "{{contractId}}"
+              ]
+            },
+            "description": "Contract 1 - the kitchen contract, with three milestones and three escrow transactions hanging off it."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"contract carries its milestones\", function () {",
+                  "    var body = pm.response.json();",
+                  "    pm.expect(body.milstones || body.Milstones).to.not.eql(null);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Contract By Id (completed)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Contract/{{contractId2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contract",
+                "{{contractId2}}"
+              ]
+            },
+            "description": "Contract 2 - the flooring contract, seeded as Completed with both milestones approved and both escrow transactions released."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Contract By Id (missing)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Contract/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Contract",
+                "999999"
+              ]
+            },
+            "description": "Negative case: the 404 path of the endpoint."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"404 Not Found\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Milestone",
+      "item": [
+        {
+          "name": "Milestone (stub - body ignored)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/Milestone/milestone",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Milestone",
+                "milestone"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"contractId\": {{contractId}},\n  \"title\": \"Site Cleanup\",\n  \"amount\": 400.0,\n  \"orderIndex\": 4,\n  \"dueDate\": \"2026-09-01T00:00:00Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "MilestoneController.Milestone() takes a body but the handler just returns Ok() without using it or calling the service - currently a no-op stub."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Notification",
+      "item": [
+        {
+          "name": "Get My Notifications (client)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications/{{clientUserId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                "{{clientUserId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get My Notifications (vendor)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications/{{vendorUserId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                "{{vendorUserId}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"200 OK\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get My Notifications (no notifications)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notifications/{{qaEmailUserId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notifications",
+                "{{qaEmailUserId}}"
+              ]
+            },
+            "description": "The QA fixture user has no notifications, so this covers the 204 branch."
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"204 No Content\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5176"
+    },
+    {
+      "key": "clientUserId",
+      "value": "1"
+    },
+    {
+      "key": "vendorUserId",
+      "value": "2"
+    },
+    {
+      "key": "vendorUserId2",
+      "value": "3"
+    },
+    {
+      "key": "clientUserId2",
+      "value": "4"
+    },
+    {
+      "key": "vendorUserId3",
+      "value": "5"
+    },
+    {
+      "key": "qaEmailUserId",
+      "value": "6"
+    },
+    {
+      "key": "qaDeleteUserId",
+      "value": "7"
+    },
+    {
+      "key": "updateUserTargetId",
+      "value": "6"
+    },
+    {
+      "key": "deleteUserTargetId",
+      "value": "7"
+    },
+    {
+      "key": "createdUserId",
+      "value": ""
+    },
+    {
+      "key": "categoryKitchensId",
+      "value": "1"
+    },
+    {
+      "key": "categoryCabinetsId",
+      "value": "2"
+    },
+    {
+      "key": "categoryCeramicsId",
+      "value": "3"
+    },
+    {
+      "key": "categoryWallTilesId",
+      "value": "4"
+    },
+    {
+      "key": "categoryPlumbingId",
+      "value": "5"
+    },
+    {
+      "key": "categoryElectricalId",
+      "value": "6"
+    },
+    {
+      "key": "categoryFlooringId",
+      "value": "7"
+    },
+    {
+      "key": "qaSpareCategoryId",
+      "value": "8"
+    },
+    {
+      "key": "qaScrapCategoryId",
+      "value": "9"
+    },
+    {
+      "key": "updateCategoryTargetId",
+      "value": "8"
+    },
+    {
+      "key": "deleteCategoryTargetId",
+      "value": "9"
+    },
+    {
+      "key": "createdCategoryId",
+      "value": ""
+    },
+    {
+      "key": "tempCategoryName",
+      "value": "QA Temp Category"
+    },
+    {
+      "key": "tempCategoryNameAr",
+      "value": "فئة مؤقتة"
+    },
+    {
+      "key": "kitchenProjectId",
+      "value": "1"
+    },
+    {
+      "key": "bathroomProjectId",
+      "value": "2"
+    },
+    {
+      "key": "flooringProjectId",
+      "value": "3"
+    },
+    {
+      "key": "electricalProjectId",
+      "value": "4"
+    },
+    {
+      "key": "qaSandboxProjectId",
+      "value": "5"
+    },
+    {
+      "key": "vendorProfileId",
+      "value": "1"
+    },
+    {
+      "key": "vendorProfileId2",
+      "value": "2"
+    },
+    {
+      "key": "vendorProfileId3",
+      "value": "3"
+    },
+    {
+      "key": "quoteRequestKitchenId",
+      "value": "1"
+    },
+    {
+      "key": "quoteRequestBathroomId",
+      "value": "2"
+    },
+    {
+      "key": "quoteRequestFlooringId",
+      "value": "3"
+    },
+    {
+      "key": "quoteRequestElectricalId",
+      "value": "4"
+    },
+    {
+      "key": "qaStatusQuoteRequestId",
+      "value": "5"
+    },
+    {
+      "key": "qaDeleteQuoteRequestId",
+      "value": "6"
+    },
+    {
+      "key": "updateQuoteRequestTargetId",
+      "value": "5"
+    },
+    {
+      "key": "deleteQuoteRequestTargetId",
+      "value": "6"
+    },
+    {
+      "key": "createdQuoteRequestId",
+      "value": ""
+    },
+    {
+      "key": "inviteKitchenId",
+      "value": "1"
+    },
+    {
+      "key": "inviteBathroomId",
+      "value": "2"
+    },
+    {
+      "key": "inviteFlooringId",
+      "value": "3"
+    },
+    {
+      "key": "inviteElectricalId",
+      "value": "4"
+    },
+    {
+      "key": "updateInviteTargetId",
+      "value": "5"
+    },
+    {
+      "key": "deleteInviteTargetId",
+      "value": "6"
+    },
+    {
+      "key": "createdInviteId",
+      "value": ""
+    },
+    {
+      "key": "quoteKitchenId",
+      "value": "1"
+    },
+    {
+      "key": "quoteBathroomId",
+      "value": "2"
+    },
+    {
+      "key": "quoteFlooringId",
+      "value": "3"
+    },
+    {
+      "key": "quoteElectricalId",
+      "value": "4"
+    },
+    {
+      "key": "qaAcceptQuoteId",
+      "value": "5"
+    },
+    {
+      "key": "acceptQuoteTargetId",
+      "value": "5"
+    },
+    {
+      "key": "createdQuoteId",
+      "value": ""
+    },
+    {
+      "key": "contractId",
+      "value": "1"
+    },
+    {
+      "key": "contractId2",
+      "value": "2"
+    },
+    {
+      "key": "milestoneId",
+      "value": "1"
+    },
+    {
+      "key": "notificationUserId",
+      "value": "1"
+    }
+  ]
+}
