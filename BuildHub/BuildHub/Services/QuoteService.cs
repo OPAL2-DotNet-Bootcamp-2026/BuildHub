@@ -41,8 +41,8 @@ namespace BuildHub.Services
 
             // find the customer who created this request, then notify them
             QuoteRequest request = quoteRequestRepo.GetQuoteRequestById(quoteRequestId);
-            int customerUserId = request.Project.ClientId;   // <-- depends on Dev B exposing the client (adjust if reachable differently)
-            notificationService.CreateNotification(customerUserId, "A vendor submitted a quote for your request", "QuoteSubmitted");
+            //int customerUserId = request.Project.ClientId;   // <-- depends on Dev B exposing the client (adjust if reachable differently)
+            //notificationService.CreateNotification(customerUserId, "A vendor submitted a quote for your request", "QuoteSubmitted");
 
             return quote.quoteId;
         }
