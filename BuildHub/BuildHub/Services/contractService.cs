@@ -60,8 +60,6 @@ namespace BuildHub.Services
                 status = "Active",
                 signedAt = DateTime.Now
             };
-
-            _contractRepo.AddContract(newContract);
             
             var fullProjectMilestone = new Milestone
             {
