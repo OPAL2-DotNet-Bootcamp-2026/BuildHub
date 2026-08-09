@@ -7,24 +7,24 @@ public class Notification
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int notificationId {  get; set; }
+    public int NotificationId { get; set; }
 
     [Required]
     [ForeignKey(nameof(User))]
-    public int userId { get; set; }
-    public User User { get; set; } = null;
+    public int UserId { get; set; }
+    public User User { get; set; } = null!;
 
     [Required]
     [MaxLength(150)]
-    public string title { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(30)]
-    public string type { get; set; } = string.Empty;
+    public string Type { get; set; } = string.Empty;
 
     [Required]
-    public bool isRead { get; set; }
+    public bool IsRead { get; set; }
 
     [Required]
-    public DateTime createdAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

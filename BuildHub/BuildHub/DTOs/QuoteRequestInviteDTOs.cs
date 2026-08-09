@@ -1,9 +1,8 @@
-﻿
 using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class QuoteRequestInviteInputDTOs
+    public class QuoteRequestInviteInputDto
     {
         [Required(ErrorMessage = "Value should not be null.")]
         public int QuoteRequestId { get; set; }
@@ -12,7 +11,7 @@ namespace BuildHub.DTOs
         public int VendorProfileId { get; set; }
     }
 
-    public class QuoteRequestInviteOutputDTOs //
+    public class QuoteRequestInviteOutputDto
     {
         public int InviteId { get; set; }
         public int QuoteRequestId { get; set; }
@@ -20,5 +19,3 @@ namespace BuildHub.DTOs
         public string InviteStatus { get; set; }
     }
 }
-
- 

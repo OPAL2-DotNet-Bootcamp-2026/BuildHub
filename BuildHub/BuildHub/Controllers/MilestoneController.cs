@@ -17,8 +17,9 @@ namespace BuildHub.Controllers
         }
 
 
+        // NOTE: still a stub - it validates and echoes 200 but persists nothing.
         [HttpPost("milestone")]
-        public IActionResult Milestone([FromBody] Milestone dto)
+        public IActionResult Milestone([FromBody] CreateMilestoneDto dto)
         {
             return Ok();
         }

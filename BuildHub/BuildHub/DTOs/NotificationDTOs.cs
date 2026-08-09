@@ -1,12 +1,12 @@
-﻿namespace BuildHub.DTOs
+namespace BuildHub.DTOs
 {
-    public class NotificationOutputDTO
+    public class NotificationOutputDto
     {
-        public int notificationId { get; set; }
-        public int userId { get; set; }
-        public string title { get; set; }
-        public string type { get; set; }
-        public bool isRead { get; set; }
-        public DateTime createdAt { get; set; }
+        public int NotificationId { get; set; }
+        public int UserId { get; set; }
+        public string Title { get; set; }
+        public string Type { get; set; }
+        public bool IsRead { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

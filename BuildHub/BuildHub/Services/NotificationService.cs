@@ -1,4 +1,4 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
 
@@ -17,20 +17,20 @@ namespace BuildHub.Services
         public void CreateNotification(int userId, string title, string type)
         {
             Notification notification = new Notification();
-            notification.userId = userId;
-            notification.title = title;
-            notification.type = type;
-            notification.isRead = false;
-            notification.createdAt = DateTime.Now;
+            notification.UserId = userId;
+            notification.Title = title;
+            notification.Type = type;
+            notification.IsRead = false;
+            notification.CreatedAt = DateTime.Now;
 
             notificationRepo.Add(notification);
         }
 
         // for the notifications endpoint
-        public List<NotificationOutputDTO> GetByUserId(int userId)
+        public List<NotificationOutputDto> GetByUserId(int userId)
         {
             List<Notification> notifications = notificationRepo.GetByUserId(userId);
-            List<NotificationOutputDTO> result = new List<NotificationOutputDTO>();
+            List<NotificationOutputDto> result = new List<NotificationOutputDto>();
 
             foreach (Notification n in notifications)
             {
@@ -40,17 +40,17 @@ namespace BuildHub.Services
             return result;
         }
 
-        // Converter function 
-        private NotificationOutputDTO MapToOutput(Notification n)
+        // Converter function
+        private NotificationOutputDto MapToOutput(Notification n)
         {
             // Create an empty object
-            NotificationOutputDTO dto = new NotificationOutputDTO();
-            dto.notificationId = n.notificationId;
-            dto.userId = n.userId;
-            dto.title = n.title;
-            dto.type = n.type;
-            dto.isRead = n.isRead;
-            dto.createdAt = n.createdAt;
+            NotificationOutputDto dto = new NotificationOutputDto();
+            dto.NotificationId = n.NotificationId;
+            dto.UserId = n.UserId;
+            dto.Title = n.Title;
+            dto.Type = n.Type;
+            dto.IsRead = n.IsRead;
+            dto.CreatedAt = n.CreatedAt;
             return dto;
         }
     }

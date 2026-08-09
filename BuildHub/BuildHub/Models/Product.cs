@@ -7,25 +7,25 @@ public class Product
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int productId { get; set; }
+    public int ProductId { get; set; }
     [Required]
-    [ForeignKey("vendorProfile")]
-    public int vendorProfileId { get; set; }
-    public  VendorProfile vendorProfile { get; set; }
+    [ForeignKey(nameof(VendorProfile))]
+    public int VendorProfileId { get; set; }
+    public VendorProfile VendorProfile { get; set; }
     [Required]
-    [ForeignKey("category")]
-    public int categoryId { get; set; }
-    public  Category category { get; set; }
+    [ForeignKey(nameof(Category))]
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
     [Required]
     [MaxLength(150)]
-    public string name { get; set; }
+    public string Name { get; set; }
     [Required]
     [MaxLength(20)]
-    public string unit { get; set; }
+    public string Unit { get; set; }
     [Required]
     [Column(TypeName = "decimal(12,2)")]
-    public decimal currentPrice { get; set; }
+    public decimal CurrentPrice { get; set; }
     [Required]
-    public bool isAvailable { get; set; }
+    public bool IsAvailable { get; set; }
 
 }

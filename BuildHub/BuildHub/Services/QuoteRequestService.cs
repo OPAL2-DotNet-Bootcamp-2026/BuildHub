@@ -1,4 +1,4 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
 
@@ -7,12 +7,12 @@ namespace BuildHub.Services
     public class QuoteRequestService
     {
         //QuoteRequestRepo repo = new QuoteRequestRepo();
-        //apply dependency inversion 
+        //apply dependency inversion
         private QuoteRequestRepo repo;
-        private QuoteRequestInviteRepo inviteRepo;      
-        private VendorProfileRepo vendorProfileRepo;     
-        private NotificationService notificationService; 
-        private EmailService emailService;               
+        private QuoteRequestInviteRepo inviteRepo;
+        private VendorProfileRepo vendorProfileRepo;
+        private NotificationService notificationService;
+        private EmailService emailService;
 
         public QuoteRequestService(
             QuoteRequestRepo _repo,
@@ -28,21 +28,21 @@ namespace BuildHub.Services
             emailService = _emailService;
         }
 
-        public List<QuoteRequestOutputDTOs> GetAllQuoteRequest()
+        public List<QuoteRequestOutputDto> GetAllQuoteRequest()
         {
             return repo.GetAllQuoteRequest()
-                       .Select(quoteRequest => new QuoteRequestOutputDTOs
+                       .Select(quoteRequest => new QuoteRequestOutputDto
                        {
-                           QuoteRequestId = quoteRequest.qutoeRequestId,
-                           Description = quoteRequest.description,
-                           Deadline = quoteRequest.deadline,
-                           VisibilityType = quoteRequest.visibilityType,
-                           Status = quoteRequest.status
+                           QuoteRequestId = quoteRequest.QuoteRequestId,
+                           Description = quoteRequest.Description,
+                           Deadline = quoteRequest.Deadline,
+                           VisibilityType = quoteRequest.VisibilityType,
+                           Status = quoteRequest.Status
                        })
                        .ToList();
         }
 
-        public QuoteRequestOutputDTOs GetQuoteRequestById(int id)
+        public QuoteRequestOutputDto GetQuoteRequestById(int id)
         {
             QuoteRequest q = repo.GetQuoteRequestById(id);
             if (q == null)
@@ -50,40 +50,40 @@ namespace BuildHub.Services
                 return null;
             }
 
-            QuoteRequestOutputDTOs output = new QuoteRequestOutputDTOs();
-            output.QuoteRequestId = q.qutoeRequestId;
-            output.Description = q.description;
-            output.Deadline = q.deadline;
-            output.VisibilityType = q.visibilityType;
-            output.Status = q.status;
+            QuoteRequestOutputDto output = new QuoteRequestOutputDto();
+            output.QuoteRequestId = q.QuoteRequestId;
+            output.Description = q.Description;
+            output.Deadline = q.Deadline;
+            output.VisibilityType = q.VisibilityType;
+            output.Status = q.Status;
             return output;
         }
 
 
-        public int Create(QuoteRequestInputDTOs input)
+        public int Create(QuoteRequestInputDto input)
         {
             QuoteRequest q = new QuoteRequest();
-            q.projectId = input.ProjectId;
-            q.categoryId = input.CategoryId;
-            q.description = input.Description;
-            q.deadline = input.Deadline;
-            q.visibilityType = "Direct"; 
-            q.status = "Open";
+            q.ProjectId = input.ProjectId;
+            q.CategoryId = input.CategoryId;
+            q.Description = input.Description;
+            q.Deadline = input.Deadline;
+            q.VisibilityType = "Direct";
+            q.Status = "Open";
 
-            repo.Add(q); 
+            repo.Add(q);
 
             QuoteRequestInvite invite = new QuoteRequestInvite();
-            invite.quoteRequestId = q.qutoeRequestId;
-            invite.vendorProfileId = input.VendorProfileID;
-            invite.inviteStatus = "Sent";
+            invite.QuoteRequestId = q.QuoteRequestId;
+            invite.VendorProfileId = input.VendorProfileId;
+            invite.InviteStatus = "Sent";
             inviteRepo.Add(invite);
 
-            VendorProfileResponseDTO vendor = vendorProfileRepo.GetById(invite.vendorProfileId);
+            VendorProfileResponseDto vendor = vendorProfileRepo.GetById(invite.VendorProfileId);
 
             notificationService.CreateNotification(vendor.UserId, "New quote request received", "QuoteRequest");
-            emailService.SendQuoteRequestAlert(invite.vendorProfileId, q.qutoeRequestId);
+            emailService.SendQuoteRequestAlert(invite.VendorProfileId, q.QuoteRequestId);
 
-            return q.qutoeRequestId;
+            return q.QuoteRequestId;
         }
 
         public bool UpdateCounte(int quoteRequestId, string newCount)
@@ -94,7 +94,7 @@ namespace BuildHub.Services
                 return false;
             }
 
-            q.status = newCount;
+            q.Status = newCount;
             repo.Update();
             return true;
         }

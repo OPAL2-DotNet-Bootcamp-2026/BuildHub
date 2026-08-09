@@ -18,13 +18,13 @@ namespace BuildHub.Controllers
 
         // POST http://localhost:5153/api/quote-requests/3/quotes   (vendor submits)
         [HttpPost("/api/quote-requests/{quoteRequestId}/quotes")]
-        public IActionResult SubmitQuote([FromRoute] int quoteRequestId, [FromBody] QuoteInputDTO input)
+        public IActionResult SubmitQuote([FromRoute] int quoteRequestId, [FromBody] QuoteInputDto input)
         {
             int quoteId = quoteService.SubmitQuote(
                 quoteRequestId,
-                input.vendorProfileId,
-                input.price,
-                input.durationDays
+                input.VendorProfileId,
+                input.Price,
+                input.DurationDays
             );
 
             return Ok(new { quoteId }); //200
@@ -34,7 +34,7 @@ namespace BuildHub.Controllers
         [HttpGet("{quoteId}")]
         public IActionResult GetQuoteById([FromRoute] int quoteId)
         {
-            QuoteOutputDTO quote = quoteService.GetById(quoteId);
+            QuoteOutputDto quote = quoteService.GetById(quoteId);
 
             if (quote == null)
                 return NotFound(); // 404 notfound

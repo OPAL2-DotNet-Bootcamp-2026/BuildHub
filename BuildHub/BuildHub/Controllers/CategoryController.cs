@@ -30,7 +30,7 @@ namespace BuildHub.Controllers
         }
 
         [HttpPost("AddCategory")]
-        public IActionResult UpdateType([FromQuery] CategoryInputDTOs category)
+        public IActionResult UpdateType([FromQuery] CategoryInputDto category)
         {
             int updated = categoryService.Add(category);
 

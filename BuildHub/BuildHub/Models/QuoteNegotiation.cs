@@ -7,37 +7,30 @@ public class QuoteNegotiation
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int quoteNegotiationId { get; set; } //System generated
+    public int QuoteNegotiationId { get; set; } //System generated
 
     [Required]
-    [ForeignKey("User")]
+    [ForeignKey(nameof(User))]
     public int UserId { get; set; }  //foreign key
     public User User { get; set; }
 
 
     [Required]
-    [ForeignKey("Quote")]
+    [ForeignKey(nameof(Quote))]
     public int QuoteId { get; set; } //foreign key
     public Quote Quote { get; set; }
 
 
-    [Required,Range(0,10) ]
-    public decimal proposedPrice { get; set; }//user input
+    [Required, Range(0, 10)]
+    public decimal ProposedPrice { get; set; }//user input
 
 
-    public string? proposedDurationDays { get; set; }//user input
+    public string? ProposedDurationDays { get; set; }//user input
 
     [MaxLength(1000)]
-    public string? message { get; set; }//user input
+    public string? Message { get; set; }//user input
 
 
     [Required]
-    public DateTime createIn { get; set; }  = DateTime.Now; // system generated 
-
-
-
-
-
-
-
+    public DateTime CreatedAt { get; set; } = DateTime.Now; // system generated
 }

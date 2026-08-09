@@ -6,40 +6,40 @@ namespace BuildHub.Models;
 public class Milestone
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int milestoneId { get; set; } //System genreated 
+    public int MilestoneId { get; set; } //System genreated
 
 
     [Required]
-    [ForeignKey("Contract")]
-    public int contractId { get; set; } //User input
+    [ForeignKey(nameof(Contract))]
+    public int ContractId { get; set; } //User input
     public Contract Contract { get; set; }
 
 
     [Required]
     [MaxLength(150)]
-    public string title { get; set; } //User input 
+    public string Title { get; set; } //User input
 
 
     [Required]
-    [Range(0.01, double.MaxValue,ErrorMessage = "Should be more than 0 ")]
-    public decimal amount { get; set; } // User input
+    [Range(0.01, double.MaxValue, ErrorMessage = "Should be more than 0 ")]
+    public decimal Amount { get; set; } // User input
 
 
     [Required]
-    [Range(0,int.MaxValue,ErrorMessage ="Should be more than 0")]
-    public int orderIndex { get; set; } // user input 
-    
+    [Range(0, int.MaxValue, ErrorMessage = "Should be more than 0")]
+    public int OrderIndex { get; set; } // user input
+
 
     [Required]
     [MaxLength(20)]
-    [AllowedValues("Pending","InProgress","Submitted For Review","Approved","Rejected")]
-    public string status { get; set; } = "Pending";//Defualt value 
+    [AllowedValues("Pending", "InProgress", "Submitted For Review", "Approved", "Rejected")]
+    public string Status { get; set; } = "Pending";//Defualt value
 
-    public DateTime endDate { get; set; } // I added for contract Service 
+    public DateTime EndDate { get; set; } // I added for contract Service
 
 
 
     public DateTime? DueDate { get; set; } // user input
 
-    
+
 }

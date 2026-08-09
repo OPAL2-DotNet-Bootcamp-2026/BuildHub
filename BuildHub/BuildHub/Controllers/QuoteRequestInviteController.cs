@@ -21,7 +21,7 @@ namespace BuildHub.Controllers
         public IActionResult GetAllQuoteRequestInvite()
         {
             // ask the service layer for all invites
-            List<QuoteRequestInviteOutputDTOs> result = quoteRequestInviteService.GetAllQuoteRequestInvite();
+            List<QuoteRequestInviteOutputDto> result = quoteRequestInviteService.GetAllQuoteRequestInvite();
             if (result.Count > 0)
             {
                 return Ok(result);
@@ -32,7 +32,7 @@ namespace BuildHub.Controllers
         [HttpGet("GetQuoteRequestInviteById/{id}")]
         public IActionResult GetQuoteRequestInviteById([FromRoute] int id)
         {
-            QuoteRequestInviteOutputDTOs invite = quoteRequestInviteService.GetQuoteRequestInviteById(id);
+            QuoteRequestInviteOutputDto invite = quoteRequestInviteService.GetQuoteRequestInviteById(id);
             if (invite == null)
             {
                 return NotFound(); // 404 notfound
@@ -41,7 +41,7 @@ namespace BuildHub.Controllers
         }
 
         [HttpPost("AddDTO")]
-        public IActionResult AddDTO([FromBody] QuoteRequestInviteInputDTOs invite)
+        public IActionResult AddDTO([FromBody] QuoteRequestInviteInputDto invite)
         {
             int inviteId = quoteRequestInviteService.Create(invite);
             return Ok(new { InviteId = inviteId }); //200, InviteId=1

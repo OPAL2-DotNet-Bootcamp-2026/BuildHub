@@ -20,7 +20,7 @@ namespace BuildHub.Controllers
         [HttpGet("{userId}")]
         public IActionResult GetMyNotifications([FromRoute] int userId)
         {
-            List<NotificationOutputDTO> result = notificationService.GetByUserId(userId);
+            List<NotificationOutputDto> result = notificationService.GetByUserId(userId);
 
             if (result.Count > 0)
                 return Ok(result);

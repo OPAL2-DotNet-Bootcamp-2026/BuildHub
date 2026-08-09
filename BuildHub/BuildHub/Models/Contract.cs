@@ -6,38 +6,38 @@ namespace BuildHub.Models;
 
 
 
-[Index (nameof(quoteId),IsUnique = true )]
+[Index(nameof(QuoteId), IsUnique = true)]
 public class Contract
 {
     [Required]
-    [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int contractId {  get; set; }//System generated
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int ContractId { get; set; }//System generated
 
 
 
     [Required]
-    [ForeignKey("Quote")]
-    public int quoteId { get; set; }  // user input 
-    public Quote quote { get; set; }
+    [ForeignKey(nameof(Quote))]
+    public int QuoteId { get; set; }  // user input
+    public Quote Quote { get; set; }
 
 
 
     [Required]
     [Range(0, int.MaxValue, ErrorMessage = "Should be more than 0")]
-    public decimal totalAmount { get; set; }//User input 
+    public decimal TotalAmount { get; set; }//User input
 
 
 
     [Required]
-    [AllowedValues("One time ","PreMilestone")]
-    public string paymentType { get; set; }//User input
+    [AllowedValues("One time ", "PreMilestone")]
+    public string PaymentType { get; set; }//User input
 
     [Required]
     [AllowedValues("Active", "Completed", "Disputted", "Cancelled")]
-    public string status { get; set; } = "Active";//Defult value 
+    public string Status { get; set; } = "Active";//Defult value
 
     [Required]
-    public DateTime signedAt { get; set; } = DateTime.UtcNow;// User input
+    public DateTime SignedAt { get; set; } = DateTime.UtcNow;// User input
 
     public List<Milestone> Milestones { get; set; }
     public List<EscrowTransaction> EscrowTransactions { get; set; }

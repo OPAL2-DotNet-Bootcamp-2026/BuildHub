@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class EscrowTransactionOutputDTO
+    public class EscrowTransactionOutputDto
     {
         public int EscrowTransactionId { get; set; }
         public int ContractId { get; set; }
@@ -13,7 +13,7 @@ namespace BuildHub.DTOs
         public DateTime? ReleasedAt { get; set; }
     }
 
-    public class EscrowTransactionInputDTO
+    public class EscrowTransactionInputDto
     {
         [Required(ErrorMessage = "Value should not be null.")]
         public int ContractId { get; set; }
@@ -25,9 +25,4 @@ namespace BuildHub.DTOs
         [Range(0.01, (double)decimal.MaxValue, ErrorMessage = "Amount must be greater than 0.")]
         public decimal Amount { get; set; }
     }
-
-
-
-
-
 }

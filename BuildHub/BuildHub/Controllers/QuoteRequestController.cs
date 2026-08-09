@@ -22,7 +22,7 @@ namespace BuildHub.Controllers
         [HttpGet("GetAllQuoteRequest")]
         public IActionResult GetAllQuoteRequest()
         {
-            List<QuoteRequestOutputDTOs> result = quoteRequestService.GetAllQuoteRequest();
+            List<QuoteRequestOutputDto> result = quoteRequestService.GetAllQuoteRequest();
 
             if (result.Count > 0)
             {
@@ -34,7 +34,7 @@ namespace BuildHub.Controllers
         [HttpGet("{id}")]
         public IActionResult GetQuoteRequestById([FromRoute] int id)
         {
-            QuoteRequestOutputDTOs quoteRequest = quoteRequestService.GetQuoteRequestById(id);
+            QuoteRequestOutputDto quoteRequest = quoteRequestService.GetQuoteRequestById(id);
 
             if (quoteRequest == null)
             {
@@ -45,7 +45,7 @@ namespace BuildHub.Controllers
 
 
         [HttpPost]
-        public IActionResult AddDTO([FromBody] QuoteRequestInputDTOs quoteRequest)
+        public IActionResult AddDTO([FromBody] QuoteRequestInputDto quoteRequest)
         {
 
             int quoteRequestId = quoteRequestService.Create(quoteRequest);

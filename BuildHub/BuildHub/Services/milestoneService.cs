@@ -1,7 +1,5 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Repos;
-using Microsoft.VisualBasic;
-using static BuildHub.DTOs.MilstoneDto;
 
 namespace BuildHub.Services
 {
@@ -19,13 +17,13 @@ namespace BuildHub.Services
             return repo.GetMilestonesByContractId(contractId)
                        .Select(m => new MilestoneOutputDto
                        {
-                           milestoneId = m.milestoneId,
-                           contractId = m.contractId,
-                           title = m.title,
-                           amount = m.amount,
-                           orderIndex = m.orderIndex,
-                           status = m.status,
-                           dueDate =  m.DueDate
+                           MilestoneId = m.MilestoneId,
+                           ContractId = m.ContractId,
+                           Title = m.Title,
+                           Amount = m.Amount,
+                           OrderIndex = m.OrderIndex,
+                           Status = m.Status,
+                           DueDate = m.DueDate
                        })
                        .ToList();
         }

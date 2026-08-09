@@ -186,7 +186,7 @@
                   "",
                   "function idOf(matchValue) {",
                   "    for (var i = 0; i < list.length; i++) {",
-                  "        if (String(field(list[i], \"companyName\")) === matchValue) return field(list[i], \"vendorProfileID\");",
+                  "        if (String(field(list[i], \"companyName\")) === matchValue) return field(list[i], \"vendorProfileId\");",
                   "    }",
                   "    return undefined;",
                   "}",
@@ -1099,7 +1099,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"projectId\": {{bathroomProjectId}},\n  \"categoryId\": {{categoryCeramicsId}},\n  \"description\": \"QA created quote request - safe to delete.\",\n  \"deadline\": \"2026-09-15T00:00:00Z\",\n  \"visibilityType\": \"Public\",\n  \"vendorProfileID\": {{vendorProfileId2}}\n}",
+              "raw": "{\n  \"projectId\": {{bathroomProjectId}},\n  \"categoryId\": {{categoryCeramicsId}},\n  \"description\": \"QA created quote request - safe to delete.\",\n  \"deadline\": \"2026-09-15T00:00:00Z\",\n  \"visibilityType\": \"Public\",\n  \"vendorProfileId\": {{vendorProfileId2}}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1676,7 +1676,7 @@
                   "});",
                   "pm.test(\"contract carries its milestones\", function () {",
                   "    var body = pm.response.json();",
-                  "    pm.expect(body.milstones || body.Milstones).to.not.eql(null);",
+                  "    pm.expect(body.milestones || body.Milestones).to.not.eql(null);",
                   "});"
                 ]
               }
@@ -1717,7 +1717,7 @@
           ]
         },
         {
-          "name": "Get Contract By Id (missing)",
+          "name": "Get Contract By Id (should be missing)",
           "request": {
             "method": "GET",
             "header": [],

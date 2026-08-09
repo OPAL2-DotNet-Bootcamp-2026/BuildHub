@@ -1,4 +1,4 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
 
@@ -15,62 +15,62 @@ namespace BuildHub.Services
             repo = _repo;
         }
 
-        public List<QuoteRequestInviteOutputDTOs> GetAllQuoteRequestInvite()
+        public List<QuoteRequestInviteOutputDto> GetAllQuoteRequestInvite()
         {
-            return repo.GetAllquoteRequestInvites()
-                       .Select(invite => new QuoteRequestInviteOutputDTOs
+            return repo.GetAllQuoteRequestInvites()
+                       .Select(invite => new QuoteRequestInviteOutputDto
                        {
-                           InviteId = invite.inviteId,
-                           QuoteRequestId = invite.quoteRequestId,
-                           VendorProfileId = invite.vendorProfileId,
-                           InviteStatus = invite.inviteStatus
+                           InviteId = invite.InviteId,
+                           QuoteRequestId = invite.QuoteRequestId,
+                           VendorProfileId = invite.VendorProfileId,
+                           InviteStatus = invite.InviteStatus
                        })
                        .ToList();
         }
 
-        public QuoteRequestInviteOutputDTOs GetQuoteRequestInviteById(int id)
+        public QuoteRequestInviteOutputDto GetQuoteRequestInviteById(int id)
         {
-            QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(id);
+            QuoteRequestInvite invite = repo.GetQuoteRequestInviteById(id);
             if (invite == null)
             {
                 return null;
             }
 
-            QuoteRequestInviteOutputDTOs output = new QuoteRequestInviteOutputDTOs();
-            output.InviteId = invite.inviteId;
-            output.QuoteRequestId = invite.quoteRequestId;
-            output.VendorProfileId = invite.vendorProfileId;
-            output.InviteStatus = invite.inviteStatus;
+            QuoteRequestInviteOutputDto output = new QuoteRequestInviteOutputDto();
+            output.InviteId = invite.InviteId;
+            output.QuoteRequestId = invite.QuoteRequestId;
+            output.VendorProfileId = invite.VendorProfileId;
+            output.InviteStatus = invite.InviteStatus;
             return output;
         }
 
-        public int Create(QuoteRequestInviteInputDTOs input)
+        public int Create(QuoteRequestInviteInputDto input)
         {
             QuoteRequestInvite invite = new QuoteRequestInvite();
-            invite.quoteRequestId = input.QuoteRequestId;
-            invite.vendorProfileId = input.VendorProfileId;
-            invite.inviteStatus = "Sent"; // system generated default, not from user input
+            invite.QuoteRequestId = input.QuoteRequestId;
+            invite.VendorProfileId = input.VendorProfileId;
+            invite.InviteStatus = "Sent"; // system generated default, not from user input
 
             repo.Add(invite);
-            return invite.inviteId;
+            return invite.InviteId;
         }
 
         public bool UpdateStatus(int inviteId, string newStatus)
         {
-            QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
+            QuoteRequestInvite invite = repo.GetQuoteRequestInviteById(inviteId);
             if (invite == null)
             {
                 return false;
             }
 
-            invite.inviteStatus = newStatus;
-            repo.Update(); // SaveChanges() 
+            invite.InviteStatus = newStatus;
+            repo.Update(); // SaveChanges()
             return true;
         }
 
         public bool Delete(int inviteId)
         {
-            QuoteRequestInvite invite = repo.GetquoteRequestInvitesById(inviteId);
+            QuoteRequestInvite invite = repo.GetQuoteRequestInviteById(inviteId);
             if (invite == null)
             {
                 return false;

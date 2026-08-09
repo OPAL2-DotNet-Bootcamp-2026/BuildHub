@@ -1,4 +1,4 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
 
@@ -30,12 +30,12 @@ namespace BuildHub.Services
         public int SubmitQuote(int quoteRequestId, int vendorProfileId, decimal price, int durationDays)
         {
             Quote quote = new Quote();
-            quote.quoteRequestId = quoteRequestId;
-            quote.vendorProfileId = vendorProfileId;
-            quote.price = price;
-            quote.durationDays = durationDays;
-            quote.status = "Pending";
-            quote.submittedAt = DateTime.Now;
+            quote.QuoteRequestId = quoteRequestId;
+            quote.VendorProfileId = vendorProfileId;
+            quote.Price = price;
+            quote.DurationDays = durationDays;
+            quote.Status = "Pending";
+            quote.SubmittedAt = DateTime.Now;
 
             quoteRepo.Add(quote);
 
@@ -44,7 +44,7 @@ namespace BuildHub.Services
             //int customerUserId = request.Project.ClientId;   // <-- depends on Dev B exposing the client (adjust if reachable differently)
             //notificationService.CreateNotification(customerUserId, "A vendor submitted a quote for your request", "QuoteSubmitted");
 
-            return quote.quoteId;
+            return quote.QuoteId;
         }
 
         // (2) customer accepts a quote -> mark accepted, notify vendor, trigger contract
@@ -56,23 +56,23 @@ namespace BuildHub.Services
                 return false;
 
             // Business rule: mark this quote as accepted
-            quote.status = "Accepted";
+            quote.Status = "Accepted";
             quoteRepo.Update();
 
             // notify the vendor who submitted the quote
-            VendorProfileResponseDTO vendor = vendorProfileRepo.GetById(quote.vendorProfileId);
+            VendorProfileResponseDto vendor = vendorProfileRepo.GetById(quote.VendorProfileId);
             int vendorUserId = vendor.UserId;   // <-- depends on Dev A's VendorProfile shape
             notificationService.CreateNotification(vendorUserId, "Your quote was accepted", "QuoteAccepted");
 
             // trigger contract generation (Dev D)
             DateTime startDate = DateTime.Now;
-            DateTime finishDate = startDate.AddDays(quote.durationDays);
+            DateTime finishDate = startDate.AddDays(quote.DurationDays);
 
-            contractService.CreateContractOnQuoteAcceptance(quote.quoteId, quote.price, startDate, finishDate);
+            contractService.CreateContractOnQuoteAcceptance(quote.QuoteId, quote.Price, startDate, finishDate);
             return true;
         }
 
-        public QuoteOutputDTO GetById(int quoteId)
+        public QuoteOutputDto GetById(int quoteId)
         {
             Quote quote = quoteRepo.GetById(quoteId);
 
@@ -82,16 +82,16 @@ namespace BuildHub.Services
             return MapToOutput(quote);
         }
 
-        private QuoteOutputDTO MapToOutput(Quote q)
+        private QuoteOutputDto MapToOutput(Quote q)
         {
-            QuoteOutputDTO dto = new QuoteOutputDTO();
-            dto.quoteId = q.quoteId;
-            dto.quoteRequestId = q.quoteRequestId;
-            dto.vendorProfileId = q.vendorProfileId;
-            dto.price = q.price;
-            dto.durationDays = q.durationDays;
-            dto.status = q.status;
-            dto.submittedAt = q.submittedAt;
+            QuoteOutputDto dto = new QuoteOutputDto();
+            dto.QuoteId = q.QuoteId;
+            dto.QuoteRequestId = q.QuoteRequestId;
+            dto.VendorProfileId = q.VendorProfileId;
+            dto.Price = q.Price;
+            dto.DurationDays = q.DurationDays;
+            dto.Status = q.Status;
+            dto.SubmittedAt = q.SubmittedAt;
             return dto;
         }
     }
