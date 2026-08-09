@@ -19,7 +19,7 @@ namespace BuildHub.Repos
 
         public Category GetById(int categoryId)
         {
-            return context.Categories.FirstOrDefault(c => c.categoryId == categoryId);
+            return context.Categories.FirstOrDefault(c => c.CategoryId == categoryId);
         }
 
         public void Add (Category category)

@@ -1,26 +1,23 @@
-﻿
 using BuildHub.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildHub.Repos
 {
-    public class contractRepo
+    public class ContractRepo
     {
         private ProjectContext context;
 
-        public contractRepo(ProjectContext _context)
+        public ContractRepo(ProjectContext _context)
         {
-            context = _context;   
+            context = _context;
         }
 
-
-
-          public Contract GetContractByIdWithDetails(int id)
+        public Contract GetContractByIdWithDetails(int id)
         {
             return context.Contracts
                 .Include(c => c.Milestones)
                 .Include(c => c.EscrowTransactions)
-                .FirstOrDefault(c => c.contractId == id);
+                .FirstOrDefault(c => c.ContractId == id);
         }
 
         public List<Contract> GetAllContracts()
@@ -28,10 +25,8 @@ namespace BuildHub.Repos
             return context.Contracts.ToList();
         }
 
-
-       
         public void AddContract(Contract contract)
-        { 
+        {
             context.Contracts.Add(contract);
             context.SaveChanges();
         }
@@ -46,8 +41,5 @@ namespace BuildHub.Repos
             context.Contracts.Remove(contract);
             context.SaveChanges();
         }
-
-
-
     }
 }

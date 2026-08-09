@@ -11,20 +11,20 @@ namespace BuildHub.Repos
             context = _context;
         }
 
-        public List<QuoteRequestInvite> GetAllquoteRequestInvites()
+        public List<QuoteRequestInvite> GetAllQuoteRequestInvites()
         {
             return context.QuoteRequestInvites.ToList();
         }
 
-        public QuoteRequestInvite GetquoteRequestInvitesById(int id)
+        public QuoteRequestInvite GetQuoteRequestInviteById(int id)
         {
-            return context.QuoteRequestInvites.FirstOrDefault(q => q.inviteId == id);
+            return context.QuoteRequestInvites.FirstOrDefault(q => q.InviteId == id);
         }
 
         public List<QuoteRequestInvite> GetByQuoteRequestId(int quoteRequestId)
         {
             return context.QuoteRequestInvites
-                           .Where(q => q.quoteRequestId == quoteRequestId)
+                           .Where(q => q.QuoteRequestId == quoteRequestId)
                            .ToList();
         }
 
