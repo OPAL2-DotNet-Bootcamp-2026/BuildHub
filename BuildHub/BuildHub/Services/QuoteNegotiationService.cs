@@ -1,7 +1,6 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BuildHub.Services
 {
@@ -14,44 +13,52 @@ namespace BuildHub.Services
             repo = _repo;
         }
 
-        public List<QuoteNegotiationOutputDTO> GetAllQuoteNegotiations()
+        public List<QuoteNegotiationOutputDto> GetAllQuoteNegotiations()
         {
             return repo.GetAllQuoteNegotiations()
-                       .Select(n => new QuoteNegotiationOutputDTO
+                       .Select(n => new QuoteNegotiationOutputDto
                        {
-                           quoteNegotiationId = n.quoteNegotiationId,
-                           userId = n.UserId,
-                           proposedPrice = n.proposedPrice,
-                           proposedDurationDays = n.proposedDurationDays,
-                           createIn = n.createIn,
+                           QuoteNegotiationId = n.QuoteNegotiationId,
+                           UserId = n.UserId,
+                           ProposedPrice = n.ProposedPrice,
+                           ProposedDurationDays = n.ProposedDurationDays,
+                           CreatedAt = n.CreatedAt,
                        })
                        .ToList();
         }
 
-        public QuoteNegotiationOutputDTO GetQuoteNegotiationById(int id)
+        public QuoteNegotiationOutputDto GetQuoteNegotiationById(int id)
         {
-            QuoteNegotiation q = repo.GetAllQuoteNegotiationById(id);
+            QuoteNegotiation q = repo.GetQuoteNegotiationById(id);
 
             if (q == null)
             {
                 return null;
             }
 
-            QuoteNegotiationOutputDTO output = new QuoteNegotiationOutputDTO();
-            output.quoteNegotiationId = q.quoteNegotiationId;
-            output.userId = q.UserId;
-            output.proposedPrice = q.proposedPrice;
-            output.proposedDurationDays = q.proposedDurationDays;
-            output.createIn = q.createIn;
+            QuoteNegotiationOutputDto output = new QuoteNegotiationOutputDto();
+            output.QuoteNegotiationId = q.QuoteNegotiationId;
+            output.UserId = q.UserId;
+            output.ProposedPrice = q.ProposedPrice;
+            output.ProposedDurationDays = q.ProposedDurationDays;
+            output.CreatedAt = q.CreatedAt;
 
             return output;
         }
 
-        public int Create(QuoteNegotiation quoteNegotiation)
+        public int Create(QuoteNegotiationInputDto input)
         {
+            QuoteNegotiation quoteNegotiation = new QuoteNegotiation();
+            quoteNegotiation.UserId = input.UserId;
+            quoteNegotiation.QuoteId = input.QuoteId;
+            quoteNegotiation.ProposedPrice = input.ProposedPrice;
+            quoteNegotiation.ProposedDurationDays = input.ProposedDurationDays;
+            quoteNegotiation.Message = input.Message;
+            quoteNegotiation.CreatedAt = DateTime.Now;
+
             repo.Add(quoteNegotiation);
-           
-            return quoteNegotiation.quoteNegotiationId;
+
+            return quoteNegotiation.QuoteNegotiationId;
         }
     }
 }

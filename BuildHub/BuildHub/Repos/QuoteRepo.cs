@@ -20,7 +20,7 @@ namespace BuildHub.Repos
 
         public Quote GetById(int quoteId)
         {
-            return context.Quotes.FirstOrDefault(q => q.quoteId == quoteId);
+            return context.Quotes.FirstOrDefault(q => q.QuoteId == quoteId);
         }
 
         // status change is done by the service, then committed here

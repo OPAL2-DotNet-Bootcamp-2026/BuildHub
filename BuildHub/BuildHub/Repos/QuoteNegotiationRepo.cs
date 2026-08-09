@@ -20,19 +20,15 @@ namespace BuildHub.Repos
 
 
 
-        public QuoteNegotiation GetAllQuoteNegotiationById(int id)
-
+        public QuoteNegotiation GetQuoteNegotiationById(int id)
         {
-            return context.QuoteNegotiations.FirstOrDefault(q => q.quoteNegotiationId == id);
-        
+            return context.QuoteNegotiations.FirstOrDefault(q => q.QuoteNegotiationId == id);
         }
 
-        public void  Add (QuoteNegotiation QuoteNegotiationq)
-
+        public void Add(QuoteNegotiation quoteNegotiation)
         {
-            context.QuoteNegotiations.Add(QuoteNegotiationq);
+            context.QuoteNegotiations.Add(quoteNegotiation);
             context.SaveChanges();
-
         }
 
         public void Update()

@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace BuildHub.DTOs
 {
-    public class QuoteRequestInputDTOs
+    public class QuoteRequestInputDto
     {
-
         [Required(ErrorMessage = "Value should not be null.")]
         public int ProjectId { get; set; }
 
@@ -21,18 +20,15 @@ namespace BuildHub.DTOs
         public string VisibilityType { get; set; }
 
         [Required(ErrorMessage = "Value should not be null.")]
-        public int VendorProfileID { get; set; }
+        public int VendorProfileId { get; set; }
     }
 
-    public class QuoteRequestOutputDTOs
+    public class QuoteRequestOutputDto
     {
-
         public int QuoteRequestId { get; set; }
         public string Description { get; set; }
         public DateTime? Deadline { get; set; }
         public string VisibilityType { get; set; }
         public string Status { get; set; }
-
-
     }
 }

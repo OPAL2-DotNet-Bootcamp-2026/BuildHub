@@ -16,7 +16,7 @@ namespace BuildHub.Repos
             return _context.Projects.ToList();
         }
 
-        public Project Add(int id)
+        public Project GetById(int id)
         {
             Project project = _context.Projects.FirstOrDefault(p => p.ProjectId == id);
             return project;

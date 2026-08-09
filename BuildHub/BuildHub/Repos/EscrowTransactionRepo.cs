@@ -20,7 +20,7 @@ namespace BuildHub.Repos
         public EscrowTransaction GetByMilestoneId(int milestoneId)
         {
             return context.EscrowTransactions
-                           .FirstOrDefault(e => e.milestoneId == milestoneId);
+                           .FirstOrDefault(e => e.MilestoneId == milestoneId);
         }
 
         public void Update()

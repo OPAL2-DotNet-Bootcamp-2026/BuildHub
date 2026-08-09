@@ -4,31 +4,31 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildHub.Models;
 
-[Index(nameof(milestoneId), IsUnique = true)]
+[Index(nameof(MilestoneId), IsUnique = true)]
 public class EscrowTransaction
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int escrowTransactionId { get; set; }
+    public int EscrowTransactionId { get; set; }
 
     [Required]
-    [ForeignKey("Contract")]
-    public int contractId { get; set; }
+    [ForeignKey(nameof(Contract))]
+    public int ContractId { get; set; }
     public Contract Contract { get; set; }
 
-    [ForeignKey("Milestone")]
-    public int? milestoneId { get; set; }
+    [ForeignKey(nameof(Milestone))]
+    public int? MilestoneId { get; set; }
     public Milestone Milestone { get; set; }
 
     [Required]
     [Column(TypeName = "decimal(12,2)")]
-    public decimal amount { get; set; }
+    public decimal Amount { get; set; }
 
     [Required]
     [MaxLength(20)]
-    public string status { get; set; } = "Held";
+    public string Status { get; set; } = "Held";
 
-    public DateTime? heldAt { get; set; }
+    public DateTime? HeldAt { get; set; }
 
-    public DateTime? releasedAt { get; set; }
+    public DateTime? ReleasedAt { get; set; }
 
 }

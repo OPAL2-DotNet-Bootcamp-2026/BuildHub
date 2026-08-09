@@ -36,12 +36,12 @@ namespace BuildHub.Repos
 
         public List<Milestone> GetMilestonesByContractId(int contractId)
         {
-            return context.Milestones.Where(m => m.contractId == contractId).ToList();
+            return context.Milestones.Where(m => m.ContractId == contractId).ToList();
         }
         public Milestone GetAllMilestoneById(int id)
 
         { 
-            return context.Milestones.FirstOrDefault(m => m.milestoneId == id);
+            return context.Milestones.FirstOrDefault(m => m.MilestoneId == id);
 
         }
         

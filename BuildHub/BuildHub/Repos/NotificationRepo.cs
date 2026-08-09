@@ -19,14 +19,14 @@ namespace BuildHub.Repos
 
         public Notification GetById(int notificationId)
         {
-            return context.Notifications.FirstOrDefault(c => c.notificationId == notificationId);
+            return context.Notifications.FirstOrDefault(c => c.NotificationId == notificationId);
         }
 
         public List<Notification> GetByUserId(int userId)
         {
             return context.Notifications
-                .Where(n => n.userId == userId)
-                .OrderByDescending(n => n.createdAt)
+                .Where(n => n.UserId == userId)
+                .OrderByDescending(n => n.CreatedAt)
                 .ToList();
         }
 

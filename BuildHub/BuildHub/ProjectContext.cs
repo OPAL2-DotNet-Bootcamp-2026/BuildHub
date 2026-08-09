@@ -1,4 +1,4 @@
-﻿using BuildHub.enums;
+﻿using BuildHub.Enums;
 using BuildHub.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,13 +32,13 @@ namespace BuildHub
             modelBuilder.Entity<QuoteRequestInvite>()
                 .HasOne(i => i.VendorProfile)
                 .WithMany(v => v.QuoteRequestInvites) 
-                .HasForeignKey(i => i.vendorProfileId)
+                .HasForeignKey(i => i.VendorProfileId)
                 .OnDelete(DeleteBehavior.Restrict); // or Restrict
             
             modelBuilder.Entity<Quote>()
                 .HasOne(q => q.VendorProfile)
                 .WithMany(v => v.Quotes)
-                .HasForeignKey(q => q.vendorProfileId)
+                .HasForeignKey(q => q.VendorProfileId)
                 .OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<QuoteNegotiation>()

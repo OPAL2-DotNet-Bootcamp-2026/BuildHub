@@ -1,6 +1,6 @@
-﻿namespace BuildHub.DTOs
+namespace BuildHub.DTOs
 {
-    public class ProductDTOs
+    public class ProductDtos
     {
     }
 }

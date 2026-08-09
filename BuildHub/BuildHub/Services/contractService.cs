@@ -1,16 +1,15 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
-using static BuildHub.DTOs.contractDto;
 
 namespace BuildHub.Services
 {
     public class ContractService
     {
-        private readonly contractRepo _contractRepo;
-        private readonly EscrowTransactionService _escrowService; 
+        private readonly ContractRepo _contractRepo;
+        private readonly EscrowTransactionService _escrowService;
 
-        public ContractService(contractRepo contractRepo, EscrowTransactionService escrowService)
+        public ContractService(ContractRepo contractRepo, EscrowTransactionService escrowService)
         {
             _contractRepo = contractRepo;
             _escrowService = escrowService;
@@ -23,29 +22,29 @@ namespace BuildHub.Services
 
             return new ContractDetailsOutputDto
             {
-                contractId = contract.contractId,
-                quoteId = contract.quoteId,
-                totalAmount = contract.totalAmount,
-                paymentType = contract.paymentType,
-                status = contract.status,
-                signedAt = contract.signedAt,
+                ContractId = contract.ContractId,
+                QuoteId = contract.QuoteId,
+                TotalAmount = contract.TotalAmount,
+                PaymentType = contract.PaymentType,
+                Status = contract.Status,
+                SignedAt = contract.SignedAt,
 
-                milstones = contract.Milestones?.Select(m => new MilstoneDto
+                Milestones = contract.Milestones?.Select(m => new MilestoneSummaryDto
                 {
-                    milestoneId = m.milestoneId,
-                    title = m.title,
-                    amount = m.amount,
-                    DueDate = m.DueDate, 
-                    endDate = m.endDate,
-                    status = m.status
+                    MilestoneId = m.MilestoneId,
+                    Title = m.Title,
+                    Amount = m.Amount,
+                    DueDate = m.DueDate,
+                    EndDate = m.EndDate,
+                    Status = m.Status
                 }).ToList(),
 
-                escrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionOutputDTO
+                EscrowTransactions = contract.EscrowTransactions?.Select(e => new EscrowTransactionOutputDto
                 {
-                    EscrowTransactionId = e.escrowTransactionId,
-                    Amount = e.amount,
-                    Status = e.status,
-                    HeldAt = e.heldAt
+                    EscrowTransactionId = e.EscrowTransactionId,
+                    Amount = e.Amount,
+                    Status = e.Status,
+                    HeldAt = e.HeldAt
                 }).ToList()
             };
         }
@@ -54,27 +53,27 @@ namespace BuildHub.Services
         {
             var newContract = new Contract
             {
-                quoteId = quoteId,
-                totalAmount = totalAmount,
-                paymentType = "OneTime",
-                status = "Active",
-                signedAt = DateTime.Now
+                QuoteId = quoteId,
+                TotalAmount = totalAmount,
+                PaymentType = "OneTime",
+                Status = "Active",
+                SignedAt = DateTime.Now
             };
-            
+
             var fullProjectMilestone = new Milestone
             {
-                title = "Full Project Milestone",
-                amount = totalAmount,
+                Title = "Full Project Milestone",
+                Amount = totalAmount,
                 DueDate = startDate,
-                endDate = finishDate,
-                status = "Pending"
+                EndDate = finishDate,
+                Status = "Pending"
             };
 
             newContract.Milestones = new List<Milestone> { fullProjectMilestone };
 
             _contractRepo.AddContract(newContract);
 
-            _escrowService.OpenEscrowHold(newContract.contractId, fullProjectMilestone.milestoneId, totalAmount);
+            _escrowService.OpenEscrowHold(newContract.ContractId, fullProjectMilestone.MilestoneId, totalAmount);
         }
     }
 }

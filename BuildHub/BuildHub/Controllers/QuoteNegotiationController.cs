@@ -21,7 +21,7 @@ namespace BuildHub.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            List<QuoteNegotiationOutputDTO> result = negotiationService.GetAllQuoteNegotiations();
+            List<QuoteNegotiationOutputDto> result = negotiationService.GetAllQuoteNegotiations();
 
             if (result != null && result.Count > 0)
             {
@@ -35,7 +35,7 @@ namespace BuildHub.Controllers
         [HttpGet("GetById/{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
-            QuoteNegotiationOutputDTO result = negotiationService.GetQuoteNegotiationById(id);
+            QuoteNegotiationOutputDto result = negotiationService.GetQuoteNegotiationById(id);
 
             if (result == null)
             {
@@ -46,7 +46,7 @@ namespace BuildHub.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult Add([FromBody] QuoteNegotiation quoteNegotiation)
+        public IActionResult Add([FromBody] QuoteNegotiationInputDto quoteNegotiation)
         {
             if (!ModelState.IsValid)
             {

@@ -1,4 +1,4 @@
-﻿using BuildHub.DTOs;
+using BuildHub.DTOs;
 using BuildHub.Models;
 using BuildHub.Repos;
 
@@ -18,7 +18,7 @@ namespace BuildHub.Services
             return _userRepo.GetAll();
         }
 
-        public UserResponseDTO GetUserById(int id)
+        public UserResponseDto GetUserById(int id)
         {
             return _userRepo.GetById(id);
         }
@@ -30,33 +30,33 @@ namespace BuildHub.Services
         }
 
         // this is example on email update
-        public UserResponseDTO UpdateUser(int id, UserUpdateDTO dto)
+        public UserResponseDto UpdateUser(int id, UserUpdateDto dto)
         {
-            UserResponseDTO user = _userRepo.GetById(id);
+            UserResponseDto user = _userRepo.GetById(id);
             if (user == null)
             {
                 return null;
             }
-            
+
             user.Email = dto.Email;
             _userRepo.Update();
-            
-            UserResponseDTO response = new UserResponseDTO();
+
+            UserResponseDto response = new UserResponseDto();
             response.UserId = user.UserId;
             response.FullName = user.FullName;
             response.Email = user.Email;
-            
+
             return response;
         }
 
         public bool DeleteUser(int id)
         {
-            UserResponseDTO user = _userRepo.GetById(id);
+            UserResponseDto user = _userRepo.GetById(id);
             if (user == null)
             {
                 return false;
             }
-            
+
             _userRepo.Delete(user.UserId);
             return true;
         }

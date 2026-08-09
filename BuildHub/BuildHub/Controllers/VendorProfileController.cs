@@ -31,7 +31,7 @@ namespace BuildHub.Controllers
         [HttpGet("Vendors/{id}")]
         public IActionResult GetVendorById([FromRoute] int id)
         {
-            VendorProfileResponseDTO vendorProfile = _vendorProfileService.GetVendorProfileById(id);
+            VendorProfileResponseDto vendorProfile = _vendorProfileService.GetVendorProfileById(id);
 
             if (vendorProfile == null)
             {

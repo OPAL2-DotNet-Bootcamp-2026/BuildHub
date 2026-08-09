@@ -35,7 +35,7 @@ namespace BuildHub.Controllers
         public IActionResult GetUserById([FromRoute] int id)
         {
             //should replace user with response dto
-            UserResponseDTO user = _userService.GetUserById(id);
+            UserResponseDto user = _userService.GetUserById(id);
 
             if (user == null)
                 return NotFound(new { message = $"User with ID {id} was not found." });
@@ -57,9 +57,9 @@ namespace BuildHub.Controllers
         }
 
         [HttpPut("UpdateUserEmail")]
-        public IActionResult UpdateUserEmail(int id, UserUpdateDTO user)
+        public IActionResult UpdateUserEmail(int id, UserUpdateDto user)
         {
-            UserResponseDTO response = _userService.UpdateUser(id, user);
+            UserResponseDto response = _userService.UpdateUser(id, user);
 
             if (response == null)
             {

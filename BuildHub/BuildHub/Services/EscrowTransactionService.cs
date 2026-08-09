@@ -1,4 +1,4 @@
-﻿using BuildHub.Models;
+using BuildHub.Models;
 using BuildHub.Repos;
 
 namespace BuildHub.Services
@@ -6,7 +6,7 @@ namespace BuildHub.Services
     public class EscrowTransactionService
     {
         //EscrowTransactionRepo repo = new EscrowTransactionRepo();
-        //apply dependency inversion 
+        //apply dependency inversion
         private EscrowTransactionRepo repo;
 
         public EscrowTransactionService(EscrowTransactionRepo _repo)
@@ -17,15 +17,15 @@ namespace BuildHub.Services
         public int OpenEscrowHold(int contractId, int milestoneId, decimal amount)
         {
             EscrowTransaction escrowTransaction = new EscrowTransaction();
-            escrowTransaction.contractId = contractId;
-            escrowTransaction.milestoneId = milestoneId;
-            escrowTransaction.amount = amount;
-            escrowTransaction.status = "Held"; // mocked hold
-            escrowTransaction.heldAt = DateTime.UtcNow;
-            escrowTransaction.releasedAt = null;
+            escrowTransaction.ContractId = contractId;
+            escrowTransaction.MilestoneId = milestoneId;
+            escrowTransaction.Amount = amount;
+            escrowTransaction.Status = "Held"; // mocked hold
+            escrowTransaction.HeldAt = DateTime.UtcNow;
+            escrowTransaction.ReleasedAt = null;
 
             repo.Add(escrowTransaction);
-            return escrowTransaction.escrowTransactionId;
+            return escrowTransaction.EscrowTransactionId;
         }
 
         public EscrowTransaction GetByMilestoneId(int milestoneId)
@@ -41,11 +41,11 @@ namespace BuildHub.Services
                 return false;
             }
 
-            escrowTransaction.status = newStatus;
+            escrowTransaction.Status = newStatus;
 
             if (newStatus == "Released")
             {
-                escrowTransaction.releasedAt = DateTime.UtcNow;
+                escrowTransaction.ReleasedAt = DateTime.UtcNow;
             }
 
             repo.Update();

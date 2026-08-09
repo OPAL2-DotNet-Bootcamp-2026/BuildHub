@@ -18,7 +18,7 @@ namespace BuildHub.Services
             return _vendorProfileRepo.GetAll();
         }
 
-        public VendorProfileResponseDTO GetVendorProfileById(int id) 
+        public VendorProfileResponseDto GetVendorProfileById(int id)
         {
             return _vendorProfileRepo.GetById(id);
         }

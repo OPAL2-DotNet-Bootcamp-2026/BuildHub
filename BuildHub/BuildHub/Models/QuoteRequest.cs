@@ -1,4 +1,4 @@
- using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildHub.Models;
@@ -6,26 +6,26 @@ namespace BuildHub.Models;
 public class QuoteRequest
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int qutoeRequestId { get; set; }  // system generated
+    public int QuoteRequestId { get; set; }  // system generated
 
-    [ForeignKey("Project")]
-    public int projectId { get; set; }     // foreign key
+    [ForeignKey(nameof(Project))]
+    public int ProjectId { get; set; }     // foreign key
     public Project Project { get; set; }
 
-    [ForeignKey("Category")]
-    public int categoryId { get; set; }     // foreign key
+    [ForeignKey(nameof(Category))]
+    public int CategoryId { get; set; }     // foreign key
     public Category Category { get; set; }
 
     [Required]
-    public string description { get; set; }     // user input
+    public string Description { get; set; }     // user input
 
-    public DateTime? deadline { get; set; }     // user input
+    public DateTime? Deadline { get; set; }     // user input
 
     [Required]
     [MaxLength(10)]
-    public string visibilityType { get; set; }     // user input
+    public string VisibilityType { get; set; }     // user input
 
     [Required]
     [MaxLength(20)]
-    public string status { get; set; } = "Open";   // default value
+    public string Status { get; set; } = "Open";   // default value
 }

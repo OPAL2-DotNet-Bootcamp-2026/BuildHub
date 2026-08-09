@@ -17,13 +17,13 @@ namespace BuildHub.Repos
             return _context.Users.ToList();
         }
 
-        public UserResponseDTO? GetById(int id)
+        public UserResponseDto? GetById(int id)
         {
             User user = _context.Users.FirstOrDefault(u => u.UserId == id);
 
             if (user == null) { return null; }
 
-            UserResponseDTO response = new UserResponseDTO()
+            UserResponseDto response = new UserResponseDto()
             {
                 UserId = user.UserId,
                 FullName = user.FullName,
@@ -38,11 +38,11 @@ namespace BuildHub.Repos
             return response;
         }
 
-        public UserResponseDTO? GetByEmail(string email)
+        public UserResponseDto? GetByEmail(string email)
         {
             User user = _context.Users.FirstOrDefault(u => u.Email == email);
 
-            UserResponseDTO response = new UserResponseDTO()
+            UserResponseDto response = new UserResponseDto()
             {
                 UserId = user.UserId,
                 FullName = user.FullName,

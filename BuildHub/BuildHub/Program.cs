@@ -32,7 +32,7 @@ namespace BuildHub
             builder.Services.AddScoped<ProjectRepo>();
             builder.Services.AddScoped<QuoteNegotiationRepo>();
             builder.Services.AddScoped<MilestoneRepo>();
-            builder.Services.AddScoped<contractRepo>();
+            builder.Services.AddScoped<ContractRepo>();
             builder.Services.AddScoped<NotificationRepo>();
             builder.Services.AddScoped<CategoryRepo>();
             builder.Services.AddScoped<ProductRepo>();
