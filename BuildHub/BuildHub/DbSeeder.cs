@@ -11,7 +11,7 @@ namespace BuildHub
     /// vendor -> user, review -> vendor/product/contract) instead of hardcoding IDs.
     /// Safe to call every startup: it checks for existing data first.
     ///
-    /// Rows whose name/description starts with "QA " or "[QA-...]" are throwaway
+    /// Rows whose Name/Description starts with "QA " or "[QA-...]" are throwaway
     /// fixtures for the Postman collection: nothing else in the seed references
     /// them, so the update/delete requests can hit them without breaking the rows
     /// the read requests assert on.
@@ -19,7 +19,7 @@ namespace BuildHub
     public static class DbSeeder
     {
         // Tables in FK-safe delete order (children before parents). Categories is
-        // handled separately below since it self-references via parentCategoryId.
+        // handled separately below since it self-references via ParentCategoryId.
         private static readonly string[] TablesInDeleteOrder =
         {
             "Reviews",
@@ -50,7 +50,7 @@ namespace BuildHub
             foreach (var table in TablesInDeleteOrder)
                 await context.Database.ExecuteSqlRawAsync($"DELETE FROM [{table}]");
 
-            await context.Database.ExecuteSqlRawAsync("UPDATE [Categories] SET [parentCategoryId] = NULL");
+            await context.Database.ExecuteSqlRawAsync("UPDATE [Categories] SET [ParentCategoryId] = NULL");
             await context.Database.ExecuteSqlRawAsync("DELETE FROM [Categories]");
 
             foreach (var table in TablesInDeleteOrder)
@@ -82,17 +82,17 @@ namespace BuildHub
             var now = DateTime.UtcNow;
 
             // ---- Categories (self-referencing: parent -> children) ----
-            var kitchens = new Category { nameEn = "Kitchens", nameAr = "مطابخ", type = "Service" };
-            var cabinets = new Category { nameEn = "Cabinets", nameAr = "خزائن", type = "Service", ParentCategory = kitchens };
-            var ceramics = new Category { nameEn = "Ceramics", nameAr = "سيراميك", type = "Material" };
-            var wallTiles = new Category { nameEn = "Wall Tiles", nameAr = "بلاط جداري", type = "Material", ParentCategory = ceramics };
-            var plumbing = new Category { nameEn = "Plumbing", nameAr = "سباكة", type = "Service" };
-            var electrical = new Category { nameEn = "Electrical", nameAr = "كهرباء", type = "Service" };
-            var flooring = new Category { nameEn = "Flooring", nameAr = "أرضيات", type = "Material" };
+            var kitchens = new Category { NameEn = "Kitchens", NameAr = "مطابخ", Type = "Service" };
+            var cabinets = new Category { NameEn = "Cabinets", NameAr = "خزائن", Type = "Service", ParentCategory = kitchens };
+            var ceramics = new Category { NameEn = "Ceramics", NameAr = "سيراميك", Type = "Material" };
+            var wallTiles = new Category { NameEn = "Wall Tiles", NameAr = "بلاط جداري", Type = "Material", ParentCategory = ceramics };
+            var plumbing = new Category { NameEn = "Plumbing", NameAr = "سباكة", Type = "Service" };
+            var electrical = new Category { NameEn = "Electrical", NameAr = "كهرباء", Type = "Service" };
+            var flooring = new Category { NameEn = "Flooring", NameAr = "أرضيات", Type = "Material" };
 
             // Throwaway fixtures — nothing below references these two.
-            var qaSpareCategory = new Category { nameEn = "QA Spare Category", nameAr = "فئة احتياطية", type = "Service" };
-            var qaScrapCategory = new Category { nameEn = "QA Scrap Category", nameAr = "فئة للحذف", type = "Material" };
+            var qaSpareCategory = new Category { NameEn = "QA Spare Category", NameAr = "فئة احتياطية", Type = "Service" };
+            var qaScrapCategory = new Category { NameEn = "QA Scrap Category", NameAr = "فئة للحذف", Type = "Material" };
 
             context.Categories.AddRange(
                 kitchens, cabinets, ceramics, wallTiles, plumbing, electrical, flooring,
@@ -193,7 +193,7 @@ namespace BuildHub
             await context.SaveChangesAsync(); // save now so generated UserIds exist for Project.ClientId and VendorProfile.UserId below
 
             // ---- Projects (linked to the client users) ----
-            // This is what QuoteRequest.projectId needs to reference — seed at least
+            // This is what QuoteRequest.ProjectId needs to reference — seed at least
             // one so QuoteRequest creation has a real, valid ProjectId to point at.
             var kitchenProject = new Project
             {
@@ -202,7 +202,7 @@ namespace BuildHub
                 Description = "Full kitchen renovation including cabinets, countertops, and ceramic flooring.",
                 City = "Muscat",
                 Budget = 3500m,
-                Status = enums.ProjectStatus.Active,
+                Status = Enums.ProjectStatus.Active,
                 CreatedAt = now
             };
 
@@ -213,7 +213,7 @@ namespace BuildHub
                 Description = "Replace existing tiles with new ceramic flooring and wall tiles.",
                 City = "Muscat",
                 Budget = 1200m,
-                Status = enums.ProjectStatus.Active,
+                Status = Enums.ProjectStatus.Active,
                 CreatedAt = now
             };
 
@@ -224,7 +224,7 @@ namespace BuildHub
                 Description = "Supply and install new flooring for a 60 m2 majlis.",
                 City = "Muscat",
                 Budget = 2000m,
-                Status = enums.ProjectStatus.Active,
+                Status = Enums.ProjectStatus.Active,
                 CreatedAt = now.AddDays(-20)
             };
 
@@ -235,7 +235,7 @@ namespace BuildHub
                 Description = "Rewire the ground floor and replace all ceiling lighting.",
                 City = "Muscat",
                 Budget = 4200m,
-                Status = enums.ProjectStatus.Draft,
+                Status = Enums.ProjectStatus.Draft,
                 CreatedAt = now.AddDays(-15)
             };
 
@@ -248,22 +248,22 @@ namespace BuildHub
                 Description = "Holds the throwaway quote requests used by the Postman update/delete requests.",
                 City = "Muscat",
                 Budget = 100m,
-                Status = enums.ProjectStatus.Draft,
+                Status = Enums.ProjectStatus.Draft,
                 CreatedAt = now
             };
 
             context.Projects.AddRange(
                 kitchenProject, bathroomProject, flooringProject, electricalProject, qaSandboxProject);
-            await context.SaveChangesAsync(); // save now so generated ProjectIds exist for QuoteRequest.projectId
+            await context.SaveChangesAsync(); // save now so generated ProjectIds exist for QuoteRequest.ProjectId
 
             // ---- VendorProfiles (one per vendor user — UserId is unique) ----
             var vendorProfile = new VendorProfile
             {
                 UserId = vendorUser.UserId,
                 CompanyName = "Al-Habsi Kitchens & Interiors",
-                VendorType = enums.VendorType.Contractor,
+                VendorType = Enums.VendorType.Contractor,
                 City = "Muscat",
-                IsVerfied = true,
+                IsVerified = true,
                 AverageRating = 4.5m,
                 Balance = 0m
             };
@@ -272,9 +272,9 @@ namespace BuildHub
             {
                 UserId = vendorUser2.UserId,
                 CompanyName = "Al-Riyami Ceramics & Tiles",
-                VendorType = enums.VendorType.Store,
+                VendorType = Enums.VendorType.Store,
                 City = "Muscat",
-                IsVerfied = true,
+                IsVerified = true,
                 AverageRating = 4.0m,
                 Balance = 0m
             };
@@ -283,9 +283,9 @@ namespace BuildHub
             {
                 UserId = vendorUser3.UserId,
                 CompanyName = "Al-Kindi Electrical Works",
-                VendorType = enums.VendorType.Contractor,
+                VendorType = Enums.VendorType.Contractor,
                 City = "Sohar",
-                IsVerfied = false,
+                IsVerified = false,
                 AverageRating = 3.5m,
                 Balance = 150m
             };
@@ -296,62 +296,62 @@ namespace BuildHub
             // ---- Products (linked to vendorProfile + category) ----
             var cabinetProduct = new Product
             {
-                vendorProfileId = vendorProfile.VendorProfileID,
-                categoryId = cabinets.categoryId,
-                name = "Custom Kitchen Cabinet Set",
-                unit = "Set",
-                currentPrice = 1200m,
-                isAvailable = true
+                VendorProfileId = vendorProfile.VendorProfileId,
+                CategoryId = cabinets.CategoryId,
+                Name = "Custom Kitchen Cabinet Set",
+                Unit = "Set",
+                CurrentPrice = 1200m,
+                IsAvailable = true
             };
 
             var tileProduct = new Product
             {
-                vendorProfileId = vendorProfile2.VendorProfileID,
-                categoryId = ceramics.categoryId,
-                name = "Premium Ceramic Floor Tile",
-                unit = "m2",
-                currentPrice = 8.5m,
-                isAvailable = true
+                VendorProfileId = vendorProfile2.VendorProfileId,
+                CategoryId = ceramics.CategoryId,
+                Name = "Premium Ceramic Floor Tile",
+                Unit = "m2",
+                CurrentPrice = 8.5m,
+                IsAvailable = true
             };
 
             var countertopProduct = new Product
             {
-                vendorProfileId = vendorProfile.VendorProfileID,
-                categoryId = cabinets.categoryId,
-                name = "Quartz Countertop Slab",
-                unit = "m2",
-                currentPrice = 45m,
-                isAvailable = true
+                VendorProfileId = vendorProfile.VendorProfileId,
+                CategoryId = cabinets.CategoryId,
+                Name = "Quartz Countertop Slab",
+                Unit = "m2",
+                CurrentPrice = 45m,
+                IsAvailable = true
             };
 
             var wallTileProduct = new Product
             {
-                vendorProfileId = vendorProfile2.VendorProfileID,
-                categoryId = wallTiles.categoryId,
-                name = "Matte Wall Tile 30x60",
-                unit = "m2",
-                currentPrice = 6.75m,
-                isAvailable = true
+                VendorProfileId = vendorProfile2.VendorProfileId,
+                CategoryId = wallTiles.CategoryId,
+                Name = "Matte Wall Tile 30x60",
+                Unit = "m2",
+                CurrentPrice = 6.75m,
+                IsAvailable = true
             };
 
             var spotlightProduct = new Product
             {
-                vendorProfileId = vendorProfile3.VendorProfileID,
-                categoryId = electrical.categoryId,
-                name = "LED Ceiling Spotlight 12W",
-                unit = "Piece",
-                currentPrice = 12m,
-                isAvailable = true
+                VendorProfileId = vendorProfile3.VendorProfileId,
+                CategoryId = electrical.CategoryId,
+                Name = "LED Ceiling Spotlight 12W",
+                Unit = "Piece",
+                CurrentPrice = 12m,
+                IsAvailable = true
             };
 
             var floorPanelProduct = new Product
             {
-                vendorProfileId = vendorProfile2.VendorProfileID,
-                categoryId = flooring.categoryId,
-                name = "PVC Floor Panel",
-                unit = "m2",
-                currentPrice = 4.25m,
-                isAvailable = false
+                VendorProfileId = vendorProfile2.VendorProfileId,
+                CategoryId = flooring.CategoryId,
+                Name = "PVC Floor Panel",
+                Unit = "m2",
+                CurrentPrice = 4.25m,
+                IsAvailable = false
             };
 
             context.Products.AddRange(
@@ -362,65 +362,65 @@ namespace BuildHub
             // ---- QuoteRequests (linked to Project + Category) ----
             var kitchenQuoteRequest = new QuoteRequest
             {
-                projectId = kitchenProject.ProjectId,
-                categoryId = cabinets.categoryId,
-                description = "Need custom cabinets designed and installed for a full kitchen renovation.",
-                deadline = now.AddDays(30),
-                visibilityType = "Direct",
-                status = "Closed" // closed because it already turned into an accepted quote + contract below
+                ProjectId = kitchenProject.ProjectId,
+                CategoryId = cabinets.CategoryId,
+                Description = "Need custom cabinets designed and installed for a full kitchen renovation.",
+                Deadline = now.AddDays(30),
+                VisibilityType = "Direct",
+                Status = "Closed" // closed because it already turned into an accepted quote + contract below
             };
 
             var bathroomQuoteRequest = new QuoteRequest
             {
-                projectId = bathroomProject.ProjectId,
-                categoryId = ceramics.categoryId,
-                description = "Need ceramic floor and wall tiles supplied and installed for a bathroom retile.",
-                deadline = now.AddDays(20),
-                visibilityType = "Public",
-                status = "Open"
+                ProjectId = bathroomProject.ProjectId,
+                CategoryId = ceramics.CategoryId,
+                Description = "Need ceramic floor and wall tiles supplied and installed for a bathroom retile.",
+                Deadline = now.AddDays(20),
+                VisibilityType = "Public",
+                Status = "Open"
             };
 
             var flooringQuoteRequest = new QuoteRequest
             {
-                projectId = flooringProject.ProjectId,
-                categoryId = flooring.categoryId,
-                description = "Supply and install 60 m2 of flooring in a majlis, material choice open.",
-                deadline = now.AddDays(25),
-                visibilityType = "Public",
-                status = "Closed" // an accepted quote + contract hang off this one below
+                ProjectId = flooringProject.ProjectId,
+                CategoryId = flooring.CategoryId,
+                Description = "Supply and install 60 m2 of flooring in a majlis, material choice open.",
+                Deadline = now.AddDays(25),
+                VisibilityType = "Public",
+                Status = "Closed" // an accepted quote + contract hang off this one below
             };
 
             var electricalQuoteRequest = new QuoteRequest
             {
-                projectId = electricalProject.ProjectId,
-                categoryId = electrical.categoryId,
-                description = "Rewire ground floor and install 24 ceiling spotlights.",
-                deadline = now.AddDays(45),
-                visibilityType = "Direct",
-                status = "Open"
+                ProjectId = electricalProject.ProjectId,
+                CategoryId = electrical.CategoryId,
+                Description = "Rewire ground floor and install 24 ceiling spotlights.",
+                Deadline = now.AddDays(45),
+                VisibilityType = "Direct",
+                Status = "Open"
             };
 
-            // Throwaway fixtures. The status one is what "Update Quote Request Status"
+            // Throwaway fixtures. The Status one is what "Update Quote Request Status"
             // flips; the delete one has no quotes and no invites, so deleting it can't
             // cascade into anything another request reads.
             var qaStatusQuoteRequest = new QuoteRequest
             {
-                projectId = qaSandboxProject.ProjectId,
-                categoryId = plumbing.categoryId,
-                description = "[QA-STATUS-TARGET] Throwaway quote request for the status-update request.",
-                deadline = now.AddDays(10),
-                visibilityType = "Public",
-                status = "Open"
+                ProjectId = qaSandboxProject.ProjectId,
+                CategoryId = plumbing.CategoryId,
+                Description = "[QA-STATUS-TARGET] Throwaway quote request for the status-update request.",
+                Deadline = now.AddDays(10),
+                VisibilityType = "Public",
+                Status = "Open"
             };
 
             var qaDeleteQuoteRequest = new QuoteRequest
             {
-                projectId = qaSandboxProject.ProjectId,
-                categoryId = plumbing.categoryId,
-                description = "[QA-DELETE-TARGET] Throwaway quote request for the delete request.",
-                deadline = now.AddDays(10),
-                visibilityType = "Public",
-                status = "Open"
+                ProjectId = qaSandboxProject.ProjectId,
+                CategoryId = plumbing.CategoryId,
+                Description = "[QA-DELETE-TARGET] Throwaway quote request for the delete request.",
+                Deadline = now.AddDays(10),
+                VisibilityType = "Public",
+                Status = "Open"
             };
 
             context.QuoteRequests.AddRange(
@@ -429,45 +429,45 @@ namespace BuildHub
             await context.SaveChangesAsync(); // save now so QuoteRequestIds exist for Invites/Quotes below
 
             // ---- QuoteRequestInvites (linked to QuoteRequest + VendorProfile) ----
-            // The last two hang off qaStatusQuoteRequest: one for the status update,
+            // The last two hang off qaStatusQuoteRequest: one for the Status update,
             // one for the delete, so neither request touches an invite the reads use.
             var invites = new List<QuoteRequestInvite>
             {
                 new()
                 {
-                    quoteRequestId = kitchenQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile.VendorProfileID,
-                    inviteStatus = "Accepted"
+                    QuoteRequestId = kitchenQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile.VendorProfileId,
+                    InviteStatus = "Accepted"
                 },
                 new()
                 {
-                    quoteRequestId = bathroomQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile2.VendorProfileID,
-                    inviteStatus = "Sent"
+                    QuoteRequestId = bathroomQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile2.VendorProfileId,
+                    InviteStatus = "Sent"
                 },
                 new()
                 {
-                    quoteRequestId = flooringQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile2.VendorProfileID,
-                    inviteStatus = "Accepted"
+                    QuoteRequestId = flooringQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile2.VendorProfileId,
+                    InviteStatus = "Accepted"
                 },
                 new()
                 {
-                    quoteRequestId = electricalQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile3.VendorProfileID,
-                    inviteStatus = "Sent"
+                    QuoteRequestId = electricalQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile3.VendorProfileId,
+                    InviteStatus = "Sent"
                 },
                 new()
                 {
-                    quoteRequestId = qaStatusQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile.VendorProfileID,
-                    inviteStatus = "Sent"
+                    QuoteRequestId = qaStatusQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile.VendorProfileId,
+                    InviteStatus = "Sent"
                 },
                 new()
                 {
-                    quoteRequestId = qaStatusQuoteRequest.qutoeRequestId,
-                    vendorProfileId = vendorProfile2.VendorProfileID,
-                    inviteStatus = "Sent"
+                    QuoteRequestId = qaStatusQuoteRequest.QuoteRequestId,
+                    VendorProfileId = vendorProfile2.VendorProfileId,
+                    InviteStatus = "Sent"
                 }
             };
 
@@ -476,55 +476,55 @@ namespace BuildHub
             // ---- Quotes (linked to QuoteRequest + VendorProfile) ----
             var kitchenQuote = new Quote
             {
-                quoteRequestId = kitchenQuoteRequest.qutoeRequestId,
-                vendorProfileId = vendorProfile.VendorProfileID,
-                price = 3200m,
-                durationDays = 21,
-                status = "Accepted",
-                submittedAt = now.AddDays(-10)
+                QuoteRequestId = kitchenQuoteRequest.QuoteRequestId,
+                VendorProfileId = vendorProfile.VendorProfileId,
+                Price = 3200m,
+                DurationDays = 21,
+                Status = "Accepted",
+                SubmittedAt = now.AddDays(-10)
             };
 
             var bathroomQuote = new Quote
             {
-                quoteRequestId = bathroomQuoteRequest.qutoeRequestId,
-                vendorProfileId = vendorProfile2.VendorProfileID,
-                price = 950m,
-                durationDays = 7,
-                status = "Pending",
-                submittedAt = now.AddDays(-2)
+                QuoteRequestId = bathroomQuoteRequest.QuoteRequestId,
+                VendorProfileId = vendorProfile2.VendorProfileId,
+                Price = 950m,
+                DurationDays = 7,
+                Status = "Pending",
+                SubmittedAt = now.AddDays(-2)
             };
 
             var flooringQuote = new Quote
             {
-                quoteRequestId = flooringQuoteRequest.qutoeRequestId,
-                vendorProfileId = vendorProfile2.VendorProfileID,
-                price = 1400m,
-                durationDays = 10,
-                status = "Accepted",
-                submittedAt = now.AddDays(-18)
+                QuoteRequestId = flooringQuoteRequest.QuoteRequestId,
+                VendorProfileId = vendorProfile2.VendorProfileId,
+                Price = 1400m,
+                DurationDays = 10,
+                Status = "Accepted",
+                SubmittedAt = now.AddDays(-18)
             };
 
             var electricalQuote = new Quote
             {
-                quoteRequestId = electricalQuoteRequest.qutoeRequestId,
-                vendorProfileId = vendorProfile3.VendorProfileID,
-                price = 2100m,
-                durationDays = 14,
-                status = "Pending",
-                submittedAt = now.AddDays(-5)
+                QuoteRequestId = electricalQuoteRequest.QuoteRequestId,
+                VendorProfileId = vendorProfile3.VendorProfileId,
+                Price = 2100m,
+                DurationDays = 14,
+                Status = "Pending",
+                SubmittedAt = now.AddDays(-5)
             };
 
             // Throwaway fixture: deliberately left with no contract, because accepting
-            // a quote creates one and Contract.quoteId is unique — accepting a quote
+            // a quote creates one and Contract.QuoteId is unique — accepting a quote
             // that already has a contract blows up on the duplicate key.
             var qaAcceptQuote = new Quote
             {
-                quoteRequestId = flooringQuoteRequest.qutoeRequestId,
-                vendorProfileId = vendorProfile.VendorProfileID,
-                price = 1550m,
-                durationDays = 12,
-                status = "Pending",
-                submittedAt = now.AddDays(-17)
+                QuoteRequestId = flooringQuoteRequest.QuoteRequestId,
+                VendorProfileId = vendorProfile.VendorProfileId,
+                Price = 1550m,
+                DurationDays = 12,
+                Status = "Pending",
+                SubmittedAt = now.AddDays(-17)
             };
 
             context.Quotes.AddRange(
@@ -537,51 +537,51 @@ namespace BuildHub
                 new()
                 {
                     UserId = clientUser.UserId,
-                    QuoteId = kitchenQuote.quoteId,
-                    proposedPrice = 3000m,
-                    proposedDurationDays = "18",
-                    message = "Can you do 3000 OMR and finish a few days earlier?",
-                    createIn = now.AddDays(-9)
+                    QuoteId = kitchenQuote.QuoteId,
+                    ProposedPrice = 3000m,
+                    ProposedDurationDays = "18",
+                    Message = "Can you do 3000 OMR and finish a few days earlier?",
+                    CreatedAt = now.AddDays(-9)
                 },
                 new()
                 {
                     UserId = clientUser.UserId,
-                    QuoteId = bathroomQuote.quoteId,
-                    proposedPrice = 9m,
-                    proposedDurationDays = "5",
-                    message = "Could you shave two days off the schedule?",
-                    createIn = now.AddDays(-1)
+                    QuoteId = bathroomQuote.QuoteId,
+                    ProposedPrice = 9m,
+                    ProposedDurationDays = "5",
+                    Message = "Could you shave two days off the schedule?",
+                    CreatedAt = now.AddDays(-1)
                 },
                 new()
                 {
                     UserId = clientUser2.UserId,
-                    QuoteId = flooringQuote.quoteId,
-                    proposedPrice = 8m,
-                    proposedDurationDays = "9",
-                    message = "Happy with the price, can the crew start next week?",
-                    createIn = now.AddDays(-17)
+                    QuoteId = flooringQuote.QuoteId,
+                    ProposedPrice = 8m,
+                    ProposedDurationDays = "9",
+                    Message = "Happy with the price, can the crew start next week?",
+                    CreatedAt = now.AddDays(-17)
                 }
             };
 
             context.QuoteNegotiations.AddRange(negotiations);
 
-            // ---- Contracts (one-to-one with an accepted Quote — quoteId is unique) ----
+            // ---- Contracts (one-to-one with an accepted Quote — QuoteId is unique) ----
             var contract = new Contract
             {
-                quoteId = kitchenQuote.quoteId,
-                totalAmount = kitchenQuote.price,
-                paymentType = "PreMilestone",
-                status = "Active",
-                signedAt = now.AddDays(-8)
+                QuoteId = kitchenQuote.QuoteId,
+                TotalAmount = kitchenQuote.Price,
+                PaymentType = "PreMilestone",
+                Status = "Active",
+                SignedAt = now.AddDays(-8)
             };
 
             var flooringContract = new Contract
             {
-                quoteId = flooringQuote.quoteId,
-                totalAmount = flooringQuote.price,
-                paymentType = "PreMilestone",
-                status = "Completed",
-                signedAt = now.AddDays(-16)
+                QuoteId = flooringQuote.QuoteId,
+                TotalAmount = flooringQuote.Price,
+                PaymentType = "PreMilestone",
+                Status = "Completed",
+                SignedAt = now.AddDays(-16)
             };
 
             context.Contracts.AddRange(contract, flooringContract);
@@ -590,110 +590,110 @@ namespace BuildHub
             // ---- Milestones (linked to Contract) ----
             var demolition = new Milestone
             {
-                contractId = contract.contractId,
-                title = "Demolition & Prep",
-                amount = 800m,
-                orderIndex = 1,
-                status = "Approved",
-                endDate = now.AddDays(-1),
+                ContractId = contract.ContractId,
+                Title = "Demolition & Prep",
+                Amount = 800m,
+                OrderIndex = 1,
+                Status = "Approved",
+                EndDate = now.AddDays(-1),
                 DueDate = now.AddDays(-2)
             };
 
             var installation = new Milestone
             {
-                contractId = contract.contractId,
-                title = "Cabinet Installation",
-                amount = 1600m,
-                orderIndex = 2,
-                status = "InProgress",
-                endDate = now.AddDays(10),
+                ContractId = contract.ContractId,
+                Title = "Cabinet Installation",
+                Amount = 1600m,
+                OrderIndex = 2,
+                Status = "InProgress",
+                EndDate = now.AddDays(10),
                 DueDate = now.AddDays(9)
             };
 
             var finishing = new Milestone
             {
-                contractId = contract.contractId,
-                title = "Final Finishing & Countertops",
-                amount = 800m,
-                orderIndex = 3,
-                status = "Pending",
-                endDate = now.AddDays(20),
+                ContractId = contract.ContractId,
+                Title = "Final Finishing & Countertops",
+                Amount = 800m,
+                OrderIndex = 3,
+                Status = "Pending",
+                EndDate = now.AddDays(20),
                 DueDate = now.AddDays(19)
             };
 
             var flooringSupply = new Milestone
             {
-                contractId = flooringContract.contractId,
-                title = "Material Supply",
-                amount = 600m,
-                orderIndex = 1,
-                status = "Approved",
-                endDate = now.AddDays(-12),
+                ContractId = flooringContract.ContractId,
+                Title = "Material Supply",
+                Amount = 600m,
+                OrderIndex = 1,
+                Status = "Approved",
+                EndDate = now.AddDays(-12),
                 DueDate = now.AddDays(-13)
             };
 
             var flooringInstall = new Milestone
             {
-                contractId = flooringContract.contractId,
-                title = "Flooring Installation",
-                amount = 800m,
-                orderIndex = 2,
-                status = "Approved",
-                endDate = now.AddDays(-6),
+                ContractId = flooringContract.ContractId,
+                Title = "Flooring Installation",
+                Amount = 800m,
+                OrderIndex = 2,
+                Status = "Approved",
+                EndDate = now.AddDays(-6),
                 DueDate = now.AddDays(-7)
             };
 
             context.Milestones.AddRange(
                 demolition, installation, finishing, flooringSupply, flooringInstall);
-            await context.SaveChangesAsync(); // save now so MilestoneIds exist for EscrowTransactions below (milestoneId is unique per transaction)
+            await context.SaveChangesAsync(); // save now so MilestoneIds exist for EscrowTransactions below (MilestoneId is unique per transaction)
 
             // ---- EscrowTransactions (linked to Contract, optionally to a Milestone) ----
             var escrowTransactions = new List<EscrowTransaction>
             {
                 new()
                 {
-                    contractId = contract.contractId,
-                    milestoneId = demolition.milestoneId,
-                    amount = demolition.amount,
-                    status = "Released",
-                    heldAt = now.AddDays(-8),
-                    releasedAt = now.AddDays(-1)
+                    ContractId = contract.ContractId,
+                    MilestoneId = demolition.MilestoneId,
+                    Amount = demolition.Amount,
+                    Status = "Released",
+                    HeldAt = now.AddDays(-8),
+                    ReleasedAt = now.AddDays(-1)
                 },
                 new()
                 {
-                    contractId = contract.contractId,
-                    milestoneId = installation.milestoneId,
-                    amount = installation.amount,
-                    status = "Held",
-                    heldAt = now.AddDays(-8),
-                    releasedAt = null
+                    ContractId = contract.ContractId,
+                    MilestoneId = installation.MilestoneId,
+                    Amount = installation.Amount,
+                    Status = "Held",
+                    HeldAt = now.AddDays(-8),
+                    ReleasedAt = null
                 },
                 new()
                 {
-                    contractId = contract.contractId,
-                    milestoneId = finishing.milestoneId,
-                    amount = finishing.amount,
-                    status = "Held",
-                    heldAt = now.AddDays(-8),
-                    releasedAt = null
+                    ContractId = contract.ContractId,
+                    MilestoneId = finishing.MilestoneId,
+                    Amount = finishing.Amount,
+                    Status = "Held",
+                    HeldAt = now.AddDays(-8),
+                    ReleasedAt = null
                 },
                 new()
                 {
-                    contractId = flooringContract.contractId,
-                    milestoneId = flooringSupply.milestoneId,
-                    amount = flooringSupply.amount,
-                    status = "Released",
-                    heldAt = now.AddDays(-16),
-                    releasedAt = now.AddDays(-12)
+                    ContractId = flooringContract.ContractId,
+                    MilestoneId = flooringSupply.MilestoneId,
+                    Amount = flooringSupply.Amount,
+                    Status = "Released",
+                    HeldAt = now.AddDays(-16),
+                    ReleasedAt = now.AddDays(-12)
                 },
                 new()
                 {
-                    contractId = flooringContract.contractId,
-                    milestoneId = flooringInstall.milestoneId,
-                    amount = flooringInstall.amount,
-                    status = "Released",
-                    heldAt = now.AddDays(-16),
-                    releasedAt = now.AddDays(-6)
+                    ContractId = flooringContract.ContractId,
+                    MilestoneId = flooringInstall.MilestoneId,
+                    Amount = flooringInstall.Amount,
+                    Status = "Released",
+                    HeldAt = now.AddDays(-16),
+                    ReleasedAt = now.AddDays(-6)
                 }
             };
 
@@ -704,75 +704,75 @@ namespace BuildHub
             {
                 new()
                 {
-                    userId = vendorUser.UserId,
-                    title = "New Quote Request",
-                    type = "QuoteRequest",
-                    isRead = true,
-                    createdAt = now.AddDays(-10)
+                    UserId = vendorUser.UserId,
+                    Title = "New Quote Request",
+                    Type = "QuoteRequest",
+                    IsRead = true,
+                    CreatedAt = now.AddDays(-10)
                 },
                 new()
                 {
-                    userId = clientUser.UserId,
-                    title = "Quote Received",
-                    type = "Quote",
-                    isRead = true,
-                    createdAt = now.AddDays(-9)
+                    UserId = clientUser.UserId,
+                    Title = "Quote Received",
+                    Type = "Quote",
+                    IsRead = true,
+                    CreatedAt = now.AddDays(-9)
                 },
                 new()
                 {
-                    userId = clientUser.UserId,
-                    title = "Milestone Approved",
-                    type = "Milestone",
-                    isRead = false,
-                    createdAt = now.AddDays(-1)
+                    UserId = clientUser.UserId,
+                    Title = "Milestone Approved",
+                    Type = "Milestone",
+                    IsRead = false,
+                    CreatedAt = now.AddDays(-1)
                 },
                 new()
                 {
-                    userId = vendorUser.UserId,
-                    title = "Escrow Released",
-                    type = "Escrow",
-                    isRead = false,
-                    createdAt = now.AddDays(-1)
+                    UserId = vendorUser.UserId,
+                    Title = "Escrow Released",
+                    Type = "Escrow",
+                    IsRead = false,
+                    CreatedAt = now.AddDays(-1)
                 },
                 new()
                 {
-                    userId = vendorUser2.UserId,
-                    title = "Your quote was accepted",
-                    type = "QuoteAccepted",
-                    isRead = true,
-                    createdAt = now.AddDays(-17)
+                    UserId = vendorUser2.UserId,
+                    Title = "Your quote was accepted",
+                    Type = "QuoteAccepted",
+                    IsRead = true,
+                    CreatedAt = now.AddDays(-17)
                 },
                 new()
                 {
-                    userId = vendorUser2.UserId,
-                    title = "New Quote Request",
-                    type = "QuoteRequest",
-                    isRead = false,
-                    createdAt = now.AddDays(-2)
+                    UserId = vendorUser2.UserId,
+                    Title = "New Quote Request",
+                    Type = "QuoteRequest",
+                    IsRead = false,
+                    CreatedAt = now.AddDays(-2)
                 },
                 new()
                 {
-                    userId = clientUser2.UserId,
-                    title = "Contract Completed",
-                    type = "Contract",
-                    isRead = true,
-                    createdAt = now.AddDays(-6)
+                    UserId = clientUser2.UserId,
+                    Title = "Contract Completed",
+                    Type = "Contract",
+                    IsRead = true,
+                    CreatedAt = now.AddDays(-6)
                 },
                 new()
                 {
-                    userId = clientUser2.UserId,
-                    title = "Quote Received",
-                    type = "Quote",
-                    isRead = false,
-                    createdAt = now.AddDays(-5)
+                    UserId = clientUser2.UserId,
+                    Title = "Quote Received",
+                    Type = "Quote",
+                    IsRead = false,
+                    CreatedAt = now.AddDays(-5)
                 },
                 new()
                 {
-                    userId = vendorUser3.UserId,
-                    title = "New Quote Request",
-                    type = "QuoteRequest",
-                    isRead = false,
-                    createdAt = now.AddDays(-5)
+                    UserId = vendorUser3.UserId,
+                    Title = "New Quote Request",
+                    Type = "QuoteRequest",
+                    IsRead = false,
+                    CreatedAt = now.AddDays(-5)
                 }
             };
 
@@ -785,7 +785,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser.UserId,
-                    VendorProfileId = vendorProfile.VendorProfileID,
+                    VendorProfileId = vendorProfile.VendorProfileId,
                     Rating = 5,
                     Comment = "Finished the kitchen renovation on time and on budget.",
                     ReviewDate = now.AddDays(-14)
@@ -793,7 +793,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser.UserId,
-                    VendorProfileId = vendorProfile.VendorProfileID,
+                    VendorProfileId = vendorProfile.VendorProfileId,
                     Rating = 4,
                     Comment = "Good communication throughout, minor delay on cabinet delivery.",
                     ReviewDate = now.AddDays(-3)
@@ -801,7 +801,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser.UserId,
-                    ProductId = cabinetProduct.productId,
+                    ProductId = cabinetProduct.ProductId,
                     Rating = 5,
                     Comment = "Great quality cabinets, exactly as pictured.",
                     ReviewDate = now.AddDays(-5)
@@ -809,7 +809,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser.UserId,
-                    ContractId = contract.contractId,
+                    ContractId = contract.ContractId,
                     Rating = 5,
                     Comment = "Smooth contract process from quote to signing.",
                     ReviewDate = now.AddDays(-7)
@@ -817,7 +817,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser2.UserId,
-                    VendorProfileId = vendorProfile2.VendorProfileID,
+                    VendorProfileId = vendorProfile2.VendorProfileId,
                     Rating = 4,
                     Comment = "Flooring crew was tidy and finished ahead of schedule.",
                     ReviewDate = now.AddDays(-5)
@@ -825,7 +825,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser2.UserId,
-                    ContractId = flooringContract.contractId,
+                    ContractId = flooringContract.ContractId,
                     Rating = 4,
                     Comment = "Milestones were released without any back and forth.",
                     ReviewDate = now.AddDays(-4)
@@ -833,7 +833,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser2.UserId,
-                    ProductId = floorPanelProduct.productId,
+                    ProductId = floorPanelProduct.ProductId,
                     Rating = 3,
                     Comment = "Panels are fine for the price, but the colour is lighter than shown.",
                     ReviewDate = now.AddDays(-4)
@@ -841,7 +841,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser.UserId,
-                    ProductId = wallTileProduct.productId,
+                    ProductId = wallTileProduct.ProductId,
                     Rating = 4,
                     Comment = "Matte finish looks great, one box arrived chipped.",
                     ReviewDate = now.AddDays(-2)
@@ -849,7 +849,7 @@ namespace BuildHub
                 new()
                 {
                     ReviewerId = clientUser2.UserId,
-                    VendorProfileId = vendorProfile3.VendorProfileID,
+                    VendorProfileId = vendorProfile3.VendorProfileId,
                     Rating = 3,
                     Comment = "Quote was competitive but took a while to arrive.",
                     ReviewDate = now.AddDays(-1)
