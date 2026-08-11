@@ -137,3 +137,91 @@ html, body {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* ═══ RIGHT PANEL — form ══════════════════════════════════════ */
+.login-form-panel {
+    position: relative;
+    background-color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 47px;
+    min-height: 100vh;
+}
+
+.lang-toggle {
+    position: absolute;
+    top: 32px;
+    right: 40px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 0.85em;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.login-form-wrap {
+    width: 100%;
+    max-width: 446px;
+}
+
+.login-form-wrap h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1em;
+    margin: 0 0 4px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin: 0 0 32px;
+}
+
+/* ═══ FORM FIELDS ═════════════════════════════════════════════ */
+.form-label {
+    font-weight: 600;
+    font-size: 0.92em;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    padding: 13px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.95em;
+}
+
+.form-control:focus {
+    border-color: var(--navy-btn);
+    box-shadow: 0 0 0 3px rgba(27, 58, 92, 0.12);
+}
+
+.forgot-link {
+    color: var(--text-muted);
+    font-size: 0.88em;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.demo-label {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    margin-bottom: 16px;
+}
+
+/* ═══ RESPONSIVE ══════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+    .login-visual {
+        min-height: 340px;
+    }
+
+    .login-form-panel {
+        min-height: auto;
+        padding: 40px 24px;
+    }
+}
