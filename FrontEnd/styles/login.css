@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --cream: #f7f4ef;
+    --border: #e1dcd4;
+    --text-muted: #857d75;
+    --navy-btn: #1b3a5c;
+    --text-dark: #010714;
+}
+
+/* ═══ RESET ═══════════════════════════════════════════════════ */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--text-dark);
+}
+
+/* ═══ PAGE WRAPPER ════════════════════════════════════════════ */
+.login-page {
+    min-height: 100vh;
+}
+
+/* ═══ LEFT PANEL — image + testimonial ═══════════════════════ */
+.login-visual {
+    position: relative;
+    min-height: 100vh;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.login-visual__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.login-visual__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        rgba(19, 60, 111, 0.8),
+        rgba(19, 60, 111, 0.6) 50%,
+        rgba(19, 60, 111, 0.8)
+    );
+}
+
+.login-visual__content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    color: #ffffff;
+}
+
+.login-visual__brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    color: var(--navy-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.brand-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.4em;
+    color: #ffffff;
+}
+
+.login-visual__quote {
+    margin: 0;
+    max-width: 480px;
+}
+
+.login-visual__quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.5em;
+    line-height: 1.4;
+    margin: 0 0 24px;
+}
+
+.avatar-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.quote-name {
+    display: flex;
+    flex-direction: column;
+}
+
+.quote-name strong {
+    font-size: 0.95em;
+    font-weight: 600;
+}
+
+.quote-name span {
+    font-size: 0.85em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ═══ RIGHT PANEL — form ══════════════════════════════════════ */
+.login-form-panel {
+    position: relative;
+    background-color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 47px;
+    min-height: 100vh;
+}
+
+.lang-toggle {
+    position: absolute;
+    top: 32px;
+    right: 40px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-size: 0.85em;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.login-form-wrap {
+    width: 100%;
+    max-width: 446px;
+}
+
+.login-form-wrap h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1em;
+    margin: 0 0 4px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    margin: 0 0 32px;
+}
+
+/* ═══ FORM FIELDS ═════════════════════════════════════════════ */
+.form-label {
+    font-weight: 600;
+    font-size: 0.92em;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    padding: 13px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 0.95em;
+}
+
+.form-control:focus {
+    border-color: var(--navy-btn);
+    box-shadow: 0 0 0 3px rgba(27, 58, 92, 0.12);
+}
+
+.forgot-link {
+    color: var(--text-muted);
+    font-size: 0.88em;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
+}
+
+.demo-label {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85em;
+    margin-bottom: 16px;
+}
+
+/* ═══ RESPONSIVE ══════════════════════════════════════════════ */
+@media (max-width: 991.98px) {
+    .login-visual {
+        min-height: 340px;
+    }
+
+    .login-form-panel {
+        min-height: auto;
+        padding: 40px 24px;
+    }
+}
