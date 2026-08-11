@@ -1,0 +1,156 @@
+<main class="bh-dashboard" aria-labelledby="bh-dashboard-title">
+  <section class="bh-welcome">
+    <h1 id="bh-dashboard-title">Good morning, Salim <span aria-hidden="true">👋</span></h1>
+    <p>You have 3 new offers waiting for your review.</p>
+  </section>
+
+  <section class="bh-stats" aria-label="Job summary">
+    <article class="bh-stat-card">
+      <div>
+        <span class="bh-stat-label">Open Jobs</span>
+        <strong>2</strong>
+      </div>
+      <span class="bh-stat-icon bh-stat-icon--gray" aria-hidden="true">📋</span>
+    </article>
+
+    <article class="bh-stat-card">
+      <div>
+        <span class="bh-stat-label">New Offers</span>
+        <strong>3</strong>
+      </div>
+      <span class="bh-stat-icon bh-stat-icon--rose" aria-hidden="true">📬</span>
+    </article>
+
+    <article class="bh-stat-card">
+      <div>
+        <span class="bh-stat-label">In Progress</span>
+        <strong>1</strong>
+      </div>
+      <span class="bh-stat-icon bh-stat-icon--gold" aria-hidden="true">🔨</span>
+    </article>
+
+    <article class="bh-stat-card">
+      <div>
+        <span class="bh-stat-label">Completed</span>
+        <strong>4</strong>
+      </div>
+      <span class="bh-stat-icon bh-stat-icon--green" aria-hidden="true">✓</span>
+    </article>
+  </section>
+
+  <div class="bh-dashboard-grid">
+    <div class="bh-dashboard-main">
+      <section class="bh-section" aria-labelledby="bh-active-job-title">
+        <div class="bh-section-heading">
+          <h2 id="bh-active-job-title">Active Job</h2>
+          <a href="#all-jobs">View all</a>
+        </div>
+
+        <article class="bh-active-card">
+          <div class="bh-job-title-row">
+            <div>
+              <h3>Master Bathroom Renovation</h3>
+              <p>Plumber · Muscat · Budget: OMR 800–1500</p>
+            </div>
+            <span class="bh-status bh-status--open">Open</span>
+          </div>
+
+          <div class="bh-payment-box">
+            <span class="bh-payment-icon" aria-hidden="true">🔒</span>
+            <div class="bh-payment-copy">
+              <strong>Payment Held Securely</strong>
+              <span>Your money is protected until you confirm the work is done.</span>
+            </div>
+            <div class="bh-payment-value">
+              <strong>OMR 1,200</strong>
+              <span>Escrow</span>
+            </div>
+          </div>
+
+          <div class="bh-card-actions">
+            <a class="bh-button bh-button--primary" href="#offers">View 3 Offers</a>
+            <a class="bh-button bh-button--outline" href="#agreement">Agreement</a>
+          </div>
+        </article>
+      </section>
+
+      <section class="bh-section" id="all-jobs" aria-labelledby="bh-recent-jobs-title">
+        <div class="bh-section-heading">
+          <h2 id="bh-recent-jobs-title">My Recent Jobs</h2>
+        </div>
+
+        <div class="bh-job-list">
+          <a class="bh-job-row" href="#job-bathroom">
+            <span>
+              <strong>Master Bathroom Renovation</strong>
+              <small>Plumber · Muscat · 3 offers</small>
+            </span>
+            <span class="bh-status bh-status--open">Open</span>
+          </a>
+
+          <a class="bh-job-row" href="#job-living-room">
+            <span>
+              <strong>Living Room Interior Design</strong>
+              <small>Interior Designer · Muscat · 5 offers</small>
+            </span>
+            <span class="bh-status bh-status--hired">Hired</span>
+          </a>
+
+          <a class="bh-job-row" href="#job-electrical">
+            <span>
+              <strong>Electrical Panel Upgrade</strong>
+              <small>Electrician · Sohar · 4 offers</small>
+            </span>
+            <span class="bh-status bh-status--completed">Completed</span>
+          </a>
+
+          <a class="bh-job-row" href="#job-kitchen">
+            <span>
+              <strong>Kitchen Cabinet Installation</strong>
+              <small>General Contractor · Muscat · 2 offers</small>
+            </span>
+            <span class="bh-status bh-status--open">Open</span>
+          </a>
+        </div>
+
+        <a class="bh-new-job-button" href="#post-new-job">+ Post New Job</a>
+      </section>
+    </div>
+
+    <aside class="bh-notifications" aria-labelledby="bh-notifications-title">
+      <div class="bh-section-heading">
+        <h2 id="bh-notifications-title">Notifications</h2>
+        <a href="#all-notifications">All</a>
+      </div>
+
+      <div class="bh-notification-list">
+        <article class="bh-notification-card">
+          <span class="bh-notification-dot bh-notification-dot--new" aria-hidden="true"></span>
+          <div>
+            <strong>New Offer Received</strong>
+            <p>Gulf Plumbing Solutions sent an offer of OMR 1,200 for “Master Bathroom Renovation”</p>
+            <time datetime="2026-08-11T05:00:00+04:00">2 hours ago</time>
+          </div>
+        </article>
+
+        <article class="bh-notification-card">
+          <span class="bh-notification-dot bh-notification-dot--new" aria-hidden="true"></span>
+          <div>
+            <strong>New Offer Received</strong>
+            <p>Al-Rashid Construction sent an offer of OMR 1,400 for “Master Bathroom Renovation”</p>
+            <time datetime="2026-08-11T00:30:00+04:00">5 hours ago</time>
+          </div>
+        </article>
+
+        <article class="bh-notification-card">
+          <span class="bh-notification-dot" aria-hidden="true"></span>
+          <div>
+            <strong>Payment Confirmed</strong>
+            <p>Your payment of OMR 4,200 has been securely held in escrow for “Living Room Interior Design”</p>
+            <time datetime="2026-08-09">2 days ago</time>
+          </div>
+        </article>
+      </div>
+    </aside>
+  </div>
+</main>
