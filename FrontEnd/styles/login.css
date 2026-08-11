@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --cream: #f7f4ef;
+    --border: #e1dcd4;
+    --text-muted: #857d75;
+    --navy-btn: #1b3a5c;
+    --text-dark: #010714;
+}
+
+/* ═══ RESET ═══════════════════════════════════════════════════ */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    min-height: 100%;
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--text-dark);
+}
+
