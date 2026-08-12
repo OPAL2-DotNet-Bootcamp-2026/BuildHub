@@ -152,41 +152,33 @@
     </div>
 
 </section>
-<!-- Payment confirmation card -->
-<section class="card border shadow-sm rounded-3">
 
-    <div class="card-body p-4">
+<!-- Payment success and review section -->
+<section class="alert alert-success border shadow-sm rounded-3 mt-3">
 
-        <h2 class="fs-6 fw-bold">
-            Is the work complete?
-        </h2>
+    <div class="d-flex align-items-center mb-3">
 
-        <p class="small text-secondary">
-            When you confirm completion, OMR 1,200 will be released
-            to the vendor. This action cannot be undone.
-        </p>
+        <!-- Success icon -->
+        <span class="bg-success text-white rounded-circle p-2 me-3">
+            ✓
+        </span>
 
-        <p class="small fw-bold">
-            Are you sure? The vendor will receive OMR 1,200.
-        </p>
+        <div>
 
-        <!-- Confirmation buttons -->
-        <div class="d-flex gap-2">
+            <h2 class="fs-6 text-success mb-1">
+                Payment Released Successfully
+            </h2>
 
-            <button type="button"
-                    class="btn btn-outline-secondary btn-sm">
-                Cancel
-            </button>
-
-            <button type="button"
-                    class="btn text-white fw-bold btn-sm"
-                    style="background-color: #fd7e14;">
-                Yes, Release Payment
-            </button>
+            <small class="text-secondary">
+                The vendor received OMR 1,200
+            </small>
 
         </div>
 
     </div>
+
+    <!-- Open the review page -->
+    <a href="review.html" class="btn btn-primary fw-bold btn-sm"> ⭐ Leave a Review </a>
 
 </section>
 
