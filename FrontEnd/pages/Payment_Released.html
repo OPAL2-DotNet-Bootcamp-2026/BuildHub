@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment</title>
+    <title>Payment_Released</title>
 
     <!-- Connect Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -33,6 +33,8 @@
         </p>
     </div>
 
+    
+
 <!-- Agreement status -->
         <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
             Hired
@@ -40,35 +42,43 @@
 
 </div>
 
-<!-- Main page columns -->
-    <div class="row g-4">
-        <!-- Left side -->
-        <div class="col-8">
-        <!-- Payment status -->
-            <section class="mb-3">
-            <h2 class="fs-6 fw-bold mb-3"> Payment Status</h2>
-    <!-- Payment card -->
-    <div class="alert alert-secondary rounded-5 d-flex align-items-center mb-0">
+    <div class="row g-4"> 
+    <!-- Start the main two columns -->
 
-    <!-- Lock icon -->
-        <span class="bg-body-secondary rounded-circle p-3 me-3 "> 🔒 </span>
-    <!-- Payment description -->
-        <div class="flex-grow-1">
-    <strong class="text-primary-emphasis"> Payment Held Securely </strong>
+        <div class="col-8">     <!-- Start the left column -->
+<!-- Show that the payment was released -->
+<div class="alert alert-success rounded-5 d-flex align-items-center">
 
-        <p class="small text-secondary mb-0">
-            Your money is protected until you
-            confirm the work is done.
-        </p>
+    <!-- Completed icon -->
+    <span class="bg-success-subtle text-success rounded-circle p-2 me-3">
+        ✓
+    </span>
 
-        </div>
-    <!-- Payment value -->
-        <div class="text-end">
-            <strong class="fs-5 text-primary-emphasis"> OMR 1,200 </strong>
+    <!-- Payment message -->
+    <div class="flex-grow-1">
 
-            <small class="d-block text-secondary"> Escrow </small>
+        <strong class="text-success">
+            Payment Released
+        </strong>
 
-        </div>
+        <small class="d-block text-secondary">
+            Funds have been sent to the vendor.
+        </small>
+
+    </div>
+
+    <!-- Released amount -->
+    <div class="text-end">
+
+        <strong class="fs-5 text-success">
+            OMR 1,200
+        </strong>
+
+        <small class="d-block text-secondary">
+            Escrow
+        </small>
+
+    </div>
 
     </div>
 
@@ -125,10 +135,7 @@
 <!-- Work completed -->
     <div class="d-flex align-items-start mb-4">
 
-    <span class="bg-body-secondary text-secondary
-                rounded-circle d-flex
-                align-items-center
-                justify-content-center p-2 me-3 small "> ✓
+    <span  class="bg-success text-white rounded-circle p-2 me-3 small"  > ✓
     </span>
 
     <div>
@@ -140,10 +147,7 @@
 <!-- Payment released -->
     <div class="d-flex align-items-start">
 
-        <span class="bg-body-secondary text-warning
-                    rounded-circle d-flex
-                    align-items-center
-                    justify-content-center p-2 me-3 small "> 💰
+        <span class="bg-success text-white rounded-circle p-2 me-3 small"> 💰
         </span>
 
     <div>
@@ -156,21 +160,32 @@
 
 </section>
 
-<!-- Confirm completion -->
-<section class="card border shadow-sm rounded-3">
+<!-- Payment success and review section -->
+<section class="alert alert-success border shadow-sm rounded-3 mt-3">
 
-    <div class="card-body p-4">
+    <div class="d-flex align-items-center mb-3">
 
-        <h2 class="fs-5"> Is the work complete?</h2>
+        <!-- Success icon -->
+        <span class="bg-success text-white rounded-circle p-2 me-3">
+            ✓
+        </span>
 
-        <p class="small text-secondary"> When you confirm completion, OMR 1,200
-                                        will be released to the vendor.
-                                        This action cannot be undone.
-        </p>
+        <div>
 
-    <button type="button" class="btn btn-warning text-white fw-bold" style="background-color: #fd7e14;"> ✓ Confirm Complete & Release Payment </button>
+            <h2 class="fs-6 text-success mb-1">
+                Payment Released Successfully
+            </h2>
+
+            <small class="text-secondary">
+                The vendor received OMR 1,200
+            </small>
+
+        </div>
 
     </div>
+
+    <!-- Open the review page -->
+    <a href="review.html" class="btn btn-primary fw-bold btn-sm" style="background-color: #01265e;"> ⭐ Leave a Review</a>
 
 </section>
 
