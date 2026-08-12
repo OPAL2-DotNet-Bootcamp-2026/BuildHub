@@ -39,16 +39,6 @@
         </span>
 
 </div>
-
-<!-- Main page columns -->
-    <div class="row g-4">
-        <!-- Left side -->
-        <div class="col-8">
-        <!-- Payment status -->
-            <section class="mb-3">
-            <h2 class="fs-6 fw-bold mb-3"> Payment Status</h2>
-    <!-- Payment card -->
-    <div class="alert alert-secondary rounded-5 d-flex align-items-center mb-0">
 <!-- Show that the payment was released -->
 <div class="alert alert-success rounded-5 d-flex align-items-center">
 
@@ -83,7 +73,9 @@
 
     </div>
 
-</div>
+    </div>
+
+</section>
 
 
 <!-- Agreement timeline -->
@@ -166,20 +158,39 @@
     </div>
 
 </section>
-
-<!-- Confirm completion -->
+<!-- Payment confirmation card -->
 <section class="card border shadow-sm rounded-3">
 
     <div class="card-body p-4">
 
-        <h2 class="fs-5"> Is the work complete?</h2>
+        <h2 class="fs-6 fw-bold">
+            Is the work complete?
+        </h2>
 
-        <p class="small text-secondary"> When you confirm completion, OMR 1,200
-                                        will be released to the vendor.
-                                        This action cannot be undone.
+        <p class="small text-secondary">
+            When you confirm completion, OMR 1,200 will be released
+            to the vendor. This action cannot be undone.
         </p>
 
-    <button type="button" class="btn btn-warning text-white fw-bold" style="background-color: #fd7e14;"> ✓ Confirm Complete & Release Payment </button>
+        <p class="small fw-bold">
+            Are you sure? The vendor will receive OMR 1,200.
+        </p>
+
+        <!-- Confirmation buttons -->
+        <div class="d-flex gap-2">
+
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm">
+                Cancel
+            </button>
+
+            <button type="button"
+                    class="btn text-white fw-bold btn-sm"
+                    style="background-color: #fd7e14;">
+                Yes, Release Payment
+            </button>
+
+        </div>
 
     </div>
 
