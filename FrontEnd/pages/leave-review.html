@@ -102,4 +102,31 @@
         </div>
     </footer>
  
-  
+    <script>
+      
+        const stars = document.querySelectorAll('.star-rating .star');
+        const submitBtn = document.querySelector('.btn-submit-review');
+ 
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                stars.forEach((s, i) => {
+                    const filled = i <= index;
+                    s.classList.toggle('is-filled', filled);
+                    s.setAttribute('aria-checked', filled);
+                });
+                submitBtn.disabled = false;
+                submitBtn.classList.add('is-active');
+            });
+        });
+ 
+        
+                const textarea = document.querySelector('.review-textarea');
+        const counter = document.querySelector('.char-counter');
+        textarea.addEventListener('input', () => {
+            counter.textContent = `${textarea.value.length}/500`;
+        });
+    </script>
+ 
+</body>
+</html>
+    
