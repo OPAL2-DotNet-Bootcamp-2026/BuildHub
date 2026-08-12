@@ -290,3 +290,13 @@ a {
 }
 
 
+@media (max-width: 900px) {
+    .main-nav {
+        display: none; 
+    }
+
+    .app-footer__inner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
