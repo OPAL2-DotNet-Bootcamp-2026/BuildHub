@@ -6,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Payment</title>
+    <title>Payment_Released</title>
 
     <!-- Connect Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,30 +49,41 @@
             <h2 class="fs-6 fw-bold mb-3"> Payment Status</h2>
     <!-- Payment card -->
     <div class="alert alert-secondary rounded-5 d-flex align-items-center mb-0">
+<!-- Show that the payment was released -->
+<div class="alert alert-success rounded-5 d-flex align-items-center">
 
-    <!-- Lock icon -->
-        <span class="bg-body-secondary rounded-circle p-3 me-3 "> 🔒 </span>
-    <!-- Payment description -->
-        <div class="flex-grow-1">
-    <strong class="text-primary-emphasis"> Payment Held Securely </strong>
+    <!-- Completed icon -->
+    <span class="bg-success-subtle text-success rounded-circle p-2 me-3">
+        ✓
+    </span>
 
-        <p class="small text-secondary mb-0">
-            Your money is protected until you
-            confirm the work is done.
-        </p>
+    <!-- Payment message -->
+    <div class="flex-grow-1">
 
-        </div>
-    <!-- Payment value -->
-        <div class="text-end">
-            <strong class="fs-5 text-primary-emphasis"> OMR 1,200 </strong>
+        <strong class="text-success">
+            Payment Released
+        </strong>
 
-            <small class="d-block text-secondary"> Escrow </small>
-
-        </div>
+        <small class="d-block text-secondary">
+            Funds have been sent to the vendor.
+        </small>
 
     </div>
 
-</section>
+    <!-- Released amount -->
+    <div class="text-end">
+
+        <strong class="fs-5 text-success">
+            OMR 1,200
+        </strong>
+
+        <small class="d-block text-secondary">
+            Escrow
+        </small>
+
+    </div>
+
+</div>
 
 
 <!-- Agreement timeline -->
