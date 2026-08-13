@@ -444,3 +444,51 @@ a {
 }
 
 
+.review-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.btn-skip {
+    flex: 1;
+    text-align: center;
+    padding: 13px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background-color: var(--white);
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.95em;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-skip:hover {
+    background-color: #faf8f4;
+}
+
+.btn-submit-review {
+    flex: 1;
+    text-align: center;
+    padding: 13px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95em;
+    font-family: inherit;
+    cursor: not-allowed;
+    background-color: var(--orange-disabled-bg);
+    color: var(--orange-disabled-text);
+}
+
+
+.btn-submit-review.is-active {
+    background-color: var(--orange);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.btn-submit-review.is-active:hover {
+    background-color: var(--orange-dark);
+}
