@@ -70,6 +70,86 @@
 </ul>
 
 
+<!-- All settings content -->
+    <div class="tab-content mt-4" id="settingsTabsContent">
+                <!-- Profile -->
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <section class="card border shadow-sm rounded-3">
+                <div class="card-body p-4">
+    <!-- Profile picture -->
+        <div class="d-flex align-items-center mb-4">
+            <div class="bg-body-secondary rounded-circle d-flex align-items-center
+                        justify-content-center
+                        text-primary-emphasis
+                        fw-bold fs-5 me-3"
+                        style="width: 70px; height: 70px;">
+                        SA
+            </div>
+
+        <div>
+        <label for="profilePhoto" class="btn btn-light btn-sm"> Change Photo </label>
+
+        <input type="file" id="profilePhoto" class="d-none" accept=".png,.jpg,.jpeg">
+
+            <small class="d-block text-secondary mt-1"> PNG or JPG, max 5MB </small>
+        </div>
+    </div>
+
+<hr class="mb-4">
+
+<!-- Profile form -->
+    <form>
+    <div class="row g-3 mb-3">
+    <!-- First name -->
+    <div class="col-6">
+        <label for="firstName" class="form-label small fw-semibold"> First Name </label>
+
+    <input type="text" id="firstName" class="form-control" value="Salim">
+
+    </div>
+
+    <!-- Last name -->
+    <div class="col-6">
+        <label for="lastName" class="form-label small fw-semibold"> Last Name </label>
+
+    <input type="text" id="lastName" class="form-control" value="Al-Balushi">
+
+    </div>
+</div>
+
+<!-- Email -->
+    <div class="mb-3">
+        <label for="email" class="form-label small fw-semibold"> Email Address </label>
+
+        <input type="email" id="email" class="form-control" value="salim@example.com">
+
+    </div>
+<!-- Phone -->
+    <div class="mb-3">
+        <label for="phone" class="form-label small fw-semibold"> Phone Number </label>
+
+    <input type="tel" id="phone" class="form-control" value="+968 9123 4567">
+
+    </div>
+<!-- City -->
+    <div class="mb-4">
+
+    <label for="city" class="form-label small fw-semibold">
+    City
+    </label>
+
+    <input type="text" id="city" class="form-control" value="Muscat">
+
+    </div>
+
+    <button type="submit" class="btn text-white fw-bold" style="background-color: #fd5c24;">
+    Save Changes
+    </button>
+
+    </form>
+    </div>
+</section>
+</div>
 
 </main>
 
