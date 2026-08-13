@@ -243,3 +243,52 @@ a {
 }
 
 
+.app-footer {
+    background-color: var(--white);
+    border-top: 1px solid var(--border);
+}
+
+.app-footer__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-copy {
+    color: var(--text-muted);
+    font-size: 0.88em;
+    margin-left: 6px;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 0.88em;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+}
+
+.footer-links a:hover {
+    color: var(--navy-btn);
+}
+
+.footer-links .dot {
+    color: var(--border);
+}
+
+
