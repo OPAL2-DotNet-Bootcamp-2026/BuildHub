@@ -349,3 +349,35 @@ a {
 }
 
 
+.vendor-summary {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.vendor-photo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: var(--star-empty); 
+}
+
+.vendor-name {
+    font-weight: 700;
+    font-size: 1.02em;
+    color: var(--text-dark);
+    margin: 0 0 3px;
+}
+
+.vendor-meta {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+
