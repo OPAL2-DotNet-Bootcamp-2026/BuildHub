@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account Settings</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-body-tertiary">
+
+<main class="container py-4">
+
+
+<!-- Center the page -->
+    <div class="row justify-content-center">
+        <div class="col-9">   <!-- Set a medium page width -->
+
+            <!-- Page title -->
+            <section class="mb-4">
+                <h1 class="fs-3 fw-bold mb-1"> Account Settings </h1>
+
+                <p class="small text-secondary mb-0"> Manage your profile and preferences </p>
+            </section>
+
+<!-- Settings navigation tabs -->
+
+    <ul class="nav nav-tabs" id="settingsTabs" role="tablist" style="
+        --bs-nav-link-color: #6c757d;
+        --bs-nav-link-hover-color: #01265e;  
+        --bs-nav-tabs-link-active-color: #01265e;
+    "> <!-- when press the text the color change according to it -->
+
+<!-- Profile tab -->
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true" style="color: #01265e;">
+        Profile
+        </a>
+
+    </li>
+
+<!-- Security tab -->
+    <li class="nav-item" role="presentation">
+
+        <a class="nav-link" id="security-tab" data-bs-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false"> Security </a>
+    </li>
+
+
+<!-- Notifications tab -->
+    <li class="nav-item" role="presentation">
+
+        <a class="nav-link" id="notifications-tab" data-bs-toggle="tab" href="#notifications" role="tab" aria-controls="notifications" aria-selected="false">
+        Notifications
+        </a>
+    </li>
+
+<!-- Language tab -->
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="language-tab" data-bs-toggle="tab" href="#language" role="tab" aria-controls="language" aria-selected="false">
+        Language
+        </a>
+
+    </li>
+</ul>
+
+
+<!-- All settings content -->
+    <div class="tab-content mt-4" id="settingsTabsContent">
+                <!-- Profile -->
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <section class="card border shadow-sm rounded-3">
+                <div class="card-body p-4">
+    <!-- Profile picture -->
+        <div class="d-flex align-items-center mb-4">
+            <div class="bg-body-secondary rounded-circle d-flex align-items-center
+                        justify-content-center
+                        text-primary-emphasis
+                        fw-bold fs-5 me-3"
+                        style="width: 70px; height: 70px;">
+                        SA
+            </div>
+
+        <div>
+        <label for="profilePhoto" class="btn btn-light btn-sm"> Change Photo </label>
+
+        <input type="file" id="profilePhoto" class="d-none" accept=".png,.jpg,.jpeg">
+
+            <small class="d-block text-secondary mt-1"> PNG or JPG, max 5MB </small>
+        </div>
+    </div>
+
+<hr class="mb-4">
+
+<!-- Profile form -->
+    <form>
+    <div class="row g-3 mb-3">
+    <!-- First name -->
+    <div class="col-6">
+        <label for="firstName" class="form-label small fw-semibold"> First Name </label>
+
+    <input type="text" id="firstName" class="form-control" value="Salim">
+
+    </div>
+
+    <!-- Last name -->
+    <div class="col-6">
+        <label for="lastName" class="form-label small fw-semibold"> Last Name </label>
+
+    <input type="text" id="lastName" class="form-control" value="Al-Balushi">
+
+    </div>
+</div>
+
+<!-- Email -->
+    <div class="mb-3">
+        <label for="email" class="form-label small fw-semibold"> Email Address </label>
+
+        <input type="email" id="email" class="form-control" value="salim@example.com">
+
+    </div>
+<!-- Phone -->
+    <div class="mb-3">
+        <label for="phone" class="form-label small fw-semibold"> Phone Number </label>
+
+    <input type="tel" id="phone" class="form-control" value="+968 9123 4567">
+
+    </div>
+<!-- City -->
+    <div class="mb-4">
+
+    <label for="city" class="form-label small fw-semibold">
+    City
+    </label>
+
+    <input type="text" id="city" class="form-control" value="Muscat">
+
+    </div>
+
+    <button type="submit" class="btn text-white fw-bold" style="background-color: #fd5c24;">
+    Save Changes
+    </button>
+
+    </form>
+    </div>
+</section>
+</div>
+
+    <!-- Security part -->
+    <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+        <section class="card border shadow-sm rounded-3">
+            <div class="card-body p-4">
+                <h2 class="fs-5 fw-bold mb-4"> Change Password </h2>
+
+    <form>
+        <!-- Current password -->
+        <div class="mb-3">
+        <label for="currentPassword" class="form-label small fw-semibold"> Current Password </label>
+
+        <input type="password" id="currentPassword" class="form-control" value="12345678" required>
+        </div>
+        <!-- New password -->
+        <div class="mb-3">
+            <label for="newPassword" class="form-label small fw-semibold"> New Password </label>
+
+            <input type="password" id="newPassword" class="form-control" value="12345678" minlength="8" required>
+        </div>
+
+    <!-- Confirm password -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label small fw-semibold"> Confirm New Password </label>
+                <input type="password" id="confirmPassword" class="form-control" value="12345678" minlength="8" required>
+        </div>
+
+    <button type="submit" class="btn fw-bold text-white" style="background-color: #01265e;"> Update Password</button>
+
+    </form>
+
+    <hr class="my-4">
+
+    <!-- Two-factor authentication -->
+    <section>
+        <h2 class="fs-5 fw-bold"> Two-Factor Authentication </h2>
+
+            <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <p class="mb-0"> Add an extra layer of security
+            </p>
+
+            <small class="text-secondary"> via SMS verification </small>
+
+            </div>
+    <button type="button" class="btn btn-light btn-sm fw-semibold"> Enable </button>
+
+            </div>
+
+        </section>
+
+    <hr class="my-4 border-danger-subtle">
+        <!-- Delete account -->
+        <section>
+            <h2 class="fs-5 text-danger"> Delete Account </h2>
+                <p class="small text-secondary"> This action is permanent and cannot be undone. </p>
+        <button type="button" class="btn btn-danger fw-bold"> Delete My Account </button>
+
+        </section>
+
+    </div>
+
+    </section>
+
+</div>
+
+    <!-- Notifications part -->
+
+    <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+        <section class="card border shadow-sm rounded-3">
+            <div class="card-body p-4">
+                <h2 class="fs-5 fw-bold mb-2"> Notification Preferences </h2>
+
+    <!-- New offers -->
+    <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+
+        <label for="newOffers"> New offers on my jobs </label>
+        <div class="form-check form-switch">
+
+            <input type="checkbox" class="form-check-input" id="newOffers" role="switch" checked>
+
+                                </div>
+
+                            </div>
+
+    <!-- Offer accepted -->
+    <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+
+        <label for="offerAccepted"> My offer was accepted </label>
+
+        <div class="form-check form-switch">
+
+            <input type="checkbox" class="form-check-input" id="offerAccepted" role="switch" checked>
+
+        </div>
+
+    </div>
+
+    <!-- Payment updates -->
+        <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            <label for="paymentUpdates"> Payment updates </label>
+
+            <div class="form-check form-switch">
+
+                <input type="checkbox" class="form-check-input" id="paymentUpdates" role="switch" checked>
+
+            </div>
+        </div>
+    <!-- Vendor messages -->
+        <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+
+            <label for="vendorMessages"> Vendor messages </label>
+                <div class="form-check form-switch">
+
+                    <input type="checkbox" class="form-check-input" id="vendorMessages" role="switch" checked>
+
+                </div>
+            </div>
+
+    <!-- Weekly newsletter -->
+        <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+
+        <label for="weeklyNewsletter"> Weekly newsletter </label>
+            <div class="form-check form-switch">
+
+                <input type="checkbox" class="form-check-input" id="weeklyNewsletter" role="switch">
+
+            </div>
+        </div>
+
+    <!-- Promotional offers -->
+        <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+            <label for="promotionalOffers"> Promotional offers </label>
+
+                <div class="form-check form-switch">
+
+                    <input type="checkbox" class="form-check-input" id="promotionalOffers" role="switch">
+                </div>
+        </div>
+
+        <button type="button" class="btn text-white fw-bold mt-4" style="background-color: #fd5c24;"> Save Preferences </button>
+        </div>
+    </section>
+</div>
+
+<!-- Language -->
+
+    <div class="tab-pane fade" id="language" role="tabpanel" aria-labelledby="language-tab">
+
+        <section class="card border shadow-sm rounded-3">
+        <div class="card-body p-4">
+            <h2 class="fs-5 fw-bold mb-4">App Interface Language </h2>
+
+    <!-- English -->
+    <input type="radio" class="btn-check" name="language" id="englishLanguage" autocomplete="off" checked>
+
+        <label for="englishLanguage" class="btn w-100 text-start rounded-5 p-3 mb-3 border-2"
+            style=" color: #212529;
+                    background-color: #f8f9fa;
+                    border-color: #01265e; ">
+
+        <span class="d-flex justify-content-between align-items-center">
+            <span>
+                <strong class="fs-5"> EN &nbsp; English </strong>
+
+                    <small class="d-block text-secondary ms-5"> Left-to-right </small>
+            </span>
+                    <strong>✓</strong>
+        </span>
+        </label>
+
+    <!-- Arabic -->
+        <input type="radio" class="btn-check" name="language" id="arabicLanguage" autocomplete="off">
+
+            <label for="arabicLanguage" class="btn btn-outline-secondary w-100 text-start rounded-5 p-3">
+                <span>
+                    <strong class="fs-5"> AR &nbsp; العربية </strong>
+                        <small class="d-block ms-5"> من اليمين لليسار </small>
+
+                </span>
+            </label>
+        </div>
+
+    </section>
+
+</div>
+</div>
+
+
+    <!-- Sign out -->
+<section class="border-top mt-4 pt-4">
+
+    <a href="login.html" class="text-decoration-none fw-semibold small" style="color: #01265e;"> Sign Out</a>
+
+</section>
+</div>
+
+</div> <!-- End of centered row -->
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">   <!-- Bootstrap JavaScript for tabs -->
+</script>
+
+
+</body>
+</html>
