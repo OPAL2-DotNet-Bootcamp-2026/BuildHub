@@ -1,0 +1,203 @@
+
+
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f8f6f0;
+      color: #2d3748;
+      padding: 40px 20px;
+    }
+
+
+
+
+
+    .back-link {
+      display: inline-block;
+      color: #718096;
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .back-link:hover {
+      color: #1a202c;
+    }
+
+
+
+
+
+    .product-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+
+
+
+
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .gallery-container > img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .gallery-container .thumbnails-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .gallery-container .thumbnails-group img {
+      width: calc(33.33% - 8px);
+      height: 90px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-container .thumbnails-group img:hover {
+      opacity: 0.8;
+    }
+
+
+
+
+
+    .details-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .category-badge {
+      align-self: flex-start;
+      background-color: #e0edff;
+      color: #2b6cb0;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .product-title {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      color: #1a202c;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .store-info {
+      font-size: 13px;
+      color: #718096;
+      margin-bottom: 20px;
+    }
+
+    .price-box {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .price-amount {
+      font-family: Georgia, serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: #1a202c;
+    }
+
+    .price-unit {
+      font-size: 14px;
+      color: #718096;
+    }
+
+    .product-description {
+      font-size: 14px;
+      color: #4a5568;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+
+
+
+
+    .btn-primary-custom {
+      width: 100%;
+      background-color: #1e3a5f;
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #152a45;
+    }
+
+    .btn-secondary-custom {
+      width: 100%;
+      background-color: transparent;
+      color: #2d3748;
+      border: 1px solid #cbd5e0;
+      padding: 14px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-secondary-custom:hover {
+      background-color: #edf2f7;
+    }
+
+
+
+
+    .specs-card {
+      background-color: #eeebe3;
+      border-radius: 16px;
+      padding: 16px 20px;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 8px 0;
+    }
+
+    .spec-label {
+      color: #718096;
+    }
+
+    .spec-value {
+      color: #1a202c;
+      font-weight: 600;
+    }
+
