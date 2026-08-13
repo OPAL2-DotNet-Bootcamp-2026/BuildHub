@@ -1,13 +1,434 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/FrontEnd/styles/styles.css">
-        <title>BuildHub</title>
-        <!-- This is the landing page, first one -->
-    </head>
-    <body>
-        
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../FrontEnd/styles/styles.css" />
+    <link rel="stylesheet" href="../styles/landing-page.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    />
+    <title>BuildHub</title>
+    <!-- This is the landing page, first one -->
+  </head>
+  <body>
+    <div class="page">
+      <main>
+        <section class="hero">
+          <div
+            class="bg"
+            style="
+              background-image: url(&quot;https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=900&fit=crop&auto=format&quot;);
+            "
+          ></div>
+          <div class="scrim"></div>
+          <div class="wrap w-7xl inner">
+            <div class="max">
+              <div class="mb-4">
+                <span class="badge badge-teal">Available across Oman</span>
+              </div>
+              <h1>Build your home with confidence</h1>
+              <p class="lede">
+                Describe your project once, receive offers from verified
+                contractors and designers, and pay safely through our escrow
+                system.
+              </p>
+              <div class="row-stack">
+                <a
+                  class="btn btn-accent btn-lg"
+                  href="#"
+                  style="box-shadow: var(--shadow-lg)"
+                  >Post a Job — It's Free</a
+                >
+                <a class="btn btn-lg btn-on-dark" href="#">Browse Vendors</a>
+              </div>
+
+              <!-- Demo shortcuts -->
+              <div class="d-flex flex-wrap align-items-center gap-2 u-mt-32">
+                <span class="t-sm" style="color: rgba(255, 255, 255, 0.5)"
+                  >Try demo:</span
+                >
+                <a class="demo-chip" href="#">→ Homeowner view</a>
+                <a class="demo-chip" href="#">→ Vendor view</a>
+                <a class="demo-chip" href="#">→ Admin view</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats-bar">
+          <div class="wrap w-7xl">
+            <div class="row row-cols-2 row-cols-md-4 g-4 text-center">
+              <div class="col">
+                <div class="n">2,400+</div>
+                <div class="l">Verified Vendors</div>
+              </div>
+              <div class="col">
+                <div class="n">14,000+</div>
+                <div class="l">Jobs Completed</div>
+              </div>
+              <div class="col">
+                <div class="n">OMR 8.2M</div>
+                <div class="l">Protected in Escrow</div>
+              </div>
+              <div class="col">
+                <div class="n">4.8 ★</div>
+                <div class="l">Average Rating</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wrap w-7xl u-py-64">
+          <div class="text-center u-mb-40">
+            <h2 class="t-3xl">Browse by Category</h2>
+            <p class="text-muted mt-2">Find exactly what you need</p>
+          </div>
+          <div class="row g-3 row-cols-2 row-cols-sm-3 row-cols-md-6">
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">🏗️</span>
+                <span class="name">General Contractor</span>
+              </a>
+            </div>
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">🛋️</span>
+                <span class="name">Interior Designer</span>
+              </a>
+            </div>
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">🔧</span>
+                <span class="name">Plumber</span>
+              </a>
+            </div>
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">⚡</span>
+                <span class="name">Electrician</span>
+              </a>
+            </div>
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">🪟</span>
+                <span class="name">Tiles &amp; Ceramics</span>
+              </a>
+            </div>
+            <div class="col">
+              <a class="cat-tile h-100" href="#">
+                <span class="emoji">🍳</span>
+                <span class="name">Kitchen Fitting</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="band">
+          <div class="wrap w-7xl">
+            <div class="text-center u-mb-40">
+              <h2 class="t-3xl">How the Escrow System Works</h2>
+              <p
+                class="text-muted mt-2"
+                style="max-width: 36rem; margin-inline: auto"
+              >
+                Your money is protected throughout the project. Funds are held
+                at hire and only released when you confirm work is complete.
+              </p>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+              <div class="col">
+                <div class="step-card h-100">
+                  <div class="circle">01</div>
+                  <h3>Post Your Job</h3>
+                  <p>
+                    Describe the work, set your budget, and post. No phone
+                    calls, no chasing.
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="step-card h-100">
+                  <div class="circle">02</div>
+                  <h3>Compare Offers</h3>
+                  <p>
+                    Verified vendors send you their price and timeline. All in
+                    one place.
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="step-card h-100">
+                  <div class="circle">03</div>
+                  <h3>Pay into Escrow</h3>
+                  <p>
+                    Your money is held securely — not paid to anyone until the
+                    job is done.
+                  </p>
+                </div>
+              </div>
+              <div class="col">
+                <div class="step-card h-100">
+                  <div class="circle">04</div>
+                  <h3>Release When Done</h3>
+                  <p>
+                    You confirm completion, then funds are released to the
+                    vendor. Simple.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="u-mt-40" style="max-width: 32rem; margin-inline: auto">
+              <div class="card p-4">
+                <p class="eyebrow mb-3">Example: Payment Status</p>
+                <div class="escrow-strip">
+                  <div class="is-current">🔒 Held</div>
+                  <div>In Progress</div>
+                  <div>Released</div>
+                </div>
+                <p class="t-xs text-muted u-mt-12 text-center">
+                  OMR 2,500 held securely in escrow
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wrap w-7xl u-py-64">
+          <div class="text-center u-mb-40">
+            <h2 class="t-3xl">Why Homeowners Choose BuildHub</h2>
+          </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+            <div class="col">
+              <div class="trust-card h-100">
+                <div class="emoji">🔒</div>
+                <h3>Escrow Protection</h3>
+                <p>
+                  Money held securely until you confirm the work is complete.
+                </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="trust-card h-100">
+                <div class="emoji">✓</div>
+                <h3>Verified Vendors</h3>
+                <p>
+                  Every business is verified with commercial registration before
+                  listing.
+                </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="trust-card h-100">
+                <div class="emoji">⭐</div>
+                <h3>Real Reviews</h3>
+                <p>
+                  Ratings from real homeowners who completed jobs on the
+                  platform.
+                </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class="trust-card h-100">
+                <div class="emoji">📋</div>
+                <h3>Price Transparency</h3>
+                <p>
+                  Compare offers side by side. No hidden fees, no surprises.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="band">
+          <div class="wrap w-7xl">
+            <div
+              class="d-flex align-items-center justify-content-between u-mb-40"
+            >
+              <div>
+                <h2 class="t-3xl">Featured Vendors</h2>
+                <p class="text-muted mt-1">Top rated this month</p>
+              </div>
+              <a class="link link-underline t-sm" href="#">View all →</a>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 u-g-20">
+              <div class="col">
+                <a class="card card-hover card-overflow h-100" href="#">
+                  <div class="thumb thumb-44 position-relative">
+                    <img
+                      src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop&auto=format"
+                      alt="Al-Rashid Construction portfolio"
+                    />
+                    <div class="overlay-tl">
+                      <span
+                        class="badge-verified"
+                        style="border: 1px solid var(--success-20)"
+                        >✓ Verified</span
+                      >
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <div class="d-flex align-items-start u-gap-12">
+                      <img
+                        class="avatar a-md"
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&auto=format"
+                        alt=""
+                      />
+                      <div class="u-min-w-0">
+                        <h3
+                          class="t-md fw-semibold text-truncate"
+                          style="font-family: var(--sans)"
+                        >
+                          Al-Rashid Construction
+                        </h3>
+                        <p class="t-xs text-muted">
+                          General Contractor · Muscat
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-between u-mt-12"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <span class="stars"
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span></span
+                        >
+                        <span class="t-xs fw-bold">4.8</span>
+                        <span class="t-xs text-muted">(142)</span>
+                      </div>
+                      <span class="t-xs text-muted">189 jobs</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col">
+                <a class="card card-hover card-overflow h-100" href="#">
+                  <div class="thumb thumb-44 position-relative">
+                    <img
+                      src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=400&fit=crop&auto=format"
+                      alt="Noor Interior Design portfolio"
+                    />
+                    <div class="overlay-tl">
+                      <span
+                        class="badge-verified"
+                        style="border: 1px solid var(--success-20)"
+                        >✓ Verified</span
+                      >
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <div class="d-flex align-items-start u-gap-12">
+                      <img
+                        class="avatar a-md"
+                        src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&auto=format"
+                        alt=""
+                      />
+                      <div class="u-min-w-0">
+                        <h3
+                          class="t-md fw-semibold text-truncate"
+                          style="font-family: var(--sans)"
+                        >
+                          Noor Interior Design
+                        </h3>
+                        <p class="t-xs text-muted">
+                          Interior Designer · Muscat
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-between u-mt-12"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <span class="stars"
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span></span
+                        >
+                        <span class="t-xs fw-bold">4.9</span>
+                        <span class="t-xs text-muted">(87)</span>
+                      </div>
+                      <span class="t-xs text-muted">94 jobs</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col">
+                <a class="card card-hover card-overflow h-100" href="#">
+                  <div class="thumb thumb-44 position-relative">
+                    <img
+                      src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&h=400&fit=crop&auto=format"
+                      alt="Gulf Plumbing Solutions portfolio"
+                    />
+                    <div class="overlay-tl">
+                      <span
+                        class="badge-verified"
+                        style="border: 1px solid var(--success-20)"
+                        >✓ Verified</span
+                      >
+                    </div>
+                  </div>
+                  <div class="p-3">
+                    <div class="d-flex align-items-start u-gap-12">
+                      <img
+                        class="avatar a-md"
+                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&auto=format"
+                        alt=""
+                      />
+                      <div class="u-min-w-0">
+                        <h3
+                          class="t-md fw-semibold text-truncate"
+                          style="font-family: var(--sans)"
+                        >
+                          Gulf Plumbing Solutions
+                        </h3>
+                        <p class="t-xs text-muted">Plumber · Sohar</p>
+                      </div>
+                    </div>
+                    <div
+                      class="d-flex align-items-center justify-content-between u-mt-12"
+                    >
+                      <div class="d-flex align-items-center gap-1">
+                        <span class="stars"
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span><span class="on">★</span
+                          ><span class="on">★</span></span
+                        >
+                        <span class="t-xs fw-bold">4.6</span>
+                        <span class="t-xs text-muted">(203)</span>
+                      </div>
+                      <span class="t-xs text-muted">312 jobs</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="wrap w-7xl u-py-80 text-center">
+          <h2 class="t-4xl mb-3">Ready to start your project?</h2>
+          <p
+            class="text-muted u-mb-32"
+            style="max-width: 28rem; margin-inline: auto"
+          >
+            Join thousands of homeowners across Oman building with confidence.
+          </p>
+          <div class="row-stack justify-content-center">
+            <a class="btn btn-accent btn-lg" href="#">Create a Free Account</a>
+            <a class="btn btn-outline-secondary btn-lg" href="#"
+              >Register as a Vendor</a
+            >
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
