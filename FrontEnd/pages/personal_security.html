@@ -151,6 +151,72 @@
 </section>
 </div>
 
+    <!-- Security part -->
+    <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+        <section class="card border shadow-sm rounded-3">
+            <div class="card-body p-4">
+                <h2 class="fs-5 fw-bold mb-4"> Change Password </h2>
+
+    <form>
+        <!-- Current password -->
+        <div class="mb-3">
+        <label for="currentPassword" class="form-label small fw-semibold"> Current Password </label>
+
+        <input type="password" id="currentPassword" class="form-control" value="12345678" required>
+        </div>
+        <!-- New password -->
+        <div class="mb-3">
+            <label for="newPassword" class="form-label small fw-semibold"> New Password </label>
+
+            <input type="password" id="newPassword" class="form-control" value="12345678" minlength="8" required>
+        </div>
+
+    <!-- Confirm password -->
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label small fw-semibold"> Confirm New Password </label>
+                <input type="password" id="confirmPassword" class="form-control" value="12345678" minlength="8" required>
+        </div>
+
+    <button type="submit" class="btn fw-bold text-white" style="background-color: #01265e;"> Update Password</button>
+
+    </form>
+
+    <hr class="my-4">
+
+    <!-- Two-factor authentication -->
+    <section>
+        <h2 class="fs-5 fw-bold"> Two-Factor Authentication </h2>
+
+            <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+            <p class="mb-0"> Add an extra layer of security
+            </p>
+
+            <small class="text-secondary"> via SMS verification </small>
+
+            </div>
+    <button type="button" class="btn btn-light btn-sm fw-semibold"> Enable </button>
+
+            </div>
+
+        </section>
+
+    <hr class="my-4 border-danger-subtle">
+        <!-- Delete account -->
+        <section>
+            <h2 class="fs-5 text-danger"> Delete Account </h2>
+                <p class="small text-secondary"> This action is permanent and cannot be undone. </p>
+        <button type="button" class="btn btn-danger fw-bold"> Delete My Account </button>
+
+        </section>
+
+    </div>
+
+    </section>
+
+</div>
+
 </main>
 
 </body>
