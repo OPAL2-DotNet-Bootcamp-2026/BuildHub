@@ -173,3 +173,71 @@ a {
 }
 
 
+.confirm-page {
+    min-height: calc(100vh - 73px - 94px); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 24px;
+}
+
+.confirm-card {
+    text-align: center;
+    max-width: 520px;
+}
+
+.confirm-icon {
+    font-size: 3em;
+    margin-bottom: 16px;
+}
+
+.confirm-card h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9em;
+    margin: 0 0 16px;
+    color: var(--text-dark);
+}
+
+.confirm-text {
+    color: var(--text-muted);
+    font-size: 1em;
+    line-height: 1.6;
+    margin: 0 0 32px;
+}
+
+.confirm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.btn-primary,
+.btn-secondary {
+    display: inline-block;
+    padding: 13px 26px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.btn-primary {
+    background-color: var(--orange);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--orange-dark);
+}
+
+.btn-secondary {
+    background-color: var(--cream);
+    color: var(--text-dark);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background-color: #efe9df;
+}
+
+
