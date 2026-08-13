@@ -13,7 +13,10 @@
       padding: 40px 20px;
     }
 
-    /* Back Link */
+
+
+
+
     .back-link {
       display: inline-block;
       color: #718096;
@@ -26,7 +29,10 @@
       color: #1a202c;
     }
 
-    /* Page Layout Grid */
+
+
+
+
     .product-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -36,7 +42,10 @@
       align-items: start;
     }
 
-    /* Left Column: Image Gallery */
+
+
+
+
     .gallery-container {
       display: flex;
       flex-direction: column;
@@ -67,7 +76,10 @@
       opacity: 0.8;
     }
 
-    /* Right Column: Product Details */
+
+
+
+
     .details-container {
       display: flex;
       flex-direction: column;
@@ -124,7 +136,10 @@
       margin-bottom: 24px;
     }
 
-    /* Action Buttons */
+
+
+
+
     .btn-primary-custom {
       width: 100%;
       background-color: #1e3a5f;
@@ -161,7 +176,9 @@
       background-color: #edf2f7;
     }
 
-    /* Product Specifications Box */
+
+
+
     .specs-card {
       background-color: #eeebe3;
       border-radius: 16px;
