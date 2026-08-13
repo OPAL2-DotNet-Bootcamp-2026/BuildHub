@@ -30,3 +30,148 @@ a {
 }
 
 
+.app-header {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.app-header__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.brand-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--navy-btn);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85em;
+    flex-shrink: 0;
+}
+
+.brand-badge--sm {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75em;
+}
+
+.brand-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--navy-btn);
+}
+
+.brand-name--sm {
+    font-size: 1.05em;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex: 1;
+}
+
+.main-nav a {
+    color: var(--text-dark);
+    font-size: 0.95em;
+}
+
+.main-nav a:hover {
+    color: var(--navy-btn);
+}
+
+.nav-notif {
+    position: relative;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -8px;
+    right: -14px;
+    background-color: var(--orange);
+    color: #ffffff;
+    font-size: 0.7em;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.lang-toggle {
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.85em;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dark);
+    font-size: 0.92em;
+    font-weight: 500;
+}
+
+.avatar-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #e5e8ec;
+    color: var(--navy-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.7em;
+    flex-shrink: 0;
+}
+
+.btn-post-job {
+    background-color: var(--orange);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 10px 18px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.btn-post-job:hover {
+    background-color: var(--orange-dark);
+}
+
+
