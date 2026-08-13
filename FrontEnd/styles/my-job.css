@@ -1,0 +1,36 @@
+#btn-custom-orange {
+    background-color: #e86328;
+    color: white;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem; /* 10px 20px */
+    border-radius: 0.75rem; /* 12px */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+
+#review-button{
+    background-color:#1B3A5C;
+    color:white;
+    border-radius: 7px;
+
+}
+
+.badge.bg-primary.badge-color{
+    background-color: #b0b9c6 !important ;
+    color:#1E40AF !important;
+    border-radius: 9px;
+
+}
+.badge .bg-success .badge-color{
+    background-color: #2A8A8A1A !important ;
+    color:#1E40AF !important;
+    border-radius: 9px;
+
+}
+body {
+    background-color: #F7F4EF !important;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
