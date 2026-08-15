@@ -4,18 +4,18 @@ class SharedHeader extends HTMLElement {
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
 
-      /* --- Design tokens used by the header ------------------------------ */
+      /* --- Design tokens -------------------------------------------------- */
       :root {
         --primary: #1b3a5c;
         --accent: #e8622a;
         --accent-dark: #c94e1a;
         --fg: #1a1a1a;
         --card: #ffffff;
-        --muted: #ebe6df;
-        --muted-fg: #6b6258;
-        --border: #ddd7ce;
+        --muted: #f0f3f6;
+        --muted-fg: #555555;
+        --border: #e2e8f0;
 
-        --primary-08: rgba(27, 58, 92, 0.08);
+        --primary-08: #eef3f8;
         --primary-30: rgba(27, 58, 92, 0.3);
 
         --r-sm: 6px;
@@ -26,10 +26,9 @@ class SharedHeader extends HTMLElement {
         --sans: "Open Sans", system-ui, -apple-system, Segoe UI, sans-serif;
         --serif: "Playfair Display", Georgia, serif;
 
-        --header-h: 64px;
+        --header-h: 72px;
       }
 
-      /* --- Reboot rules that reach the header markup ---------------------- */
       .site-header,
       .mobile-nav {
         font-family: var(--sans);
@@ -38,10 +37,6 @@ class SharedHeader extends HTMLElement {
       .mobile-nav a {
         color: inherit;
         text-decoration: none;
-      }
-      .site-header a:hover,
-      .mobile-nav a:hover {
-        color: inherit;
       }
       .site-header button {
         font: inherit;
@@ -57,28 +52,22 @@ class SharedHeader extends HTMLElement {
         outline-offset: 2px;
       }
 
-      /* --- Layout utilities used by the header bar ------------------------ */
+      /* Layout */
       .site-header .wrap {
         width: 100%;
         margin-inline: auto;
-        padding-inline: 16px;
-      }
-      @media (min-width: 640px) {
-        .site-header .wrap {
-          padding-inline: 24px;
-        }
+        padding-inline: 24px;
       }
       .site-header .w-7xl {
-        max-width: 1280px;
+        max-width: 1320px;
       }
 
-      /* --- Header chrome -------------------------------------------------- */
+      /* Header container */
       .site-header {
         position: sticky;
         top: 0;
         z-index: 50;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(8px);
+        background: #ffffff;
         border-bottom: 1px solid var(--border);
       }
       .site-header .bar {
@@ -86,22 +75,23 @@ class SharedHeader extends HTMLElement {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
+        gap: 24px;
       }
 
+      /* Logo with circular badge */
       .logo {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
       }
       .logo .mark {
-        width: 32px;
-        height: 32px;
-        border-radius: var(--r-md);
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
         background: var(--primary);
         color: #fff;
         font-weight: 700;
-        font-size: 14px;
+        font-size: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -109,67 +99,71 @@ class SharedHeader extends HTMLElement {
       .logo .word {
         font-family: var(--serif);
         font-weight: 700;
-        font-size: 20px;
+        font-size: 22px;
         color: var(--primary);
         letter-spacing: -0.01em;
       }
-      .logo.sm .mark {
-        width: 28px;
-        height: 28px;
-        font-size: 12px;
-        border-radius: var(--r-sm);
-      }
-      .logo.sm .word {
-        font-size: 18px;
-      }
 
-      /* Desktop nav — hidden below 768px, where the hamburger takes over */
+      /* Desktop navigation */
       .site-header .nav {
         display: none;
         align-items: center;
-        gap: 4px;
-        flex-wrap: nowrap;
+        gap: 8px;
       }
-      @media (min-width: 768px) {
+      @media (min-width: 992px) {
         .site-header .nav {
           display: flex;
         }
       }
 
-      .site-header .nav-link,
-      .header-actions .nav-link {
+      .site-header .nav-link {
         position: relative;
-        display: block;
-        border-radius: var(--r-md);
-        transition:
-          background-color 0.15s,
-          color 0.15s;
-        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: var(--r-lg);
+        font-size: 15px;
         font-weight: 500;
         color: var(--muted-fg);
-        padding: 8px 14px;
+        padding: 10px 18px;
+        transition: all 0.15s ease;
       }
-      .site-header .nav-link:hover,
-      .header-actions .nav-link:hover {
-        background: var(--muted);
+      .site-header .nav-link:hover {
         color: var(--fg);
+        background: var(--muted);
       }
       .site-header .nav-link.active {
         color: var(--primary);
         background: var(--primary-08);
+        font-weight: 600;
       }
 
+      /* Notification Counter Badge */
+      .badge-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        background-color: var(--accent);
+        color: #ffffff;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 700;
+        margin-left: 6px;
+      }
+
+      /* Right actions */
       .header-actions {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 16px;
       }
 
       .lang-btn {
-        padding: 6px 12px;
-        border-radius: var(--r-md);
+        padding: 6px 16px;
+        border-radius: var(--r-full);
         border: 1px solid var(--border);
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 600;
         transition: background-color 0.15s;
       }
@@ -177,12 +171,35 @@ class SharedHeader extends HTMLElement {
         background: var(--muted);
       }
 
+      /* User Profile Pill */
+      .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--fg);
+      }
+      .user-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background-color: var(--primary-08);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      /* Primary Action Button */
       .cta-link {
         display: none;
         align-items: center;
-        gap: 6px;
-        padding: 8px 16px;
-        border-radius: var(--r-md);
+        justify-content: center;
+        padding: 10px 22px;
+        border-radius: var(--r-full);
         background: var(--accent);
         color: #fff;
         font-size: 14px;
@@ -199,24 +216,20 @@ class SharedHeader extends HTMLElement {
         }
       }
 
-      /* Hamburger drives Bootstrap's collapse plugin; icon swap follows aria-expanded */
+      /* Mobile Hamburger */
       .hamburger {
         display: flex;
         padding: 8px;
         border-radius: var(--r-md);
-        transition: background-color 0.15s;
       }
-      .hamburger:hover {
-        background: var(--muted);
-      }
-      @media (min-width: 768px) {
+      @media (min-width: 992px) {
         .hamburger {
           display: none;
         }
       }
       .hamburger svg {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
       }
       .hamburger [data-nav-icon="close"] {
         display: none;
@@ -231,16 +244,18 @@ class SharedHeader extends HTMLElement {
       .mobile-nav {
         border-top: 1px solid var(--border);
         background: var(--card);
-        padding: 12px 16px;
+        padding: 16px;
       }
-      @media (min-width: 768px) {
+      @media (min-width: 992px) {
         .mobile-nav {
           display: none !important;
         }
       }
       .mobile-nav a {
-        display: block;
-        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
         border-radius: var(--r-md);
         font-size: 14px;
         font-weight: 500;
@@ -248,71 +263,52 @@ class SharedHeader extends HTMLElement {
       .mobile-nav a + a {
         margin-top: 4px;
       }
-      .mobile-nav a:hover {
-        background: var(--muted);
-      }
       .mobile-nav a.active {
         color: var(--primary);
         background: var(--primary-08);
-      }
-      .mobile-nav .btn {
-        margin-top: 8px;
-        width: 100%;
-      }
-
-      /* --- Button styles for the mobile "Get Started" CTA ------------------ */
-      .mobile-nav .btn {
-        --bs-btn-padding-y: 10px;
-        --bs-btn-padding-x: 20px;
-        --bs-btn-font-size: 14px;
-        --bs-btn-font-weight: 600;
-        --bs-btn-border-radius: var(--r-md);
-        --bs-btn-border-width: 1px;
-        --bs-btn-border-color: transparent;
-        --bs-btn-hover-border-color: transparent;
-        --bs-btn-active-border-color: transparent;
-        --bs-btn-box-shadow: none;
-        --bs-btn-focus-box-shadow: 0 0 0 3px var(--primary-30);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        white-space: nowrap;
-        transition:
-          background-color 0.15s,
-          border-color 0.15s,
-          color 0.15s,
-          transform 0.1s;
-      }
-      .mobile-nav .btn:active {
-        transform: scale(0.98);
+        font-weight: 600;
       }
       .mobile-nav .btn-accent {
-        --bs-btn-bg: var(--accent);
-        --bs-btn-color: #fff;
-        --bs-btn-hover-bg: var(--accent-dark);
-        --bs-btn-hover-color: #fff;
-        --bs-btn-active-bg: var(--accent-dark);
-        --bs-btn-active-color: #fff;
+        margin-top: 12px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        background: var(--accent);
+        color: #fff;
+        border-radius: var(--r-full);
+        font-weight: 600;
       }
     </style>
+
     <header class="site-header">
       <div class="wrap w-7xl bar">
         <a class="logo" href="../pages/index.html">
           <span class="mark">B</span>
           <span class="word">BuildHub</span>
         </a>
+
         <nav class="nav">
           <a class="nav-link" href="../pages/Dashboard.html">Dashboard</a>
-          <a class="nav-link" href="../pages/my-jobs.html">My Jobs</a>
           <a class="nav-link" href="../pages/Browse_Vendors.html">Browse Vendors</a>
+          <a class="nav-link active" href="../pages/my-jobs.html">My Jobs</a>
           <a class="nav-link" href="../pages/browse_products.html">Products</a>
-          <a class="nav-link" href="../pages/notifications.html">Notifications</a>
+          <a class="nav-link" href="../pages/notifications.html">
+            Notifications <span class="badge-count">2</span>
+          </a>
         </nav>
+
         <div class="header-actions">
           <button class="lang-btn" type="button">عربي</button>
-          <a class="nav-link d-none d-md-block" href="../pages/login.html">Log in</a>
-          <a class="cta-link" href="../pages/registration.html">Get Started</a>
+          
+          <div class="user-profile">
+            <span class="user-avatar">SA</span>
+            <span class="user-name d-none d-sm-inline">Salim Al-Balushi</span>
+          </div>
+
+          <a class="cta-link" href="../pages/post-job.html">+ Post Job</a>
+
           <button
             class="hamburger"
             type="button"
@@ -321,40 +317,28 @@ class SharedHeader extends HTMLElement {
             aria-expanded="false"
             aria-controls="mobileNav"
           >
-            <svg
-              data-nav-icon="open"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
+            <svg data-nav-icon="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
-            <svg
-              data-nav-icon="close"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-            >
+            <svg data-nav-icon="close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
       </div>
+
       <div class="collapse mobile-nav" id="mobileNav">
-        <a class="active" href="../pages/Dashboard.html">Dashboard</a>
-        <a href="../pages/my-jobs.html">My Jobs</a>
+        <a href="../pages/Dashboard.html">Dashboard</a>
         <a href="../pages/Browse_Vendors.html">Browse Vendors</a>
+        <a class="active" href="../pages/my-jobs.html">My Jobs</a>
         <a href="../pages/browse_products.html">Products</a>
-        <a href="../pages/notifications.html">Notifications</a>
-        <a href="../pages/login.html">Log in</a>
-        <a class="btn btn-accent" href="../pages/registration.html">Get Started</a>
+        <a href="../pages/notifications.html">
+          Notifications <span class="badge-count">2</span>
+        </a>
+        <a class="btn-accent" href="../pages/post-job.html">+ Post Job</a>
       </div>
     </header>
     `;
