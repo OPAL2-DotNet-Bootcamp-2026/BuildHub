@@ -302,10 +302,11 @@ class SharedHeader extends HTMLElement {
         <div class="header-actions">
           <button class="lang-btn" type="button">عربي</button>
           
-          <div class="user-profile">
+          <a href="../pages/personalization.html"><div class="user-profile">
             <span class="user-avatar">SA</span>
             <span class="user-name d-none d-sm-inline">Salim Al-Balushi</span>
           </div>
+          </a>
 
           <a class="cta-link" href="../pages/post-job.html">+ Post Job</a>
 
