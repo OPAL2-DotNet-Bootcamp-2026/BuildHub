@@ -1,0 +1,45 @@
+<!-- The artwork occupies x 6-44, y 10-57 of the original 0 0 64 64 canvas,
+     which left it off-centre with a wide empty margin on the right. The
+     viewBox below frames the artwork squarely with even padding so the icon
+     fills whatever box it is given. The drawing itself is unchanged. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 7.5 52 52" width="64" height="64">
+  <defs>
+    <style>
+      .navy   { fill:#1F3A56; }
+      .steel  { fill:#8B96A0; }
+      .teal   { fill:#2AA79B; }
+      .white  { fill:#FFFFFF; }
+    </style>
+  </defs>
+
+  <!-- crane arm + mast -->
+  <rect class="steel" x="6" y="12" width="24" height="4" rx="1.5"/>
+  <rect class="teal"  x="6" y="12" width="4" height="20" rx="1"/>
+
+  <!-- letterform "B" as building bowls -->
+  <rect class="navy" x="18" y="10" width="6" height="44" rx="2"/>
+  <path class="navy" d="
+    M24,10
+    h6
+    a12,10 0 0 1 0,20
+    h-6
+    z"/>
+  <path class="navy" d="
+    M24,30
+    h8
+    a12,12 0 0 1 0,24
+    h-8
+    z"/>
+
+  <!-- window accent in lower bowl -->
+  <rect class="teal" x="28" y="38" width="6" height="6" rx="1"/>
+
+  <!-- gear -->
+  <path class="steel" d="M 20.0,35.0 L 23.14,38.42 L 27.78,38.22 L 27.58,42.86 L 31.0,46.0 L 27.58,49.14 L 27.78,53.78 L 23.14,53.58 L 20.0,57.0 L 16.86,53.58 L 12.22,53.78 L 12.42,49.14 L 9.0,46.0 L 12.42,42.86 L 12.22,38.22 L 16.86,38.42 Z"/>
+  <circle class="white" cx="20" cy="46" r="7"/>
+
+  <!-- eye -->
+  <circle class="navy" cx="20" cy="46" r="4.2"/>
+  <circle class="teal" cx="21" cy="45" r="1.6"/>
+  <circle class="white" cx="19.4" cy="44.4" r="0.7"/>
+</svg>
