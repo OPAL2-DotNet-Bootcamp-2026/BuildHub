@@ -1,36 +1,105 @@
+/* -------------------------------------------------------------------------
+   Page shell
+   The page content sits directly on <body>, so the column is set up here
+   rather than on a wrapper — everything between the header and the footer
+   lines up with the chrome above and below it.
+   ------------------------------------------------------------------------- */
+body.body-color > *:not(shared-header):not(shared-footer):not(script) {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+@media (min-width: 640px) {
+  body.body-color > *:not(shared-header):not(shared-footer):not(script) {
+    padding-inline: 24px;
+  }
+}
+
+body.body-color > .d-flex:first-of-type {
+  margin-top: 32px;
+}
+body.body-color > hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* -------------------------------------------------------------------------
+   Filter tabs
+   ------------------------------------------------------------------------- */
+.filter-tabs {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.tab-btn {
+  --bs-btn-padding-x: 4px;
+  --bs-btn-padding-y: 8px;
+  --bs-btn-color: var(--muted-fg);
+  --bs-btn-hover-color: var(--fg);
+  --bs-btn-border-radius: 0;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+}
+.tab-btn.active {
+  --bs-btn-color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.tab-btn .badge {
+  background: var(--muted) !important;
+  color: var(--muted-fg) !important;
+  min-width: 22px;
+  height: 22px;
+  justify-content: center;
+}
+.tab-btn.active .badge {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
+
+/* -------------------------------------------------------------------------
+   Job cards
+   ------------------------------------------------------------------------- */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+}
+.card-text {
+  font-size: 14px;
+  color: var(--muted-fg);
+}
+
+.badge.bg-primary.badge-color {
+  background-color: var(--blue-bg) !important;
+  color: var(--blue-fg) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Actions
+   ------------------------------------------------------------------------- */
 #btn-custom-orange {
-    background-color: #e86328;
-    color: white;
-    font-weight: 500;
-    padding: 0.625rem 1.25rem; /* 10px 20px */
-    border-radius: 0.75rem; /* 12px */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    transition: background-color 0.3s ease;
+  background-color: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.15s;
+}
+#btn-custom-orange:hover {
+  background-color: var(--accent-dark);
+  color: #ffffff;
 }
 
-
-#review-button{
-    background-color:#1B3A5C;
-    color:white;
-    border-radius: 7px;
-
+#review-button {
+  background-color: var(--primary);
+  color: #ffffff;
+  border-radius: var(--r-md);
+  font-weight: 600;
+  transition: background-color 0.15s;
 }
-
-.badge.bg-primary.badge-color{
-    background-color: #b0b9c6 !important ;
-    color:#1E40AF !important;
-    border-radius: 9px;
-
-}
-.badge .bg-success .badge-color{
-    background-color: #2A8A8A1A !important ;
-    color:#1E40AF !important;
-    border-radius: 9px;
-
-}
-body {
-    background-color: #F7F4EF !important;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+#review-button:hover {
+  background-color: var(--primary-light);
+  color: #ffffff;
 }

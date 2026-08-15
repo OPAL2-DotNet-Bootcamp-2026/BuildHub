@@ -1,32 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Inter:wght@400;500;600;700&display=swap");
-
-:root {
-  --cream: #f7f4ef;
-  --border: #e1dcd4;
-  --text-muted: #857d75;
-  --navy-btn: #1b3a5c;
-  --text-dark: #010714;
-}
-
-/* ═══ RESET ═══════════════════════════════════════════════════ */
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  min-height: 100%;
-  font-family: "Inter", Arial, sans-serif;
-  color: var(--text-dark);
-}
-
-/* ═══ PAGE WRAPPER ════════════════════════════════════════════ */
+/* -------------------------------------------------------------------------
+   Page wrapper
+   ------------------------------------------------------------------------- */
 .login-page {
   min-height: 100vh;
 }
 
-/* ═══ LEFT PANEL — image + testimonial ═══════════════════════ */
+/* -------------------------------------------------------------------------
+   Left panel — image + testimonial
+   ------------------------------------------------------------------------- */
 .login-visual {
   position: relative;
   min-height: 100vh;
@@ -52,9 +33,9 @@ body {
   z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(19, 60, 111, 0.8),
-    rgba(19, 60, 111, 0.6) 50%,
-    rgba(19, 60, 111, 0.8)
+    rgba(27, 58, 92, 0.85),
+    rgba(27, 58, 92, 0.65) 50%,
+    rgba(27, 58, 92, 0.85)
   );
 }
 
@@ -69,31 +50,45 @@ body {
   color: #ffffff;
 }
 
+/* Everything on the photo panel reads white; links elsewhere keep the
+   shared link colour. */
+.login-visual a,
+.login-visual a:visited,
+.login-visual a:hover {
+  color: #ffffff;
+}
+
 .login-visual__brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
+/* The mark is navy and teal, so on the dark photo panel it sits on a white
+   disc to stay legible. */
 .brand-badge {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background-color: #ffffff;
-  color: var(--navy-btn);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9em;
-  font-weight: 700;
   flex-shrink: 0;
 }
 
+.brand-badge img {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
 .brand-name {
-  font-family: "Playfair Display", serif;
+  font-family: var(--serif);
   font-weight: 700;
-  font-size: 1.4em;
+  font-size: 22px;
   color: #ffffff;
+  letter-spacing: -0.01em;
 }
 
 .login-visual__quote {
@@ -102,9 +97,9 @@ body {
 }
 
 .login-visual__quote p {
-  font-family: "Playfair Display", serif;
+  font-family: var(--serif);
   font-style: italic;
-  font-size: 1.5em;
+  font-size: 24px;
   line-height: 1.4;
   margin: 0 0 24px;
 }
@@ -119,7 +114,7 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 0.85em;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
@@ -128,20 +123,25 @@ body {
   flex-direction: column;
 }
 
-.quote-name strong {
-  font-size: 0.95em;
+.quote-name strong,
+.quote-name h2 {
+  font-family: var(--sans);
+  font-size: 15px;
   font-weight: 600;
+  margin: 0;
 }
 
 .quote-name span {
-  font-size: 0.85em;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* ═══ RIGHT PANEL — form ══════════════════════════════════════ */
+/* -------------------------------------------------------------------------
+   Right panel — form
+   ------------------------------------------------------------------------- */
 .login-form-panel {
   position: relative;
-  background-color: var(--cream);
+  background-color: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -154,12 +154,17 @@ body {
   top: 32px;
   right: 40px;
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 8px 20px;
-  font-size: 0.85em;
-  color: var(--text-dark);
-  background-color: #ffffff;
+  border-radius: var(--r-full);
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+  background-color: var(--card);
   cursor: pointer;
+  transition: background-color 0.15s;
+}
+.lang-toggle:hover {
+  background-color: var(--muted);
 }
 
 .login-form-wrap {
@@ -168,39 +173,22 @@ body {
 }
 
 .login-form-wrap h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 2.1em;
+  font-family: var(--serif);
+  font-size: 34px;
   margin: 0 0 4px;
 }
 
 .subtitle {
-  color: var(--text-muted);
+  color: var(--muted-fg);
   margin: 0 0 32px;
 }
 
-/* ═══ FORM FIELDS ═════════════════════════════════════════════ */
-.form-label {
-  font-weight: 600;
-  font-size: 0.92em;
-  margin-bottom: 8px;
-}
-
-.form-control {
-  padding: 13px 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background-color: #ffffff;
-  font-size: 0.95em;
-}
-
-.form-control:focus {
-  border-color: var(--navy-btn);
-  box-shadow: 0 0 0 3px rgba(27, 58, 92, 0.12);
-}
-
+/* -------------------------------------------------------------------------
+   Form extras
+   ------------------------------------------------------------------------- */
 .forgot-link {
-  color: var(--text-muted);
-  font-size: 0.88em;
+  color: var(--muted-fg);
+  font-size: 14px;
   text-decoration: none;
 }
 
@@ -210,18 +198,31 @@ body {
 
 .demo-label {
   text-align: center;
-  color: var(--text-muted);
-  font-size: 0.85em;
+  color: var(--muted-fg);
+  font-size: 14px;
   margin-bottom: 16px;
 }
 
-a,
-a:visited,
-a:hover {
-  color: white;
+.demo-btn {
+  padding-block: 12px;
 }
 
-/* ═══ RESPONSIVE ══════════════════════════════════════════════ */
+.register-row {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted-fg);
+}
+.register-row a {
+  color: var(--primary);
+  font-weight: 600;
+}
+.register-row a:hover {
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------------------- */
 @media (max-width: 991.98px) {
   .login-visual {
     min-height: 340px;

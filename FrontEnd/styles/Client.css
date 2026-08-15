@@ -1,178 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,500&family=Inter:wght@400;500;600;700&display=swap");
-
-:root {
-  --navy-btn: #1b3a5c;
-  --cream: #f7f4ef;
-  --white: #ffffff;
-  --border: #ddd7ce;
-  --text-muted: #857d75;
-  --text-dark: #1a1a1a;
-  --orange: #e8622a;
-  --orange-dark: #cf5320;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100%;
-  font-family: "Inter", Arial, sans-serif;
-  color: var(--text-dark);
-  background-color: var(--cream);
-}
-
-a {
-  text-decoration: none;
-}
-
-.app-header {
-  background-color: var(--white);
-  border-bottom: 1px solid var(--border);
-}
-
-.app-header__inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 18px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-.brand-badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--navy-btn);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.85em;
-  flex-shrink: 0;
-}
-
-.brand-badge--sm {
-  width: 28px;
-  height: 28px;
-  font-size: 0.75em;
-}
-
-.brand-name {
-  font-family: "Playfair Display", serif;
-  font-weight: 700;
-  font-size: 1.3em;
-  color: var(--navy-btn);
-}
-
-.brand-name--sm {
-  font-size: 1.05em;
-}
-
-.main-nav {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  flex: 1;
-}
-
-.main-nav a {
-  color: var(--text-dark);
-  font-size: 0.95em;
-}
-
-.main-nav a:hover {
-  color: var(--navy-btn);
-}
-
-.nav-notif {
-  position: relative;
-}
-
-.notif-badge {
-  position: absolute;
-  top: -8px;
-  right: -14px;
-  background-color: var(--orange);
-  color: #ffffff;
-  font-size: 0.7em;
-  font-weight: 700;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-shrink: 0;
-}
-
-.lang-toggle {
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 6px 16px;
-  font-size: 0.85em;
-  color: var(--text-dark);
-  background-color: #ffffff;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.user-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-dark);
-  font-size: 0.92em;
-  font-weight: 500;
-}
-
-.avatar-circle {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background-color: #e5e8ec;
-  color: var(--navy-btn);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.7em;
-  flex-shrink: 0;
-}
-
-.btn-post-job {
-  background-color: var(--orange);
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.9em;
-  padding: 10px 18px;
-  border-radius: 8px;
-  white-space: nowrap;
-}
-
-.btn-post-job:hover {
-  background-color: var(--orange-dark);
-}
-
+/* -------------------------------------------------------------------------
+   Confirmation screen
+   ------------------------------------------------------------------------- */
 .confirm-page {
-  min-height: calc(100vh - 73px - 94px);
+  min-height: calc(100vh - var(--header-h) - 94px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,21 +15,21 @@ a {
 }
 
 .confirm-icon {
-  font-size: 3em;
+  font-size: 48px;
   margin-bottom: 16px;
 }
 
 .confirm-card h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.9em;
+  font-family: var(--serif);
+  font-size: 30px;
   margin: 0 0 16px;
-  color: var(--text-dark);
+  color: var(--fg);
 }
 
 .confirm-text {
-  color: var(--text-muted);
-  font-size: 1em;
-  line-height: 1.6;
+  color: var(--muted-fg);
+  font-size: 16px;
+  line-height: 1.7;
   margin: 0 0 32px;
 }
 
@@ -210,89 +40,45 @@ a {
   gap: 12px;
 }
 
-.btn-primary,
-.btn-secondary {
-  display: inline-block;
-  padding: 13px 26px;
-  border-radius: 8px;
+/* -------------------------------------------------------------------------
+   Actions
+   The two buttons here are plain anchors.
+   ------------------------------------------------------------------------- */
+.confirm-actions .btn-primary,
+.confirm-actions .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--r-md);
   font-weight: 600;
-  font-size: 0.95em;
+  font-size: 14px;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.1s;
+}
+.confirm-actions .btn-primary:active,
+.confirm-actions .btn-secondary:active {
+  transform: scale(0.98);
 }
 
-.btn-primary {
-  background-color: var(--orange);
+.confirm-actions .btn-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+.confirm-actions .btn-primary:hover {
+  background-color: var(--accent-dark);
   color: #ffffff;
 }
 
-.btn-primary:hover {
-  background-color: var(--orange-dark);
-}
-
-.btn-secondary {
-  background-color: var(--cream);
-  color: var(--text-dark);
+.confirm-actions .btn-secondary {
+  background-color: var(--card);
+  color: var(--fg);
   border: 1px solid var(--border);
 }
-
-.btn-secondary:hover {
-  background-color: #efe9df;
-}
-
-.app-footer {
-  background-color: var(--white);
-  border-top: 1px solid var(--border);
-}
-
-.app-footer__inner {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 24px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.footer-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.footer-copy {
-  color: var(--text-muted);
-  font-size: 0.88em;
-  margin-left: 6px;
-}
-
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-muted);
-  font-size: 0.88em;
-}
-
-.footer-links a {
-  color: var(--text-muted);
-}
-
-.footer-links a:hover {
-  color: var(--navy-btn);
-}
-
-.footer-links .dot {
-  color: var(--border);
-}
-
-@media (max-width: 900px) {
-  .main-nav {
-    display: none;
-  }
-
-  .app-footer__inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.confirm-actions .btn-secondary:hover {
+  background-color: var(--muted);
+  color: var(--fg);
 }
