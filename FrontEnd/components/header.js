@@ -303,7 +303,7 @@ class SharedHeader extends HTMLElement {
           <span class="word">BuildHub</span>
         </a>
         <nav class="nav">
-          <a class="nav-link active" href="../pages/Dashboard.html">Dashboard</a>
+          <a class="nav-link" href="../pages/Dashboard.html">Dashboard</a>
           <a class="nav-link" href="../pages/my-jobs.html">My Jobs</a>
           <a class="nav-link" href="../pages/Browse_Vendors.html">Browse Vendors</a>
           <a class="nav-link" href="../pages/browse_products.html">Products</a>
