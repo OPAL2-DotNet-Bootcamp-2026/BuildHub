@@ -2,32 +2,9 @@ class SharedHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
-
-      /* --- Design tokens -------------------------------------------------- */
-      :root {
-        --primary: #1b3a5c;
-        --accent: #e8622a;
-        --accent-dark: #c94e1a;
-        --fg: #1a1a1a;
-        --card: #ffffff;
-        --muted: #f0f3f6;
-        --muted-fg: #555555;
-        --border: #e2e8f0;
-
-        --primary-08: #eef3f8;
-        --primary-30: rgba(27, 58, 92, 0.3);
-
-        --r-sm: 6px;
-        --r-md: 10px;
-        --r-lg: 12px;
-        --r-full: 999px;
-
-        --sans: "Open Sans", system-ui, -apple-system, Segoe UI, sans-serif;
-        --serif: "Playfair Display", Georgia, serif;
-
-        --header-h: 72px;
-      }
+      /* Tokens (--primary, --border, --sans, --header-h, …) come from
+         styles/styles.css, which every page loads before this component.
+      */
 
       .site-header,
       .mobile-nav {
@@ -56,10 +33,15 @@ class SharedHeader extends HTMLElement {
       .site-header .wrap {
         width: 100%;
         margin-inline: auto;
-        padding-inline: 24px;
+        padding-inline: 16px;
+      }
+      @media (min-width: 640px) {
+        .site-header .wrap {
+          padding-inline: 24px;
+        }
       }
       .site-header .w-7xl {
-        max-width: 1320px;
+        max-width: 1280px;
       }
 
       /* Header container */
@@ -78,23 +60,21 @@ class SharedHeader extends HTMLElement {
         gap: 24px;
       }
 
-      /* Logo with circular badge */
+      /* Logo mark + wordmark */
       .logo {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
       }
+      /* Bootstrap styles .mark as a text highlight (yellow background plus
+         padding), so those two declarations have to be cleared here. */
       .logo .mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: var(--primary);
-        color: #fff;
-        font-weight: 700;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        display: block;
+        padding: 0;
+        background: none;
       }
       .logo .word {
         font-family: var(--serif);
@@ -285,7 +265,7 @@ class SharedHeader extends HTMLElement {
     <header class="site-header">
       <div class="wrap w-7xl bar">
         <a class="logo" href="../pages/index.html">
-          <span class="mark">B</span>
+          <img class="mark" src="../assets/buildhup-icon.svg" alt="" />
           <span class="word">BuildHub</span>
         </a>
 

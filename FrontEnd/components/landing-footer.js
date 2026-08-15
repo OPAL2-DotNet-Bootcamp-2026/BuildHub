@@ -2,22 +2,10 @@ class LandingFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
-
-      /* --- Design tokens used by the footer ------------------------------- */
-      /* Scoped to the component so the landing page's own tokens stay intact. */
-      .landing-footer {
-        --primary: #1b3a5c;
-        --card: #ffffff;
-        --fg: #1a1a1a;
-        --muted-fg: #6b6258;
-        --border: #ddd7ce;
-
-        --r-sm: 6px;
-
-        --sans: "Open Sans", system-ui, -apple-system, Segoe UI, sans-serif;
-        --serif: "Playfair Display", Georgia, serif;
-      }
+      /* Tokens (--primary, --card, --border, --sans, …) come from
+         styles/styles.css, which the landing page loads before this
+         component. 
+        */
 
       /* --- Reboot rules that reach the footer markup ---------------------- */
       .landing-footer {
@@ -80,17 +68,15 @@ class LandingFooter extends HTMLElement {
         gap: 10px;
         margin-bottom: 12px;
       }
+      /* Bootstrap styles .mark as a text highlight (yellow background plus
+         padding), so those two declarations have to be cleared here. */
       .landing-footer .logo .mark {
-        width: 28px;
-        height: 28px;
-        border-radius: var(--r-sm);
-        background: var(--primary);
-        color: #fff;
-        font-weight: 700;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+        display: block;
+        padding: 0;
+        background: none;
       }
       .landing-footer .logo .word {
         font-family: var(--serif);
@@ -161,7 +147,7 @@ class LandingFooter extends HTMLElement {
         <div class="cols">
           <div>
             <a class="logo" href="../pages/index.html">
-              <span class="mark">B</span>
+              <img class="mark" src="../assets/buildhup-icon.svg" alt="" />
               <span class="word">BuildHub</span>
             </a>
             <p class="tagline">

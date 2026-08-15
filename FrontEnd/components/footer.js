@@ -2,17 +2,9 @@ class SharedFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
-
-      /* --- Design tokens used by the footer ------------------------------- */
-      :root {
-        --primary: #1b3a5c;
-        --card: #ffffff;
-        --muted-fg: #6b6258;
-        --border: #ddd7ce;
-
-        --sans: "Open Sans", system-ui, -apple-system, Segoe UI, sans-serif;
-      }
+      /* Tokens (--primary, --card, --border, --sans, …) come from
+        styles/styles.css, which every page loads before this component. 
+      */
 
       /* --- Reboot rules that reach the footer markup ---------------------- */
       .site-footer {
