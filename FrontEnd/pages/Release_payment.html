@@ -1,275 +1,269 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Release_payment</title>
 
     <!-- Connect Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="../components/header.js"></script>
+    <script src="../components/footer.js"></script>
+  </head>
 
-<body class="bg-body-tertiary">
-
-<!-- Agreement / payment page -->
-<main class="container py-4">
-    <!-- Keep the page content medium width -->
-    <div class="row justify-content-center">
+  <body class="bg-body-tertiary">
+    <shared-header></shared-header>
+    <!-- Agreement / payment page -->
+    <main class="container py-4">
+      <!-- Keep the page content medium width -->
+      <div class="row justify-content-center">
         <div class="col-9">
-            <!-- Back link -->
-            <a href="my-jobs.html" class="text-secondary text-decoration-none small">     <!--for navigate myjob.html , secondary mean gray , text-decoration-none mean remove the underline for the link -->
-                ← Back to My Jobs
-            </a>
+          <!-- Back link -->
+          <a
+            href="javascript:history.back()"
+            class="text-secondary text-decoration-none small"
+          >
+            <!--for navigate myjob.html , secondary mean gray , text-decoration-none mean remove the underline for the link -->
+            ← Back
+          </a>
 
-<!-- Agreement / payment title -->
-<div class="d-flex justify-content-between align-items-start mt-4 mb-4">
-    <div>
-        <h1 class="fs-3 fw-bold mb-1"> Agreement #O1 </h1>
-        <p class="text-secondary small mb-0">
-            Master Bathroom Renovation
-        </p>
-    </div>
+          <!-- Agreement / payment title -->
+          <div
+            class="d-flex justify-content-between align-items-start mt-4 mb-4"
+          >
+            <div>
+              <h1 class="fs-3 fw-bold mb-1">Agreement #O1</h1>
+              <p class="text-secondary small mb-0">
+                Master Bathroom Renovation
+              </p>
+            </div>
 
-<!-- Agreement status -->
-        <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
-            Hired
-        </span>
+            <!-- Agreement status -->
+            <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
+              Hired
+            </span>
+          </div>
 
-</div>
+          <!-- Main page columns -->
+          <div class="row g-4">
+            <!-- Left side -->
+            <div class="col-8">
+              <!-- Payment status -->
+              <section class="mb-3">
+                <h2 class="fs-6 fw-bold mb-3">Payment Status</h2>
+                <!-- Payment card -->
+                <div
+                  class="alert alert-secondary rounded-5 d-flex align-items-center mb-0"
+                >
+                  <!-- Lock icon -->
+                  <span class="bg-body-secondary rounded-circle p-3 me-3">
+                    🔒
+                  </span>
+                  <!-- Payment description -->
+                  <div class="flex-grow-1">
+                    <strong class="text-primary-emphasis">
+                      Payment Held Securely
+                    </strong>
 
-<!-- Main page columns -->
-    <div class="row g-4">
-        <!-- Left side -->
-        <div class="col-8">
-        <!-- Payment status -->
-            <section class="mb-3">
-            <h2 class="fs-6 fw-bold mb-3"> Payment Status</h2>
-    <!-- Payment card -->
-    <div class="alert alert-secondary rounded-5 d-flex align-items-center mb-0">
+                    <p class="small text-secondary mb-0">
+                      Your money is protected until you confirm the work is
+                      done.
+                    </p>
+                  </div>
+                  <!-- Payment value -->
+                  <div class="text-end">
+                    <strong class="fs-5 text-primary-emphasis">
+                      OMR 1,200
+                    </strong>
 
-    <!-- Lock icon -->
-        <span class="bg-body-secondary rounded-circle p-3 me-3 "> 🔒 </span>
-    <!-- Payment description -->
-        <div class="flex-grow-1">
-    <strong class="text-primary-emphasis"> Payment Held Securely </strong>
+                    <small class="d-block text-secondary"> Escrow </small>
+                  </div>
+                </div>
+              </section>
 
-        <p class="small text-secondary mb-0">
-            Your money is protected until you
-            confirm the work is done.
-        </p>
+              <!-- Agreement timeline -->
+              <section class="card border shadow-sm rounded-3 mb-3">
+                <div class="card-body p-4">
+                  <h2 class="fs-5 mb-4">Agreement Timeline</h2>
 
+                  <!-- Offer accepted -->
+                  <div class="d-flex align-items-start mb-4">
+                    <span
+                      class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"
+                    >
+                      ✓
+                    </span>
+                    <div>
+                      <p class="mb-1">Offer accepted</p>
+                      <small class="text-secondary"> 2026-08-05 </small>
+                    </div>
+                  </div>
+
+                  <!-- Payment deposited -->
+                  <div class="d-flex align-items-start mb-4">
+                    <span
+                      class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"
+                    >
+                      🔒
+                    </span>
+
+                    <div>
+                      <p class="mb-1">Payment deposited in escrow</p>
+
+                      <small class="text-secondary"> 2026-08-05 </small>
+                    </div>
+                  </div>
+
+                  <!-- Work in progress -->
+                  <div class="d-flex align-items-start mb-4">
+                    <span
+                      class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"
+                    >
+                      🔨
+                    </span>
+
+                    <div>
+                      <p class="mb-1">Work in progress</p>
+                    </div>
+                  </div>
+
+                  <!-- Work completed -->
+                  <div class="d-flex align-items-start mb-4">
+                    <span
+                      class="bg-body-secondary text-secondary rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"
+                    >
+                      ✓
+                    </span>
+
+                    <div>
+                      <p class="text-secondary mb-1">Work confirmed complete</p>
+                    </div>
+                  </div>
+
+                  <!-- Payment released -->
+                  <div class="d-flex align-items-start">
+                    <span
+                      class="bg-body-secondary text-warning rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"
+                    >
+                      💰
+                    </span>
+
+                    <div>
+                      <p class="text-secondary mb-1">
+                        Payment released to vendor
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <!-- Payment confirmation card -->
+              <section class="card border shadow-sm rounded-3">
+                <div class="card-body p-4">
+                  <h2 class="fs-6 fw-bold">Is the work complete?</h2>
+
+                  <p class="small text-secondary">
+                    When you confirm completion, OMR 1,200 will be released to
+                    the vendor. This action cannot be undone.
+                  </p>
+
+                  <p class="small fw-bold">
+                    Are you sure? The vendor will receive OMR 1,200.
+                  </p>
+
+                  <!-- Confirmation buttons -->
+                  <div class="d-flex gap-2">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary btn-sm"
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn text-white fw-bold btn-sm"
+                      style="background-color: #fd7e14"
+                      onclick="window.location.href = 'Payment_Released.html'"
+                    >
+                      Yes, Release Payment
+                    </button>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <!-- Right side -->
+            <aside class="col-4">
+              <!-- Vendor card -->
+              <section class="card border shadow-sm rounded-3 mb-3">
+                <div class="card-body">
+                  <p class="small text-uppercase text-secondary fw-bold">
+                    Vendor
+                  </p>
+                  <div class="d-flex align-items-center mb-3">
+                    <!-- Vendor photo -->
+                    <img
+                      src="../assets/plumber_img.png"
+                      alt="Gulf Plumbing Solutions vendor"
+                      class="rounded-circle me-3"
+                      width="50"
+                      height="50"
+                    />
+                    <!--(../) mean i need to go out the file and then go inside the assets to access the img , the img be as profile decoration and size -->
+
+                    <div>
+                      <h2 class="fs-6 fw-bold mb-1">Gulf Plumbing Solutions</h2>
+                      <p class="small text-secondary mb-0">Plumber</p>
+                    </div>
+                  </div>
+
+                  <a href="#" class="btn btn-outline-secondary w-100">
+                    Contact Vendor
+                  </a>
+                </div>
+              </section>
+
+              <!-- Payment summary -->
+              <section class="card border shadow-sm rounded-3">
+                <div class="card-body">
+                  <h2 class="small text-uppercase text-secondary fw-bold mb-3">
+                    Payment Summary
+                  </h2>
+
+                  <!-- Agreement value -->
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small"> Agreement Value </span>
+
+                    <span class="small"> OMR 1,200 </span>
+                  </div>
+
+                  <!-- BuildHub fee -->
+                  <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary small">
+                      BuildHub Fee (2%)
+                    </span>
+
+                    <span class="small"> OMR 24 </span>
+                  </div>
+
+                  <!-- Total paid -->
+                  <div class="d-flex justify-content-between">
+                    <span class="text-secondary small"> Total Paid </span>
+
+                    <strong class="small"> OMR 1,224 </strong>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </div>
         </div>
-    <!-- Payment value -->
-        <div class="text-end">
-            <strong class="fs-5 text-primary-emphasis"> OMR 1,200 </strong>
-
-            <small class="d-block text-secondary"> Escrow </small>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- Agreement timeline -->
-    <section class="card border shadow-sm rounded-3 mb-3">
-        <div class="card-body p-4">
-
-        <h2 class="fs-5 mb-4"> Agreement Timeline </h2>
-
-<!-- Offer accepted -->
-        <div class="d-flex align-items-start mb-4">
-        <span class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center p-2 me-3 small"> ✓
-        </span>
-        <div>
-            <p class="mb-1">Offer accepted</p>
-                <small class="text-secondary"> 2026-08-05 </small>
-        </div>
-
-    </div>
-
-<!-- Payment deposited -->
-    <div class="d-flex align-items-start mb-4">
-
-        <span class="bg-success text-white rounded-circle
-                    d-flex align-items-center
-                    justify-content-center p-2 me-3 small"> 🔒
-        </span>
-
-    <div>
-        <p class="mb-1"> Payment deposited in escrow </p>
-
-        <small class="text-secondary"> 2026-08-05 </small>
-    </div>
-
-    </div>
-
-
-<!-- Work in progress -->
-    <div class="d-flex align-items-start mb-4">
-        <span class="bg-success text-white rounded-circle
-                    d-flex align-items-center
-                    justify-content-center p-2 me-3 small"> 🔨
-        </span>
-
-    <div>
-            <p class="mb-1"> Work in progress </p>
-    </div>
-
-    </div>
-
-<!-- Work completed -->
-    <div class="d-flex align-items-start mb-4">
-
-    <span class="bg-body-secondary text-secondary
-                rounded-circle d-flex
-                align-items-center
-                justify-content-center p-2 me-3 small "> ✓
-    </span>
-
-    <div>
-        <p class="text-secondary mb-1"> Work confirmed complete </p>
-    </div>
-
-    </div>
-
-<!-- Payment released -->
-    <div class="d-flex align-items-start">
-
-        <span class="bg-body-secondary text-warning
-                    rounded-circle d-flex
-                    align-items-center
-                    justify-content-center p-2 me-3 small "> 💰
-        </span>
-
-    <div>
-        <p class="text-secondary mb-1"> Payment released to vendor </p>
-    </div>
-
-    </div>
-
-    </div>
-
-</section>
-<!-- Payment confirmation card -->
-<section class="card border shadow-sm rounded-3">
-
-    <div class="card-body p-4">
-
-        <h2 class="fs-6 fw-bold">
-            Is the work complete?
-        </h2>
-
-        <p class="small text-secondary">
-            When you confirm completion, OMR 1,200 will be released
-            to the vendor. This action cannot be undone.
-        </p>
-
-        <p class="small fw-bold">
-            Are you sure? The vendor will receive OMR 1,200.
-        </p>
-
-        <!-- Confirmation buttons -->
-        <div class="d-flex gap-2">
-
-            <button type="button"
-                    class="btn btn-outline-secondary btn-sm">
-                Cancel
-            </button>
-
-            <button type="button"
-                    class="btn text-white fw-bold btn-sm"
-                    style="background-color: #fd7e14;">
-                Yes, Release Payment
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-</div>
-
-<!-- Right side -->
-<aside class="col-4">
-<!-- Vendor card -->
-    <section class="card border shadow-sm rounded-3 mb-3">
-        <div class="card-body">
-            <p class="small text-uppercase text-secondary fw-bold"> Vendor </p>
-        <div class="d-flex align-items-center mb-3">
-
-<!-- Vendor photo -->
-<img src="../assets/plumber_img.png" alt="Gulf Plumbing Solutions vendor" class="rounded-circle me-3" width="50" height="50">  <!--(../) mean i need to go out the file and then go inside the assets to access the img , the img be as profile decoration and size -->
-
-    <div>
-        <h2 class="fs-6 fw-bold mb-1"> Gulf Plumbing Solutions </h2>
-    <p class="small text-secondary mb-0"> Plumber </p>
-    </div>
-
-</div>
-
-    <a href="#" class="btn btn-outline-secondary w-100"> Contact Vendor </a> 
-
-</div>
-
-</section>
-
-
-<!-- Payment summary -->
-<section class="card border shadow-sm rounded-3">
-
-    <div class="card-body">
-
-        <h2 class="small text-uppercase text-secondary fw-bold mb-3">Payment Summary </h2>
-
-<!-- Agreement value -->
-    <div class="d-flex justify-content-between mb-2">
-
-    <span class="text-secondary small"> Agreement Value </span>
-
-        <span class="small"> OMR 1,200 </span>
-
-    </div>
-
-<!-- BuildHub fee -->
-    <div class="d-flex justify-content-between mb-2">
-
-        <span class="text-secondary small"> BuildHub Fee (2%) </span>
-
-            <span class="small"> OMR 24 </span>
-
-    </div>
-
-<!-- Total paid -->
-    <div class="d-flex justify-content-between">
-
-    <span class="text-secondary small"> Total Paid </span>
-
-    <strong class="small"> OMR 1,224
-    </strong>
-
-    </div>
-
-    </div>
-
-    </section>
-
-    </aside>
-
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-
-</body>
-
+      </div>
+    </main>
+    <shared-footer></shared-footer>
+  </body>
 </html>
