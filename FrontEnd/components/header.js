@@ -303,16 +303,16 @@ class SharedHeader extends HTMLElement {
           <span class="word">BuildHub</span>
         </a>
         <nav class="nav">
-          <a class="nav-link active" href=""../pages/Dashboard.html"">Dashboard</a>
-          <a class="nav-link" href=""../pages/my-jobs.html"">My Jobs</a>
-          <a class="nav-link" href=""../pages/Browse_Vendors.html"">Browse Vendors</a>
-          <a class="nav-link" href=""../pages/browse-products.html"">Products</a>
-          <a class="nav-link" href=""../pages/notifications.html"">Notifications</a>
+          <a class="nav-link active" href="../pages/Dashboard.html">Dashboard</a>
+          <a class="nav-link" href="../pages/my-jobs.html">My Jobs</a>
+          <a class="nav-link" href="../pages/Browse_Vendors.html">Browse Vendors</a>
+          <a class="nav-link" href="../pages/browse_products.html">Products</a>
+          <a class="nav-link" href="../pages/notifications.html">Notifications</a>
         </nav>
         <div class="header-actions">
           <button class="lang-btn" type="button">عربي</button>
-          <a class="nav-link d-none d-md-block" href=""../pages/login.html"">Log in</a>
-          <a class="cta-link" href=""../pages/registration.html"">Get Started</a>
+          <a class="nav-link d-none d-md-block" href="../pages/login.html">Log in</a>
+          <a class="cta-link" href="../pages/registration.html">Get Started</a>
           <button
             class="hamburger"
             type="button"
@@ -348,12 +348,13 @@ class SharedHeader extends HTMLElement {
         </div>
       </div>
       <div class="collapse mobile-nav" id="mobileNav">
-        <a class="active" href="#">Browse Vendors</a>
-        <a href="#">Post a Job</a>
-        <a href="#">Compare Products</a>
-        <a href="#">How It Works</a>
-        <a href="#">Log in</a>
-        <a class="btn btn-accent" href="#">Get Started</a>
+        <a class="active" href="../pages/Dashboard.html">Dashboard</a>
+        <a href="../pages/my-jobs.html">My Jobs</a>
+        <a href="../pages/Browse_Vendors.html">Browse Vendors</a>
+        <a href="../pages/browse_products.html">Products</a>
+        <a href="../pages/notifications.html">Notifications</a>
+        <a href="../pages/login.html">Log in</a>
+        <a class="btn btn-accent" href="../pages/registration.html">Get Started</a>
       </div>
     </header>
     `;
