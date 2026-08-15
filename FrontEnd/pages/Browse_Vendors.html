@@ -1,655 +1,438 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Browse Vendors</title>
 
     <!-- Bootstrap -->
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap Icons -->
     <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <script src="../components/header.js"></script>
+    <script src="../components/footer.js"></script>
+  </head>
+  <body class="bg-light">
+    <shared-header></shared-header>
 
-</head>
-<body class="bg-light">
-<main class="container py-4">
+    <main class="container py-4">
+      <div class="mb-3">
+        <h2 class="fw-bold">Browse Vendors</h2>
 
-        <div class="mb-3">
+        <p class="text-muted small mb-0">5 vendors available</p>
+      </div>
 
-            <h2 class="fw-bold">
-                Browse Vendors
-            </h2>
+      <!-- Search and Filters -->
 
-            <p class="text-muted small mb-0">
-                5 vendors available
-            </p>
+      <div class="card rounded-4 p-3 mb-3">
+        <div class="row g-2">
+          <!-- Search -->
 
+          <div class="col-lg-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white">
+                <i class="bi bi-search"></i>
+              </span>
+
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search vendors..."
+              />
+            </div>
+          </div>
+
+          <!-- Category -->
+
+          <div class="col-lg-2">
+            <select class="form-select">
+              <option selected>All Categories</option>
+
+              <option>General Contractor</option>
+
+              <option>Interior Designer</option>
+
+              <option>Plumber</option>
+
+              <option>Electrician</option>
+            </select>
+          </div>
+
+          <!-- City -->
+
+          <div class="col-lg-2">
+            <select class="form-select">
+              <option selected>All Cities</option>
+
+              <option>Muscat</option>
+
+              <option>Salalah</option>
+
+              <option>Sohar</option>
+            </select>
+          </div>
+
+          <!-- Sort -->
+
+          <div class="col-lg-2">
+            <select class="form-select">
+              <option selected>Highest Rated</option>
+
+              <option>Most Jobs</option>
+
+              <option>Newest</option>
+            </select>
+          </div>
         </div>
+      </div>
+      <!-- Categories -->
 
-        <!-- Search and Filters -->
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <button
+          type="button"
+          class="btn text-white rounded-pill px-4"
+          style="background-color: #0d3b66; border-color: #0d3b66"
+        >
+          All
+        </button>
 
-        <div class="card rounded-4 p-3 mb-3">
+        <button class="btn bbtn-light btn-sm rounded-pill">
+          🏗 General Contractor
+        </button>
 
-            <div class="row g-2">
+        <button class="btn btn-light btn-sm rounded-pill">
+          🛋 Interior Designer
+        </button>
 
+        <button class="btn btn-light btn-sm rounded-pill">🔧 Plumber</button>
 
-                <!-- Search -->
+        <button class="btn btn-light btn-sm rounded-pill">
+          ⚡ Electrician
+        </button>
 
-                <div class="col-lg-6">
+        <button class="btn btn-light btn-sm rounded-pill">
+          🧱 Tiles & Ceramics
+        </button>
 
-                    <div class="input-group">
+        <button class="btn btn-light btn-sm rounded-pill">
+          🍳 Kitchen Fitting
+        </button>
+      </div>
 
-                        <span class="input-group-text bg-white">
-                            <i class="bi bi-search"></i>
-                        </span>
+      <!-- Vendors -->
 
-                        <input type="text"
-                               class="form-control"
-                               placeholder="Search vendors...">
+      <div class="row g-3">
+        <!-- Vendor 1 -->
 
-                    </div>
+        <div class="col-xl-4 col-lg-6">
+          <div class="card h-100 rounded-3 overflow-hidden">
+            <div class="position-relative">
+              <img
+                src="../assets/interior desing.jpg"
+                class="card-img-top"
+                alt="Noor Interior Design"
+              />
 
-                </div>
+              <span
+                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
+              >
+                ✓ Verified
+              </span>
 
-                <!-- Category -->
-
-                <div class="col-lg-2">
-
-                    <select class="form-select">
-
-                        <option selected>
-                            All Categories
-                        </option>
-
-                        <option>
-                            General Contractor
-                        </option>
-
-                        <option>
-                            Interior Designer
-                        </option>
-
-                        <option>
-                            Plumber
-                        </option>
-
-                        <option>
-                            Electrician
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <!-- City -->
-
-                <div class="col-lg-2">
-
-                    <select class="form-select">
-
-                        <option selected>
-                            All Cities
-                        </option>
-
-                        <option>
-                            Muscat
-                        </option>
-
-                        <option>
-                            Salalah
-                        </option>
-
-                        <option>
-                            Sohar
-                        </option>
-
-                    </select>
-
-                </div>
-
-                <!-- Sort -->
-
-                <div class="col-lg-2">
-
-                    <select class="form-select">
-
-                        <option selected>
-                            Highest Rated
-                        </option>
-
-                        <option>
-                            Most Jobs
-                        </option>
-
-                        <option>
-                            Newest
-                        </option>
-
-                    </select>
-
-                </div>
-
+              <span
+                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
+              >
+                Interior Designer
+              </span>
             </div>
 
+            <!-- Body -->
+
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="../assets/Noor.jpg"
+                  class="rounded-circle me-2"
+                  width="35"
+                  height="35"
+                  alt=""
+                />
+
+                <div>
+                  <h6 class="mb-0">Noor Interior Design</h6>
+
+                  <small class="text-muted"> Muscat </small>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <span class="text-warning"> ★★★★★ </span>
+
+                  <small> 4.9 (87) </small>
+                </div>
+
+                <small class="text-muted"> 94 jobs </small>
+              </div>
+
+              <p class="small text-muted mb-0">
+                Award-winning interior design studio specializing in
+                contemporary Gulf aesthetics blended with modern design.
+              </p>
+            </div>
+          </div>
         </div>
-              <!-- Categories -->
+        <!-- Vendor 2 -->
 
-        <div class="d-flex flex-wrap gap-2 mb-3">
+        <div class="col-xl-4 col-lg-6">
+          <div class="card h-100 rounded-3 overflow-hidden">
+            <div class="position-relative">
+              <img
+                src="../assets/construction.jpg"
+                class="card-img-top"
+                alt="Al-Rashid Construction"
+              />
 
-            <button type="button"
-                    class="btn text-white rounded-pill px-4"
-                    style="background-color:#0d3b66; border-color:#0d3b66;">
-                All
-            </button>
+              <span
+                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
+              >
+                ✓ Verified
+              </span>
 
-            <button class="btn bbtn-light btn-sm rounded-pill">
-                🏗 General Contractor
-            </button>
+              <span
+                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
+              >
+                General Contractor
+              </span>
+            </div>
 
-            <button class="btn btn-light btn-sm rounded-pill">
-                🛋 Interior Designer
-            </button>
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="../assets/Al-Rashid.jpg"
+                  class="rounded-circle me-2"
+                  width="35"
+                  height="35"
+                  alt=""
+                />
 
-            <button class="btn btn-light btn-sm rounded-pill">
-                🔧 Plumber
-            </button>
+                <div>
+                  <h6 class="mb-0">Al-Rashid Construction</h6>
 
-            <button class="btn btn-light btn-sm rounded-pill">
-                ⚡ Electrician
-            </button>
+                  <small class="text-muted"> Muscat </small>
+                </div>
+              </div>
 
-            <button class="btn btn-light btn-sm rounded-pill">
-                🧱 Tiles & Ceramics
-            </button>
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <span class="text-warning"> ★★★★★ </span>
 
-            <button class="btn btn-light btn-sm rounded-pill">
-                🍳 Kitchen Fitting
-            </button>
+                  <small> 4.8 (142) </small>
+                </div>
 
+                <small class="text-muted"> 189 jobs </small>
+              </div>
+
+              <p class="small text-muted mb-0">
+                Premium construction and renovation services across Muscat. Over
+                15 years of experience in construction.
+              </p>
+            </div>
+          </div>
         </div>
-        
-        <!-- Vendors -->
-
-        <div class="row g-3">
-
-            <!-- Vendor 1 -->
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="card h-100 rounded-3 overflow-hidden">
-
-
-                    <div class="position-relative">
-
-                        <img src="../assets/interior desing.jpg"
-                             class="card-img-top"
-                             alt="Noor Interior Design">
-
-                        <span class="badge bg-success-subtle text-success
-                                     position-absolute top-0 start-0 m-2
-                                     rounded-pill">
-
-                            ✓ Verified
-
-                        </span>
-
-                        <span class="badge bg-light text-dark
-                                     position-absolute top-0 start-0
-                                     mt-2 ms-5 rounded-pill">
-
-                            Interior Designer
-
-                        </span>
-
-                    </div>
-
-
-                    <!-- Body -->
-
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center mb-2">
-
-                            <img src="../assets/Noor.jpg"
-                                 class="rounded-circle me-2"
-                                 width="35"
-                                 height="35"
-                                 alt="">
-
-                            <div>
-
-                                <h6 class="mb-0">
-                                    Noor Interior Design
-                                </h6>
-
-                                <small class="text-muted">
-                                    Muscat
-                                </small>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between
-                                    align-items-center mb-2">
-
-                            <div>
-
-                                <span class="text-warning">
-                                    ★★★★★
-                                </span>
-
-                                <small>
-                                    4.9 (87)
-                                </small>
-
-                            </div>
-
-                            <small class="text-muted">
-                                94 jobs
-                            </small>
-
-                        </div>
-
-
-                        <p class="small text-muted mb-0">
-
-                            Award-winning interior design studio
-                            specializing in contemporary Gulf aesthetics
-                            blended with modern design.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- Vendor 2 -->
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="card h-100 rounded-3 overflow-hidden">
-
-                    <div class="position-relative">
-
-                        <img src="../assets/construction.jpg"
-                             class="card-img-top"
-                             alt="Al-Rashid Construction">
-
-                        <span class="badge bg-success-subtle text-success
-                                     position-absolute top-0 start-0 m-2
-                                     rounded-pill">
-
-                            ✓ Verified
-
-                        </span>
-
-                        <span class="badge bg-light text-dark
-                                     position-absolute top-0 start-0
-                                     mt-2 ms-5 rounded-pill">
-
-                            General Contractor
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center mb-2">
-
-                            <img src="../assets/Al-Rashid.jpg"
-                                 class="rounded-circle me-2"
-                                 width="35"
-                                 height="35"
-                                 alt="">
-
-                            <div>
-
-                                <h6 class="mb-0">
-                                    Al-Rashid Construction
-                                </h6>
-
-                                <small class="text-muted">
-                                    Muscat
-                                </small>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between
-                                    align-items-center mb-2">
-
-                            <div>
-
-                                <span class="text-warning">
-                                    ★★★★★
-                                </span>
-
-                                <small>
-                                    4.8 (142)
-                                </small>
-
-                            </div>
-
-                            <small class="text-muted">
-                                189 jobs
-                            </small>
-
-                        </div>
-
-
-                        <p class="small text-muted mb-0">
-
-                            Premium construction and renovation services
-                            across Muscat. Over 15 years of experience
-                            in construction.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- Vendor 3 -->
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="card h-100 rounded-3 overflow-hidden">
-
-                    <div class="position-relative">
-
-                        <img src="../assets/electrical.jpg"
-                             class="card-img-top"
-                             alt="Muscat Electrical Works">
-
-                        <span class="badge bg-success-subtle text-success
-                                     position-absolute top-0 start-0 m-2
-                                     rounded-pill">
-
-                            ✓ Verified
-
-                        </span>
-
-                        <span class="badge bg-light text-dark
-                                     position-absolute top-0 start-0
-                                     mt-2 ms-5 rounded-pill">
-
-                            Electrician
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center mb-2">
-
-                            <img src="../assets/Muscat.jpg"
-                                 class="rounded-circle me-2"
-                                 width="35"
-                                 height="35"
-                                 alt="">
-
-                            <div>
-
-                                <h6 class="mb-0">
-                                    Muscat Electrical Works
-                                </h6>
-
-                                <small class="text-muted">
-                                    Muscat
-                                </small>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between
-                                    align-items-center mb-2">
-
-                            <div>
-
-                                <span class="text-warning">
-                                    ★★★★★
-                                </span>
-
-                                <small>
-                                    4.7 (118)
-                                </small>
-
-                            </div>
-
-                            <small class="text-muted">
-                                156 jobs
-                            </small>
-
-                        </div>
-
-
-                        <p class="small text-muted mb-0">
-
-                            Certified electricians for residential wiring,
-                            panel upgrades, smart home installations,
-                            and solar systems.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-             <!-- Vendor 4 -->
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="card h-100 rounded-3 overflow-hidden">
-
-                    <div class="position-relative">
-
-                        <img src="../assets/pliming solution.jpg"
-                             class="card-img-top"
-                             alt="Gulf Plumbing Solutions">
-
-                        <span class="badge bg-success-subtle text-success
-                                     position-absolute top-0 start-0 m-2
-                                     rounded-pill">
-
-                            ✓ Verified
-
-                        </span>
-
-                        <span class="badge bg-light text-dark
-                                     position-absolute top-0 start-0
-                                     mt-2 ms-5 rounded-pill">
-
-                            Plumber
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center mb-2">
-
-                            <img src="../assets/Gulf.jpg"
-                                 class="rounded-circle me-2"
-                                 width="35"
-                                 height="35"
-                                 alt="">
-
-                            <div>
-
-                                <h6 class="mb-0">
-                                    Gulf Plumbing Solutions
-                                </h6>
-
-                                <small class="text-muted">
-                                    Sohar
-                                </small>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between
-                                    align-items-center mb-2">
-
-                            <div>
-
-                                <span class="text-warning">
-                                    ★★★★★
-                                </span>
-
-                                <small>
-                                    4.6 (203)
-                                </small>
-
-                            </div>
-
-                            <small class="text-muted">
-                                312 jobs
-                            </small>
-
-                        </div>
-
-
-                        <p class="small text-muted mb-0">
-
-                            Expert plumbing for residential and commercial
-                            properties. Fast response, fair pricing,
-                            and fair pricing.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- Vendor 5 -->
-
-            <div class="col-xl-4 col-lg-6">
-
-                <div class="card h-100 rounded-3 overflow-hidden">
-
-                    <div class="position-relative">
-
-                        <img src="../assets/tiles.jpg"
-                             class="card-img-top"
-                             alt="Salalah Tiles & Ceramics">
-
-                        <span class="badge bg-success-subtle text-success
-                                     position-absolute top-0 start-0 m-2
-                                     rounded-pill">
-
-                            ✓ Verified
-
-                        </span>
-
-                        <span class="badge bg-light text-dark
-                                     position-absolute top-0 start-0
-                                     mt-2 ms-5 rounded-pill">
-
-                            Material Store
-
-                        </span>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="d-flex align-items-center mb-2">
-
-                            <div class="rounded-circle border me-2"
-                                 style="width: 35px; height: 35px;">
-                            </div>
-
-                            <div>
-
-                                <h6 class="mb-0">
-                                    Salalah Tiles & Ceramics
-                                </h6>
-
-                                <small class="text-muted">
-                                    Salalah
-                                </small>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between
-                                    align-items-center mb-2">
-
-                            <div>
-
-                                <span class="text-warning">
-                                    ★★★★★
-                                </span>
-
-                                <small>
-                                    4.5 (56)
-                                </small>
-
-                            </div>
-
-                            <small class="text-muted">
-                                0 jobs
-                            </small>
-
-                        </div>
-
-
-                        <p class="small text-muted mb-0">
-
-                            Largest ceramics and tile showroom in Dhofar.
-                            Imported European and Turkish collections.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
+        <!-- Vendor 3 -->
+
+        <div class="col-xl-4 col-lg-6">
+          <div class="card h-100 rounded-3 overflow-hidden">
+            <div class="position-relative">
+              <img
+                src="../assets/electrical.jpg"
+                class="card-img-top"
+                alt="Muscat Electrical Works"
+              />
+
+              <span
+                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
+              >
+                ✓ Verified
+              </span>
+
+              <span
+                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
+              >
+                Electrician
+              </span>
             </div>
 
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="../assets/Muscat.jpg"
+                  class="rounded-circle me-2"
+                  width="35"
+                  height="35"
+                  alt=""
+                />
 
+                <div>
+                  <h6 class="mb-0">Muscat Electrical Works</h6>
+
+                  <small class="text-muted"> Muscat </small>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <span class="text-warning"> ★★★★★ </span>
+
+                  <small> 4.7 (118) </small>
+                </div>
+
+                <small class="text-muted"> 156 jobs </small>
+              </div>
+
+              <p class="small text-muted mb-0">
+                Certified electricians for residential wiring, panel upgrades,
+                smart home installations, and solar systems.
+              </p>
+            </div>
+          </div>
         </div>
+        <!-- Vendor 4 -->
 
+        <div class="col-xl-4 col-lg-6">
+          <div class="card h-100 rounded-3 overflow-hidden">
+            <div class="position-relative">
+              <img
+                src="../assets/pliming solution.jpg"
+                class="card-img-top"
+                alt="Gulf Plumbing Solutions"
+              />
+
+              <span
+                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
+              >
+                ✓ Verified
+              </span>
+
+              <span
+                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
+              >
+                Plumber
+              </span>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="../assets/Gulf.jpg"
+                  class="rounded-circle me-2"
+                  width="35"
+                  height="35"
+                  alt=""
+                />
+
+                <div>
+                  <h6 class="mb-0">Gulf Plumbing Solutions</h6>
+
+                  <small class="text-muted"> Sohar </small>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <span class="text-warning"> ★★★★★ </span>
+
+                  <small> 4.6 (203) </small>
+                </div>
+
+                <small class="text-muted"> 312 jobs </small>
+              </div>
+
+              <p class="small text-muted mb-0">
+                Expert plumbing for residential and commercial properties. Fast
+                response, fair pricing, and fair pricing.
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Vendor 5 -->
+
+        <div class="col-xl-4 col-lg-6">
+          <div class="card h-100 rounded-3 overflow-hidden">
+            <div class="position-relative">
+              <img
+                src="../assets/tiles.jpg"
+                class="card-img-top"
+                alt="Salalah Tiles & Ceramics"
+              />
+
+              <span
+                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
+              >
+                ✓ Verified
+              </span>
+
+              <span
+                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
+              >
+                Material Store
+              </span>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-2">
+                <div
+                  class="rounded-circle border me-2"
+                  style="width: 35px; height: 35px"
+                ></div>
+
+                <div>
+                  <h6 class="mb-0">Salalah Tiles & Ceramics</h6>
+
+                  <small class="text-muted"> Salalah </small>
+                </div>
+              </div>
+
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <span class="text-warning"> ★★★★★ </span>
+
+                  <small> 4.5 (56) </small>
+                </div>
+
+                <small class="text-muted"> 0 jobs </small>
+              </div>
+
+              <p class="small text-muted mb-0">
+                Largest ceramics and tile showroom in Dhofar. Imported European
+                and Turkish collections.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-</body>
 
+    <shared-footer></shared-footer>
+  </body>
 </html>
-
-
-
-
-
-
-

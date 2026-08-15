@@ -1,454 +1,405 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>BuildHub Dashboard</title>
 
     <!-- Connect Bootstrap CSS -->
     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-        crossorigin="anonymous">
-</head>
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <script src="../components/footer.js"></script>
+    <script src="../components/header.js"></script>
+  </head>
 
-<body class="bg-body-tertiary">
-
+  <body class="bg-body-tertiary">
+    <shared-header></shared-header>
     <main class="container-fluid p-4">
+      <!-- Welcome section -->
 
-        <!-- Welcome section -->
+      <section class="mb-4">
+        <h1 class="fs-3 fw-bold">Good morning, Salim 👋</h1>
 
-        <section class="mb-4">
+        <p class="small text-secondary">
+          You have 3 new offers waiting for your review.
+        </p>
+      </section>
 
-            <h1 class="fs-3 fw-bold">
-                Good morning, Salim 👋
-            </h1>
+      <!-- Statistics section -->
 
-            <p class="small text-secondary">
-                You have 3 new offers waiting for your review.
-            </p>
+      <section class="row g-3 mb-4">
+        <!-- for Open jobs card -->
 
-        </section>
+        <div class="col-3">
+          <article class="card h-100 border shadow-sm rounded-3">
+            <div
+              class="card-body d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <p class="small text-uppercase text-secondary mb-1">
+                  Open Jobs
+                </p>
 
+                <h2 class="fs-4 fw-bold mb-0">2</h2>
+              </div>
 
-<!-- Statistics section -->
-
-        <section class="row g-3 mb-4">
-
-    <!-- for Open jobs card -->
-
-        <div class="col-3">  
-
-            <article class="card h-100 border shadow-sm rounded-3">
-
-                <div class="card-body d-flex
-                            justify-content-between
-                            align-items-center">
-
-                <div>
-                    <p class="small text-uppercase text-secondary mb-1"> Open Jobs </p>
-
-                    <h2 class="fs-4 fw-bold mb-0"> 2
-                    </h2>
-                </div>
-
-                <span class="bg-secondary-subtle rounded-circle p-3">📋
-                </span>
-
-                </div>
-
-                </article>
-
+              <span class="bg-secondary-subtle rounded-circle p-3">📋 </span>
             </div>
-
+          </article>
+        </div>
 
         <!-- New offers card -->
 
-            <div class="col-3">
+        <div class="col-3">
+          <article class="card h-100 border shadow-sm rounded-3">
+            <div
+              class="card-body d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <p class="small text-uppercase text-secondary mb-1">
+                  New Offers
+                </p>
 
-            <article class="card h-100 border shadow-sm rounded-3">
+                <h2 class="fs-4 fw-bold mb-0">3</h2>
+              </div>
 
-                <div class="card-body d-flex justify-content-between align-items-center">
-
-                    <div>
-                        <p class="small text-uppercase text-secondary mb-1"> New Offers </p>
-
-                        <h2 class="fs-4 fw-bold mb-0"> 3 </h2>
-                    </div>
-
-                    <span class="bg-danger-subtle rounded-circle p-3"> 📬 </span>
-
-                </div>
-
-                </article>
-
+              <span class="bg-danger-subtle rounded-circle p-3"> 📬 </span>
             </div>
-                    <!-- In progress card -->
+          </article>
+        </div>
+        <!-- In progress card -->
 
         <div class="col-3">
+          <article class="card h-100 border shadow-sm rounded-3">
+            <div
+              class="card-body d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <p class="small text-uppercase text-secondary mb-1">
+                  In Progress
+                </p>
 
-        <article class="card h-100 border shadow-sm rounded-3">
+                <h2 class="fs-4 fw-bold mb-0">1</h2>
+              </div>
 
-            <div class="card-body d-flex
-                        justify-content-between
-                        align-items-center">
-
-                <div>
-                    <p class="small text-uppercase text-secondary mb-1"> In Progress </p>
-
-                    <h2 class="fs-4 fw-bold mb-0"> 1 </h2>
-                </div>
-
-                <span class="bg-warning-subtle rounded-circle p-3"> 🔨 </span>
-
+              <span class="bg-warning-subtle rounded-circle p-3"> 🔨 </span>
             </div>
-
-        </article>
-
+          </article>
         </div>
-
 
         <!-- Completed card -->
 
         <div class="col-3">
+          <article class="card h-100 border shadow-sm rounded-3">
+            <div
+              class="card-body d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <p class="small text-uppercase text-secondary mb-1">
+                  Completed
+                </p>
 
-            <article class="card h-100 border shadow-sm rounded-3">
+                <h2 class="fs-4 fw-bold mb-0">4</h2>
+              </div>
 
-                <div class="card-body d-flex justify-content-between align-items-center">
-
-                    <div>
-                        <p class="small text-uppercase text-secondary mb-1"> Completed </p>
-
-                        <h2 class="fs-4 fw-bold mb-0"> 4 </h2>
-                    </div>
-
-                    <span class="bg-success-subtle text-success fw-bold rounded-circle p-3"> ✓ </span>
-
-                </div>
-
-            </article>
-
+              <span
+                class="bg-success-subtle text-success fw-bold rounded-circle p-3"
+              >
+                ✓
+              </span>
+            </div>
+          </article>
         </div>
+      </section>
 
-    </section>
+      <!-- Dashboard main content -->
 
-        <!-- Dashboard main content -->
-
-        <div class="row g-4">
-
+      <div class="row g-4">
         <!-- Left side -->
 
         <div class="col-8">
+          <!-- Active job section -->
 
-        <!-- Active job section -->
-
-        <section class="mb-4">
-
+          <section class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
+              <h2 class="fs-4 fw-bold mb-0">Active Job</h2>
 
-                <h2 class="fs-4 fw-bold mb-0"> Active Job </h2>
-
-                <a href="#recentJobs" class="small text-decoration-none">      <!-- take off the link -->
+              <a href="#recentJobs" class="small text-decoration-none">
+                <!-- take off the link -->
                 View all
-                </a>
-
-                </div>
-
-                <article class="card border shadow-sm rounded-3">  <!-- here to create a card with a border -->
-
-                <div class="card-body">
-
-        <!-- Job title and status -->
-
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h3 class="fs-6 mb-1"> Master Bathroom Renovation </h3>
-
-                    <p class="small text-secondary mb-0"> Plumber · Muscat · Budget: OMR 800–1500
-                    </p>
-                </div> 
-
-            <span class="badge rounded-pill bg-primary-subtle text-primary"> <!-- badge mean creates a small status label -->
-                Open
-            </span>
-
+              </a>
             </div>
 
-        <!-- Payment information -->
+            <article class="card border shadow-sm rounded-3">
+              <!-- here to create a card with a border -->
 
-            <div class="alert alert-secondary rounded-pill d-flex align-items-center mt-3 mb-3">
+              <div class="card-body">
+                <!-- Job title and status -->
 
-                <span class="bg-light rounded-circle p-2 me-3"> 🔒 </span>
+                <div class="d-flex justify-content-between align-items-start">
+                  <div>
+                    <h3 class="fs-6 mb-1">Master Bathroom Renovation</h3>
 
-                <div class="flex-grow-1">
-
-                    <strong class="text-primary-emphasis">   <!-- text color blue -->
-                                    Payment Held Securely
-                                </strong>
-
-                    <p class="small mb-0 text-secondary"> <!-- text color gray -->
-                        Your money is protected until you confirm the work is done.
+                    <p class="small text-secondary mb-0">
+                      Plumber · Muscat · Budget: OMR 800–1500
                     </p>
+                  </div>
 
-                    </div>
+                  <span
+                    class="badge rounded-pill bg-primary-subtle text-primary"
+                  >
+                    <!-- badge mean creates a small status label -->
+                    Open
+                  </span>
+                </div>
 
-                <div class="text-end">
+                <!-- Payment information -->
 
-                <strong class="text-primary-emphasis"> OMR 1,200 </strong>
+                <div
+                  class="alert alert-secondary rounded-pill d-flex align-items-center mt-3 mb-3"
+                >
+                  <span class="bg-light rounded-circle p-2 me-3"> 🔒 </span>
+
+                  <div class="flex-grow-1">
+                    <strong class="text-primary-emphasis">
+                      <!-- text color blue -->
+                      Payment Held Securely
+                    </strong>
+
+                    <p class="small mb-0 text-secondary">
+                      <!-- text color gray -->
+                      Your money is protected until you confirm the work is
+                      done.
+                    </p>
+                  </div>
+
+                  <div class="text-end">
+                    <strong class="text-primary-emphasis"> OMR 1,200 </strong>
 
                     <small class="d-block text-secondary"> Escrow </small>
-
+                  </div>
                 </div>
 
+                <!-- Active job buttons -->
+
+                <div class="d-flex gap-2">
+                  <a href="#offers" class="btn btn-primary btn-sm">
+                    <!-- for offer button -->
+                    View 3 Offers
+                  </a>
+
+                  <a href="#agreement" class="btn btn-outline-secondary btn-sm">
+                    <!-- for agreement button -->
+                    Agreement
+                  </a>
                 </div>
+              </div>
+            </article>
+          </section>
 
+          <!-- Recent jobs section -->
 
-        <!-- Active job buttons -->
-
-        <div class="d-flex gap-2">
-
-            <a href="View_Job.html" class="btn btn-primary btn-sm">   <!-- for offer button -->
-            View 3 Offers
-            </a>
-
-            <a href="payment.html" class="btn btn-outline-secondary btn-sm"> <!-- for agreement button -->
-            Agreement
-            </a>
-
-        </div>
-
-        </div>
-
-        </article>
-
-        </section>
-
-    <!-- Recent jobs section -->
-
-    <section id="recentJobs">
-
-        <h2 class="fs-4 fw-bold mb-3"> My Recent Jobs </h2>
+          <section id="recentJobs">
+            <h2 class="fs-4 fw-bold mb-3">My Recent Jobs</h2>
 
             <div class="d-grid gap-2">
+              <!-- Job one -->
 
-                <!-- Job one -->
+              <a
+                href="#"
+                class="card border shadow-sm rounded-3 text-decoration-none"
+              >
+                <div
+                  class="card-body py-3 d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <h3 class="fs-6 text-dark mb-1">
+                      Master Bathroom Renovation
+                    </h3>
 
-            <a href="#" class="card border shadow-sm rounded-3 text-decoration-none">
+                    <p class="small text-secondary mb-0">
+                      Plumber · Muscat · 3 offers
+                    </p>
+                  </div>
 
-                <div class="card-body py-3
-                            d-flex
-                            justify-content-between
-                            align-items-center">
-
-                <div>
-
-                    <h3 class="fs-6 text-dark mb-1"> Master Bathroom Renovation </h3>
-
-                        <p class="small text-secondary mb-0">
-                            Plumber · Muscat · 3 offers
-                        </p>
-
+                  <span
+                    class="badge rounded-pill bg-primary-subtle text-primary"
+                  >
+                    Open
+                  </span>
                 </div>
+              </a>
 
-                    <span class="badge rounded-pill bg-primary-subtle text-primary"> Open </span>
+              <!-- Job two -->
 
+              <a
+                href="#"
+                class="card border shadow-sm rounded-3 text-decoration-none"
+              >
+                <div
+                  class="card-body py-3 d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <h3 class="fs-6 text-dark mb-1">
+                      Living Room Interior Design
+                    </h3>
+
+                    <p class="small text-secondary mb-0">
+                      Interior Designer · Muscat · 5 offers
+                    </p>
+                  </div>
+
+                  <span
+                    class="badge rounded-pill bg-info-subtle text-info-emphasis"
+                  >
+                    Hired
+                  </span>
                 </div>
+              </a>
 
-            </a>
+              <!-- Job three -->
 
-                <!-- Job two -->
+              <a
+                href="#"
+                class="card border shadow-sm rounded-3 text-decoration-none"
+              >
+                <div
+                  class="card-body py-3 d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <h3 class="fs-6 text-dark mb-1">
+                      Electrical Panel Upgrade
+                    </h3>
 
-            <a href="#" class="card border shadow-sm rounded-3 text-decoration-none">
+                    <p class="small text-secondary mb-0">
+                      Electrician · Sohar · 4 offers
+                    </p>
+                  </div>
 
-                <div class="card-body py-3
-                            d-flex
-                            justify-content-between
-                            align-items-center">
-
-                <div>
-
-                    <h3 class="fs-6 text-dark mb-1"> Living Room Interior Design </h3>
-
-                <p class="small text-secondary mb-0"> Interior Designer · Muscat · 5 offers </p>
-
-                                </div>
-
-                <span class="badge rounded-pill bg-info-subtle text-info-emphasis">
-                Hired
-                </span>
-
-                </div>
-
-                </a>
-
-                <!-- Job three -->
-
-                <a href="#" class="card border shadow-sm rounded-3 text-decoration-none">
-
-                    <div class="card-body py-3
-                                d-flex
-                                justify-content-between
-                                align-items-center">
-
-                    <div>
-
-                    <h3 class="fs-6 text-dark mb-1"> Electrical Panel Upgrade </h3>
-
-                    <p class="small text-secondary mb-0"> Electrician · Sohar · 4 offers </p>
-
-                    </div>
-
-                    <span class="badge rounded-pill bg-success-subtle text-success">
+                  <span
+                    class="badge rounded-pill bg-success-subtle text-success"
+                  >
                     Completed
-                    </span>
+                  </span>
+                </div>
+              </a>
 
-                            </div>
+              <!-- Job four -->
 
-                        </a>
+              <a
+                href="#"
+                class="card border shadow-sm rounded-3 text-decoration-none"
+              >
+                <div
+                  class="card-body py-3 d-flex justify-content-between align-items-center"
+                >
+                  <div>
+                    <h3 class="fs-6 text-dark mb-1">
+                      Kitchen Cabinet Installation
+                    </h3>
 
+                    <p class="small text-secondary mb-0">
+                      General Contractor · Muscat · 2 offers
+                    </p>
+                  </div>
 
-            <!-- Job four -->
-
-                <a href="#" class="card border shadow-sm rounded-3 text-decoration-none">
-
-                    <div class="card-body py-3
-                                d-flex
-                                justify-content-between
-                                align-items-center">
-
-                    <div>
-
-                        <h3 class="fs-6 text-dark mb-1"> Kitchen Cabinet Installation </h3>
-
-                    <p class="small text-secondary mb-0"> General Contractor · Muscat · 2 offers </p>
-
-                    </div>
-
-                    <span class="badge rounded-pill bg-primary-subtle text-primary">
-                                    Open
-                    </span>
-
-                    </div>
-
-                    </a>
-
-                    </div>
-
-                <!-- Add job button -->
-
-                    <a href="post-job.html" class="btn text-white fw-bold w-100 mt-3" style="background-color: #fd7e14;">
-                        + Post New Job
-                    </a>
-
-                </section>
-
+                  <span
+                    class="badge rounded-pill bg-primary-subtle text-primary"
+                  >
+                    Open
+                  </span>
+                </div>
+              </a>
             </div>
 
+            <!-- Add job button -->
 
-            <!-- Right side: Notifications -->
+            <a
+              href="#"
+              class="btn text-white fw-bold w-100 mt-3"
+              style="background-color: #fd7e14"
+            >
+              + Post New Job
+            </a>
+          </section>
+        </div>
 
-            <aside class="col-4">
+        <!-- Right side: Notifications -->
 
-            <div class="d-flex
-                        justify-content-between
-                        align-items-center mb-3">
+        <aside class="col-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="fs-4 fw-bold mb-0">Notifications</h2>
 
-                    <h2 class="fs-4 fw-bold mb-0">
-                        Notifications
-                    </h2>
+            <a href="#" class="small text-decoration-none"> All </a>
+          </div>
 
-                    <a href="#" class="small text-decoration-none">
-                        All
-                    </a>
-
-            </div>
-
-
-        <div class="d-grid gap-3">
-
-        <!-- First notification -->
+          <div class="d-grid gap-3">
+            <!-- First notification -->
 
             <article class="card border shadow-sm rounded-3">
-
-                <div class="card-body d-flex">
-
-                    <span class="text-danger me-2"> ● </span> <!-- we do red dot beside the notification -->
+              <div class="card-body d-flex">
+                <span class="text-danger me-2"> ● </span>
+                <!-- we do red dot beside the notification -->
 
                 <div>
+                  <h3 class="small fw-bold mb-1">New Offer Received</h3>
 
-                    <h3 class="small fw-bold mb-1"> New Offer Received </h3>
+                  <p class="small text-secondary mb-1">
+                    Gulf Plumbing Solutions sent an offer of OMR 1,200 for
+                    “Master Bathroom Renovation”.
+                  </p>
 
-                        <p class="small text-secondary mb-1">
-                            Gulf Plumbing Solutions sent an offer
-                            of OMR 1,200 for “Master Bathroom
-                            Renovation”.
-                        </p>
-
-                    <small class="text-secondary"> 2 hours ago </small>
-
-                    </div>
-
+                  <small class="text-secondary"> 2 hours ago </small>
                 </div>
-
+              </div>
             </article>
 
-        <!-- Second notification -->
+            <!-- Second notification -->
 
             <article class="card border shadow-sm rounded-3">
+              <div class="card-body d-flex">
+                <span class="text-danger me-2"> ● </span>
+                <!-- we do red dot beside the notification -->
+                <div>
+                  <h3 class="small fw-bold mb-1">New Offer Received</h3>
+                  <p class="small text-secondary mb-1">
+                    Al-Rashid Construction sent an offer of OMR 1,400 for
+                    “Master Bathroom Renovation”.
+                  </p>
 
-            <div class="card-body d-flex">
-
-                <span class="text-danger me-2"> ● </span>       <!-- we do red dot beside the notification -->
-                    <div>
-
-                        <h3 class="small fw-bold mb-1"> New Offer Received </h3>
-                            <p class="small text-secondary mb-1">
-                                Al-Rashid Construction sent an offer
-                                of OMR 1,400 for “Master Bathroom
-                                Renovation”.
-                            </p>
-
-                        <small class="text-secondary"> 5 hours ago </small>
-                        </div>
-                        </div>
-                    </article>
+                  <small class="text-secondary"> 5 hours ago </small>
+                </div>
+              </div>
+            </article>
 
             <!-- Third notification -->
 
             <article class="card border shadow-sm rounded-3">
+              <div class="card-body d-flex">
+                <span class="text-secondary me-2"> ● </span>
 
-                <div class="card-body d-flex">
-                    <span class="text-secondary me-2"> ● </span>
+                <div>
+                  <h3 class="small fw-bold mb-1">Payment Confirmed</h3>
 
-                        <div>
-                        <h3 class="small fw-bold mb-1"> Payment Confirmed </h3>
+                  <p class="small text-secondary mb-1">
+                    Your payment of OMR 4,200 has been securely held in escrow
+                    for “Living Room Interior Design”.
+                  </p>
 
-                        <p class="small text-secondary mb-1">
-                            Your payment of OMR 4,200 has been
-                            securely held in escrow for
-                            “Living Room Interior Design”.
-                        </p>
-
-                        <small class="text-secondary"> 2 days ago </small>
-
-                    </div>
-
-                    </div>
-
-                </article>
-
+                  <small class="text-secondary"> 2 days ago </small>
                 </div>
-
-            </aside>
-
-        </div>
-
+              </div>
+            </article>
+          </div>
+        </aside>
+      </div>
     </main>
-
-</body>
-
+    <shared-footer></shared-footer>
+  </body>
 </html>
