@@ -298,20 +298,21 @@ class SharedHeader extends HTMLElement {
     </style>
     <header class="site-header">
       <div class="wrap w-7xl bar">
-        <a class="logo" href="index.html">
+        <a class="logo" href="../pages/index.html">
           <span class="mark">B</span>
           <span class="word">BuildHub</span>
         </a>
         <nav class="nav">
-          <a class="nav-link active" href="#">Browse Vendors</a>
-          <a class="nav-link" href="#">Post a Job</a>
-          <a class="nav-link" href="#">Compare Products</a>
-          <a class="nav-link" href="#">How It Works</a>
+          <a class="nav-link active" href=""../pages/Dashboard.html"">Dashboard</a>
+          <a class="nav-link" href=""../pages/my-jobs.html"">My Jobs</a>
+          <a class="nav-link" href=""../pages/Browse_Vendors.html"">Browse Vendors</a>
+          <a class="nav-link" href=""../pages/browse-products.html"">Products</a>
+          <a class="nav-link" href=""../pages/notifications.html"">Notifications</a>
         </nav>
         <div class="header-actions">
           <button class="lang-btn" type="button">عربي</button>
-          <a class="nav-link d-none d-md-block" href="#">Log in</a>
-          <a class="cta-link" href="#">Get Started</a>
+          <a class="nav-link d-none d-md-block" href=""../pages/login.html"">Log in</a>
+          <a class="cta-link" href=""../pages/registration.html"">Get Started</a>
           <button
             class="hamburger"
             type="button"
