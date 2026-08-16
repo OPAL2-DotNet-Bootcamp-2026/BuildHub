@@ -1,7 +1,11 @@
 /* -------------------------------------------------------------------------
    Page wrapper
+
+   The photo panel below (.login-visual and friends) is shared with the
+   registration page, so the two auth screens stay visually consistent.
    ------------------------------------------------------------------------- */
-.login-page {
+.login-page,
+.registration-page {
   min-height: 100vh;
 }
 
@@ -134,6 +138,27 @@
 .quote-name span {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* Registration uses a tagline where login uses the testimonial quote — same
+   position on the panel, same type scale. */
+.login-visual__tagline {
+  max-width: 480px;
+}
+
+.login-visual__tagline h2 {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.3;
+  margin: 0 0 12px;
+}
+
+.login-visual__tagline p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
 }
 
 /* -------------------------------------------------------------------------
