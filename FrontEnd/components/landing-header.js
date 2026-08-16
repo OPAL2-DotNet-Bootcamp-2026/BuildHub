@@ -2,28 +2,10 @@ class LandingHeader extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
-
-      /* --- Design tokens -------------------------------------------------- */
-      /* Scoped to the component so the landing page's own tokens stay intact. */
-      .landing-header {
-        --primary: #1b3a5c;
-        --accent: #e8622a;
-        --accent-dark: #c94e1a;
-        --fg: #1a1a1a;
-        --muted: #f0f3f6;
-        --muted-fg: #555555;
-        --border: #e2e8f0;
-
-        --r-md: 10px;
-        --r-lg: 12px;
-        --r-full: 999px;
-
-        --sans: "Open Sans", system-ui, -apple-system, Segoe UI, sans-serif;
-        --serif: "Playfair Display", Georgia, serif;
-
-        --header-h: 72px;
-      }
+      /* Tokens (--primary, --border, --sans, --header-h, …) come from
+         styles/styles.css, which the landing page loads before this
+         component.
+        */
 
       .landing-header {
         font-family: var(--sans);
@@ -49,10 +31,15 @@ class LandingHeader extends HTMLElement {
       .landing-header .wrap {
         width: 100%;
         margin-inline: auto;
-        padding-inline: 24px;
+        padding-inline: 16px;
+      }
+      @media (min-width: 640px) {
+        .landing-header .wrap {
+          padding-inline: 24px;
+        }
       }
       .landing-header .w-7xl {
-        max-width: 1320px;
+        max-width: 1280px;
       }
 
       /* Header container */
@@ -81,17 +68,15 @@ class LandingHeader extends HTMLElement {
         align-items: center;
         gap: 12px;
       }
+      /* Bootstrap styles .mark as a text highlight (yellow background plus
+         padding), so those two declarations have to be cleared here. */
       .landing-header .logo .mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: var(--primary);
-        color: #fff;
-        font-weight: 700;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        display: block;
+        padding: 0;
+        background: none;
       }
       .landing-header .logo .word {
         font-family: var(--serif);
@@ -180,7 +165,7 @@ class LandingHeader extends HTMLElement {
     <header class="landing-header">
       <div class="wrap w-7xl bar">
         <a class="logo" href="../pages/index.html">
-          <span class="mark">B</span>
+          <img class="mark" src="../assets/buildhup-icon.svg" alt="" />
           <span class="word">BuildHub</span>
         </a>
 
