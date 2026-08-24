@@ -2,7 +2,7 @@
 const parameters = new URLSearchParams(window.location.search);
 const quoteId = parameters.get("quoteId");
 
-// Find the HTML buttons
+// find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
 const cancelButton = document.querySelector("#cancelButton");
 
