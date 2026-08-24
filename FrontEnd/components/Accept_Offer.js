@@ -1,6 +1,6 @@
 // Read the quote ID from the page URL
 const parameters = new URLSearchParams(window.location.search);
-const quoteId = parameters.get("quoteId");
+const quoteId = 2;
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
@@ -17,7 +17,7 @@ acceptButton.disabled = true;
 acceptButton.textContent = "Accepting...";
 
 try {
-    const response = await fetch(`https://localhost:5153/api/quotes/${quoteId}/accept`,
+    const response = await fetch(`https://localhost:7102/api/quotes/${quoteId}/accept`,
 {
     method: "POST"
 }
@@ -40,5 +40,13 @@ throw new Error("Could not accept the offer.");
 }
 });
 
-// Cancel button
-cancelButton.addEventListener("click", () => {history.back();});
+
+// Return to the offers page
+cancelButton.addEventListener("click", () => {
+window.location.href = "View_Job.html";
+});
+
+
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+};
