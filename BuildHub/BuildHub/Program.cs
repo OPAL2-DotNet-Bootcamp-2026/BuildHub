@@ -76,8 +76,20 @@ namespace BuildHub
                     Description = "Demo path (no auth): browse vendors/reviews -> direct quote request -> quote -> accept -> contract -> escrow."
                 });
             });
-            
-            
+
+            //cors to link backend to frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
+
             var app = builder.Build();
             
             // 2. MIDDLEWARE PIPELINE
@@ -95,8 +107,9 @@ namespace BuildHub
 
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowFrontend");
             //app.UseAuthorization();
-            
+
             app.MapControllers();
 
 
