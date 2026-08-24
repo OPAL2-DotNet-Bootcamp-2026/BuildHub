@@ -108,3 +108,10 @@
   border-radius: var(--r-full);
   background-color: var(--accent);
 }
+/* Add this to your existing styles/notifications.css */
+
+.notif-empty {
+  color: var(--muted-fg, #857d75);
+  font-size: 0.92em;
+  padding: 24px 4px;
+}
