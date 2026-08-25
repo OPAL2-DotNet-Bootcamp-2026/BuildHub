@@ -6,6 +6,39 @@ const quoteId = 2;
 const acceptButton = document.querySelector("#acceptButton");
 const cancelButton = document.querySelector("#cancelButton");
 
+// GET 
+async function getQuoteInformation() {
+if (!quoteId) {
+    alert("Quote ID is missing.");
+    return;
+    }
+
+try {
+    const response = await fetch(
+    `https://localhost:7102/api/quotes/${quoteId}`,
+    {
+        method: "GET"
+    }
+    );
+
+if (!response.ok) {
+    throw new Error("Could not get the quote.");
+    }
+
+// Convert backend JSON into a JavaScript object
+    const quote = await response.json();
+
+    // Display backend information in HTML
+    agreedPrice.textContent =`OMR ${quote.price}`;
+
+    timeline.textContent =`${quote.durationDays} days`;
+} catch (error) {
+    console.error("GET error:", error);
+    alert(error.message);
+}
+}
+
+
 // accept button for event (click)
 acceptButton.addEventListener("click", async () => {
 if (!quoteId) {
@@ -15,7 +48,7 @@ if (!quoteId) {
 
 acceptButton.disabled = true;
 acceptButton.textContent = "Accepting...";
-
+//POST
 try {
     const response = await fetch(`https://localhost:7102/api/quotes/${quoteId}/accept`,
 {
