@@ -1,6 +1,6 @@
 // Read the quote ID from the page URL
 const parameters = new URLSearchParams(window.location.search);
-const quoteId = 2;
+const quoteId = 4;
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
@@ -29,6 +29,10 @@ if (!response.ok) {
 
 // Convert backend JSON into a JavaScript object
     const quote = await response.json();
+
+ // Show the result in the Console , because i want to check the get work or not
+    console.log("GET successful:", quote);
+
 
     // Display backend information in HTML
     agreedPrice.textContent =`OMR ${quote.price}`;
@@ -80,6 +84,9 @@ throw new Error("Could not accept the offer.");
 cancelButton.addEventListener("click", () => {
 window.location.href = "View_Job.html";
 });
+
+// Run GET when the page opens
+getQuoteInformation();
 
 
 const sleep = (milliseconds) => {
