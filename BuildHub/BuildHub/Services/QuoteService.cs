@@ -55,6 +55,10 @@ namespace BuildHub.Services
             if (quote == null)
                 return false;
 
+            //idempotent check
+            if (quote.Status == "Accepted")
+                return true;
+
             // Business rule: mark this quote as accepted
             quote.Status = "Accepted";
             quoteRepo.Update();
