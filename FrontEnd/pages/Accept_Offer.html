@@ -45,14 +45,23 @@
         <div class="col-lg-7 col-md-9">
           <!-- Back -->
 
-          <div class="mb-4">
+    <!--     <div class="mb-4">
             <a
               href="javascript:history.back();"
               class="text-secondary text-decoration-none small"
             >
               ← Back
             </a>
-          </div>
+          </div>            -->
+
+          <a
+            href="View_Job.html"
+            class="text-secondary text-decoration-none small"
+          >
+          ← Back
+          </a>
+
+          
 
           <!-- Page Title -->
 
@@ -145,12 +154,13 @@
 
     <!-- Buttons -->
     <div class="d-flex justify-content-center gap-2" style="padding: 20px">
-      <button type="button" class="btn btn-outline-secondary px- py-1">
+      <button  id="cancelButton" type="button" class="btn btn-outline-secondary px- py-1">
         Cancel
       </button>
 
-      <a href="../pages/offer-accepted.html"
-        ><button
+      <div class="d-flex justify-content-center gap-2" style="padding: 20px"></div>
+        <button
+          id="acceptButton"
           type="button"
           class="btn text-white"
           style="background-color: var(--accent)"
@@ -158,7 +168,7 @@
           ✓ Accept & Create<br />
           Agreement
         </button>
-      </a>
+      </div>
     </div>
     <shared-footer></shared-footer>
     <script
@@ -166,5 +176,7 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <script src="../components/Accept_Offer.js"></script>      <!-- to connect html to js -->
   </body>
 </html>
