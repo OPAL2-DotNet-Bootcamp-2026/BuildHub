@@ -68,6 +68,7 @@
 
               <input
                 type="text"
+                id="searchInput"
                 class="form-control"
                 placeholder="Search vendors..."
               />
@@ -77,7 +78,7 @@
           <!-- Category -->
 
           <div class="col-lg-2">
-            <select class="form-select">
+            <select id="categorySelect" class="form-select">
               <option selected>All Categories</option>
 
               <option>General Contractor</option>
@@ -93,7 +94,7 @@
           <!-- City -->
 
           <div class="col-lg-2">
-            <select class="form-select">
+            <select  id="citySelect" class="form-select">
               <option selected>All Cities</option>
 
               <option>Muscat</option>
@@ -153,325 +154,15 @@
 
       <!-- Vendors -->
 
-      <div class="row g-3">
-        <div class="col-xl-4 col-lg-6">
-          <div class="card h-100 rounded-3 overflow-hidden">
-            <div class="position-relative">
-              <a href="../pages/view-vendor-profile.html"
-                ><img
-                  src="../assets/interior desing.jpg"
-                  class="card-img-top"
-                  alt="Noor Interior Design"
-                />
-              </a>
+      <p class="text-muted small mb-0" id="vendors-count">Loading vendors...</p>
 
-              <span
-                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
-              >
-                ✓
-              </span>
-
-              <span
-                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
-              >
-                Interior Designer
-              </span>
-            </div>
-
-            <!-- Body -->
-
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="../assets/Noor.jpg"
-                  class="rounded-circle me-2"
-                  width="35"
-                  height="35"
-                  alt=""
-                />
-
-                <div>
-                  <h6 class="mb-0">Noor Interior Design</h6>
-
-                  <small class="text-muted"> Muscat </small>
-                </div>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <div>
-                  <span class="text-warning"> ★★★★★ </span>
-
-                  <small> 4.9 (87) </small>
-                </div>
-
-                <small class="text-muted"> 94 jobs </small>
-              </div>
-
-              <p class="small text-muted mb-0">
-                Award-winning interior design studio specializing in
-                contemporary Gulf aesthetics blended with modern design.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-lg-6">
-          <div class="card h-100 rounded-3 overflow-hidden">
-            <div class="position-relative">
-              <a href="../pages/view-vendor-profile.html"
-                ><img
-                  src="../assets/interior desing.jpg"
-                  class="card-img-top"
-                  alt="Noor Interior Design"
-                />
-              </a>
-
-              <span
-                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
-              >
-                ✓
-              </span>
-
-              <span
-                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
-              >
-                Interior Designer
-              </span>
-            </div>
-
-            <!-- Body -->
-
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="../assets/Noor.jpg"
-                  class="rounded-circle me-2"
-                  width="35"
-                  height="35"
-                  alt=""
-                />
-
-                <div>
-                  <h6 class="mb-0">Noor Interior Design</h6>
-
-                  <small class="text-muted"> Muscat </small>
-                </div>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <div>
-                  <span class="text-warning"> ★★★★★ </span>
-
-                  <small> 4.9 (87) </small>
-                </div>
-
-                <small class="text-muted"> 94 jobs </small>
-              </div>
-
-              <p class="small text-muted mb-0">
-                Award-winning interior design studio specializing in
-                contemporary Gulf aesthetics blended with modern design.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-lg-6">
-          <div class="card h-100 rounded-3 overflow-hidden">
-            <div class="position-relative">
-              <a href="../pages/view-vendor-profile.html"
-                ><img
-                  src="../assets/interior desing.jpg"
-                  class="card-img-top"
-                  alt="Noor Interior Design"
-                />
-              </a>
-
-              <span
-                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
-              >
-                ✓
-              </span>
-
-              <span
-                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
-              >
-                Interior Designer
-              </span>
-            </div>
-
-            <!-- Body -->
-
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="../assets/Noor.jpg"
-                  class="rounded-circle me-2"
-                  width="35"
-                  height="35"
-                  alt=""
-                />
-
-                <div>
-                  <h6 class="mb-0">Noor Interior Design</h6>
-
-                  <small class="text-muted"> Muscat </small>
-                </div>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <div>
-                  <span class="text-warning"> ★★★★★ </span>
-
-                  <small> 4.9 (87) </small>
-                </div>
-
-                <small class="text-muted"> 94 jobs </small>
-              </div>
-
-              <p class="small text-muted mb-0">
-                Award-winning interior design studio specializing in
-                contemporary Gulf aesthetics blended with modern design.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-lg-6">
-          <div class="card h-100 rounded-3 overflow-hidden">
-            <div class="position-relative">
-              <a href="../pages/view-vendor-profile.html"
-                ><img
-                  src="../assets/interior desing.jpg"
-                  class="card-img-top"
-                  alt="Noor Interior Design"
-                />
-              </a>
-
-              <span
-                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
-              >
-                ✓
-              </span>
-
-              <span
-                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
-              >
-                Interior Designer
-              </span>
-            </div>
-
-            <!-- Body -->
-
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="../assets/Noor.jpg"
-                  class="rounded-circle me-2"
-                  width="35"
-                  height="35"
-                  alt=""
-                />
-
-                <div>
-                  <h6 class="mb-0">Noor Interior Design</h6>
-
-                  <small class="text-muted"> Muscat </small>
-                </div>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <div>
-                  <span class="text-warning"> ★★★★★ </span>
-
-                  <small> 4.9 (87) </small>
-                </div>
-
-                <small class="text-muted"> 94 jobs </small>
-              </div>
-
-              <p class="small text-muted mb-0">
-                Award-winning interior design studio specializing in
-                contemporary Gulf aesthetics blended with modern design.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xl-4 col-lg-6">
-          <div class="card h-100 rounded-3 overflow-hidden">
-            <div class="position-relative">
-              <a href="../pages/view-vendor-profile.html"
-                ><img
-                  src="../assets/interior desing.jpg"
-                  class="card-img-top"
-                  alt="Noor Interior Design"
-                />
-              </a>
-
-              <span
-                class="badge bg-success-subtle text-success position-absolute top-0 start-0 m-2 rounded-pill"
-              >
-                ✓
-              </span>
-
-              <span
-                class="badge bg-light text-dark position-absolute top-0 start-0 mt-2 ms-5 rounded-pill"
-              >
-                Interior Designer
-              </span>
-            </div>
-
-            <!-- Body -->
-
-            <div class="card-body">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="../assets/Noor.jpg"
-                  class="rounded-circle me-2"
-                  width="35"
-                  height="35"
-                  alt=""
-                />
-
-                <div>
-                  <h6 class="mb-0">Noor Interior Design</h6>
-
-                  <small class="text-muted"> Muscat </small>
-                </div>
-              </div>
-
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <div>
-                  <span class="text-warning"> ★★★★★ </span>
-
-                  <small> 4.9 (87) </small>
-                </div>
-
-                <small class="text-muted"> 94 jobs </small>
-              </div>
-
-              <p class="small text-muted mb-0">
-                Award-winning interior design studio specializing in
-                contemporary Gulf aesthetics blended with modern design.
-              </p>
-            </div>
-          </div>
-        </div>
+      <!-- إعطاء id للـ Grid container وتنظيف الكروت المكررة -->
+      <div class="row g-3" id="vendors-container">
+          <!-- السي شارب والـ JS بيضيفوا الكروت هنا ديناميكياً -->
       </div>
     </main>
-
     <shared-footer></shared-footer>
+    <script src="../components/Browse-vender.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
