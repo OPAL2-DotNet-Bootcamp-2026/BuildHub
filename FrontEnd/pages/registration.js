@@ -14,7 +14,7 @@ document.getElementById("vendorBtn").addEventListener("click", function () {
     selectedRole = "Vendor";
 });
 const createAccountBtn = document.getElementById("createAccountBtn");
-createAccountBtn.addEventListener("click", function () {
+createAccountBtn.addEventListener("click", async function () {
 
 // Values entered by the user
 const userData = {
@@ -28,11 +28,29 @@ const userData = {
 }; 
 console.log(userData);
     // Send user data to the backend
-    fetch("https://localhost:7102/user/AddUser", {
+     try {
+    const response = await fetch("https://localhost:7102/user/AddUser", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify(userData)
     });
+
+        if (response.ok) {
+
+            if (selectedRole === "Homeowner") {
+                  window.location.href = "Dashboard.html";
+            } 
+            else if (selectedRole === "Vendor") {
+                window.location.href = "../vendor-dashboard/vendor-dashboard.html";
+            }
+
+        } else {
+            console.log("Registration failed");
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }); 
