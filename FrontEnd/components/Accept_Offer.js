@@ -5,6 +5,8 @@ const quoteId = 2;
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
 const cancelButton = document.querySelector("#cancelButton");
+const agreedPrice =document.querySelector("#agreedPrice");
+const timeline =document.querySelector("#timeline");
 
 // GET 
 async function getQuoteInformation() {
