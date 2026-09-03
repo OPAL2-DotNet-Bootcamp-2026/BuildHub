@@ -1,4 +1,7 @@
 
+using Backend.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Backend
 {
     public class Program
@@ -8,6 +11,10 @@ namespace Backend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddDbContext<BuildHubDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
