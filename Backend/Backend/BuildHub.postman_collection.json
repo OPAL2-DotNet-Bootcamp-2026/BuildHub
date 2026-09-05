@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "b0119b00-0000-4000-8000-b011d40b0002",
     "name": "BuildHub API",
-    "description": "Every BuildHub endpoint, in an order that is safe to run top to bottom.\n\nFolder 00 shows what the public may read without an account and folder 01 what it may not. Folder 02 registers three accounts, signs each in, and signs in as the seeded administrator, storing four tokens as collection variables; every later request carries the one belonging to whoever should be making it.\n\nFolders 03-11 cover CRUD and the domain rules, and each includes the authorization failures: the wrong role (403), and the right role acting on somebody else\u0027s record (403). Folder 12 proves the delete guards refuse without removing anything. Folder 13 removes everything this run created, strictly leaf first, so no row is ever cascade-deleted. The seeded data is only ever read.\n\nSet baseUrl if the app is not on http://localhost:5158. The seeded accounts all share the password Password123!.",
+    "description": "Every BuildHub endpoint, in an order that is safe to run top to bottom.\n\nFolder 00 shows what the public may read without an account and folder 01 what it may not. Folder 02 registers three accounts, signs each in, and signs in as the seeded administrator, storing four tokens as collection variables; every later request carries the one belonging to whoever should be making it.\n\nFolders 03-11 cover CRUD and the domain rules, and each includes the authorization failures: the wrong role (403), and the right role acting on somebody else's record (403). Folder 12 proves the delete guards refuse without removing anything. Folder 13 removes everything this run created, strictly leaf first, so no row is ever cascade-deleted. The seeded data is only ever read.\n\nSet baseUrl if the app is not on http://localhost:5158. The seeded accounts all share the password Password123!.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -29,7 +29,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -57,7 +57,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -85,7 +85,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -113,7 +113,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -141,7 +141,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -174,7 +174,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -202,7 +202,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -230,7 +230,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -258,7 +258,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -286,7 +286,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -311,7 +311,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:1,\u0022title\u0022:\u0022x\u0022,\u0022description\u0022:\u0022y\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"categoryId\":1,\"title\":\"x\",\"description\":\"y\",\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -328,7 +328,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -366,9 +366,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022homeownerId\u0022, pm.response.json().userId);",
-                  "pm.collectionVariables.set(\u0022homeownerEmail\u0022, pm.response.json().email);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"homeownerId\", pm.response.json().userId);",
+                  "pm.collectionVariables.set(\"homeownerEmail\", pm.response.json().email);"
                 ]
               }
             }
@@ -393,7 +393,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner\u0022,\u0022email\u0022:\u0022qa-owner-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"fullName\":\"QA Homeowner\",\"email\":\"qa-owner-{{$guid}}@example.om\",\"password\":\"Str0ngPass!\",\"role\":1,\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -410,9 +410,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.collectionVariables.set(\u0022ownerToken\u0022, pm.response.json().token);",
-                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\"ownerToken\", pm.response.json().token);",
+                  "pm.test(\"role is 1\", function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
                 ]
               }
             }
@@ -438,7 +438,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "raw": "{\"email\":\"{{homeownerEmail}}\",\"password\":\"Str0ngPass!\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -455,9 +455,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorUserAId\u0022, pm.response.json().userId);",
-                  "pm.collectionVariables.set(\u0022vendorAEmail\u0022, pm.response.json().email);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"vendorUserAId\", pm.response.json().userId);",
+                  "pm.collectionVariables.set(\"vendorAEmail\", pm.response.json().email);"
                 ]
               }
             }
@@ -482,7 +482,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Vendor A\u0022,\u0022email\u0022:\u0022qa-vendor-a-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"fullName\":\"QA Vendor A\",\"email\":\"qa-vendor-a-{{$guid}}@example.om\",\"password\":\"Str0ngPass!\",\"role\":2,\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -499,8 +499,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.collectionVariables.set(\u0022vendorAToken\u0022, pm.response.json().token);"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\"vendorAToken\", pm.response.json().token);"
                 ]
               }
             }
@@ -526,7 +526,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022{{vendorAEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "raw": "{\"email\":\"{{vendorAEmail}}\",\"password\":\"Str0ngPass!\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -543,9 +543,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorUserBId\u0022, pm.response.json().userId);",
-                  "pm.collectionVariables.set(\u0022vendorBEmail\u0022, pm.response.json().email);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"vendorUserBId\", pm.response.json().userId);",
+                  "pm.collectionVariables.set(\"vendorBEmail\", pm.response.json().email);"
                 ]
               }
             }
@@ -570,7 +570,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Vendor B\u0022,\u0022email\u0022:\u0022qa-vendor-b-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Sohar\u0022}",
+              "raw": "{\"fullName\":\"QA Vendor B\",\"email\":\"qa-vendor-b-{{$guid}}@example.om\",\"password\":\"Str0ngPass!\",\"role\":2,\"city\":\"Sohar\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -587,8 +587,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.collectionVariables.set(\u0022vendorBToken\u0022, pm.response.json().token);"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\"vendorBToken\", pm.response.json().token);"
                 ]
               }
             }
@@ -614,7 +614,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022{{vendorBEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "raw": "{\"email\":\"{{vendorBEmail}}\",\"password\":\"Str0ngPass!\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -631,9 +631,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.collectionVariables.set(\u0022adminToken\u0022, pm.response.json().token);",
-                  "pm.test(\u0022role is 3\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(3)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\"adminToken\", pm.response.json().token);",
+                  "pm.test(\"role is 3\", function () { pm.expect(String(pm.response.json().role)).to.eql(String(3)); });"
                 ]
               }
             }
@@ -659,7 +659,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022admin@buildhub.om\u0022,\u0022password\u0022:\u0022Password123!\u0022}",
+              "raw": "{\"email\":\"admin@buildhub.om\",\"password\":\"Password123!\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -676,7 +676,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -702,7 +702,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022definitely-not-it\u0022}",
+              "raw": "{\"email\":\"{{homeownerEmail}}\",\"password\":\"definitely-not-it\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -719,7 +719,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                  "pm.test(\"Status is 401\", function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -745,7 +745,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022email\u0022:\u0022nobody-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "raw": "{\"email\":\"nobody-{{$guid}}@example.om\",\"password\":\"Str0ngPass!\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -762,7 +762,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -787,7 +787,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Dup\u0022,\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"fullName\":\"QA Dup\",\"email\":\"{{homeownerEmail}}\",\"password\":\"Str0ngPass!\",\"role\":1,\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -804,7 +804,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                  "pm.test(\"Status is 400\", function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
@@ -829,7 +829,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Admin\u0022,\u0022email\u0022:\u0022qa-admin-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:3,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"fullName\":\"QA Admin\",\"email\":\"qa-admin-{{$guid}}@example.om\",\"password\":\"Str0ngPass!\",\"role\":3,\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -851,7 +851,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -880,7 +880,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022x\u0022,\u0022nameEn\u0022:\u0022QA Nope\u0022}",
+              "raw": "{\"nameAr\":\"x\",\"nameEn\":\"QA Nope\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -897,8 +897,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022categoryId\u0022, pm.response.json().categoryId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"categoryId\", pm.response.json().categoryId);"
                 ]
               }
             }
@@ -927,7 +927,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category\u0022}",
+              "raw": "{\"nameAr\":\"فئة اختبار\",\"nameEn\":\"QA Test Category\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -944,7 +944,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -973,7 +973,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1003,7 +1003,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022x\u0022,\u0022nameEn\u0022:\u0022QA Hijack\u0022}",
+              "raw": "{\"nameAr\":\"x\",\"nameEn\":\"QA Hijack\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1020,8 +1020,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022nameEn is QA Test Category Updated\u0022, function () { pm.expect(String(pm.response.json().nameEn)).to.eql(String(\u0022QA Test Category Updated\u0022)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"nameEn is QA Test Category Updated\", function () { pm.expect(String(pm.response.json().nameEn)).to.eql(String(\"QA Test Category Updated\")); });"
                 ]
               }
             }
@@ -1051,7 +1051,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category Updated\u0022}",
+              "raw": "{\"nameAr\":\"فئة اختبار\",\"nameEn\":\"QA Test Category Updated\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1073,7 +1073,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1102,7 +1102,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Nope\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"companyName\":\"QA Nope\",\"vendorType\":1,\"categoryId\":{{categoryId}},\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1119,11 +1119,11 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorAId\u0022, pm.response.json().vendorProfileId);",
-                  "pm.test(\u0022userId is {{vendorUserAId}}\u0022, function () { pm.expect(String(pm.response.json().userId)).to.eql(String(pm.collectionVariables.get(\u0022vendorUserAId\u0022))); });",
-                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(String(pm.response.json().balance)).to.eql(String(0)); });",
-                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(String(pm.response.json().isVerified)).to.eql(String(false)); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"vendorAId\", pm.response.json().vendorProfileId);",
+                  "pm.test(\"userId is {{vendorUserAId}}\", function () { pm.expect(String(pm.response.json().userId)).to.eql(String(pm.collectionVariables.get(\"vendorUserAId\"))); });",
+                  "pm.test(\"balance is 0\", function () { pm.expect(String(pm.response.json().balance)).to.eql(String(0)); });",
+                  "pm.test(\"isVerified is false\", function () { pm.expect(String(pm.response.json().isVerified)).to.eql(String(false)); });"
                 ]
               }
             }
@@ -1152,7 +1152,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"companyName\":\"QA Kitchens\",\"vendorType\":1,\"categoryId\":{{categoryId}},\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1169,8 +1169,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorBId\u0022, pm.response.json().vendorProfileId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"vendorBId\", pm.response.json().vendorProfileId);"
                 ]
               }
             }
@@ -1199,7 +1199,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Ceramics\u0022,\u0022vendorType\u0022:3,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Sohar\u0022}",
+              "raw": "{\"companyName\":\"QA Ceramics\",\"vendorType\":3,\"categoryId\":{{categoryId}},\"city\":\"Sohar\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1216,7 +1216,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -1245,7 +1245,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Twice\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"companyName\":\"QA Twice\",\"vendorType\":2,\"categoryId\":{{categoryId}},\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1262,7 +1262,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -1284,14 +1284,14 @@
           }
         },
         {
-          "name": "Vendor B cannot edit vendor A\u0027s profile",
+          "name": "Vendor B cannot edit vendor A's profile",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1321,7 +1321,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Hijacked\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"companyName\":\"QA Hijacked\",\"vendorType\":1,\"categoryId\":{{categoryId}},\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1338,8 +1338,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022companyName is QA Kitchens LLC\u0022, function () { pm.expect(String(pm.response.json().companyName)).to.eql(String(\u0022QA Kitchens LLC\u0022)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"companyName is QA Kitchens LLC\", function () { pm.expect(String(pm.response.json().companyName)).to.eql(String(\"QA Kitchens LLC\")); });"
                 ]
               }
             }
@@ -1369,7 +1369,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens LLC\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022Updated\u0022}",
+              "raw": "{\"companyName\":\"QA Kitchens LLC\",\"vendorType\":1,\"categoryId\":{{categoryId}},\"city\":\"Muscat\",\"bio\":\"Updated\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1391,7 +1391,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1420,7 +1420,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA nope\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"categoryId\":{{categoryId}},\"title\":\"QA nope\",\"description\":\"QA\",\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1437,10 +1437,10 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022jobId\u0022, pm.response.json().jobId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
-                  "pm.test(\u0022homeownerId is {{homeownerId}}\u0022, function () { pm.expect(String(pm.response.json().homeownerId)).to.eql(String(pm.collectionVariables.get(\u0022homeownerId\u0022))); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"jobId\", pm.response.json().jobId);",
+                  "pm.test(\"status is 1\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\"homeownerId is {{homeownerId}}\", function () { pm.expect(String(pm.response.json().homeownerId)).to.eql(String(pm.collectionVariables.get(\"homeownerId\"))); });"
                 ]
               }
             }
@@ -1469,7 +1469,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA kitchen job\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022city\u0022:\u0022Muscat\u0022,\u0022budget\u0022:2000.000}",
+              "raw": "{\"categoryId\":{{categoryId}},\"title\":\"QA kitchen job\",\"description\":\"QA description\",\"city\":\"Muscat\",\"budget\":2000.000}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1486,8 +1486,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022job2Id\u0022, pm.response.json().jobId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"job2Id\", pm.response.json().jobId);"
                 ]
               }
             }
@@ -1516,7 +1516,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA refund job\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"categoryId\":{{categoryId}},\"title\":\"QA refund job\",\"description\":\"QA description\",\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1533,7 +1533,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -1555,14 +1555,14 @@
           }
         },
         {
-          "name": "A vendor cannot edit someone\u0027s job",
+          "name": "A vendor cannot edit someone's job",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1592,7 +1592,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022title\u0022:\u0022QA hijack\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"title\":\"QA hijack\",\"description\":\"QA\",\"categoryId\":{{categoryId}},\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1609,9 +1609,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022city is Seeb\u0022, function () { pm.expect(String(pm.response.json().city)).to.eql(String(\u0022Seeb\u0022)); });",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"city is Seeb\", function () { pm.expect(String(pm.response.json().city)).to.eql(String(\"Seeb\")); });",
+                  "pm.test(\"status is 1\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });"
                 ]
               }
             }
@@ -1641,7 +1641,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022title\u0022:\u0022QA kitchen job v2\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Seeb\u0022,\u0022budget\u0022:2100.000}",
+              "raw": "{\"title\":\"QA kitchen job v2\",\"description\":\"QA description\",\"categoryId\":{{categoryId}},\"city\":\"Seeb\",\"budget\":2100.000}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1663,7 +1663,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1692,7 +1692,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "raw": "{\"jobId\":{{jobId}},\"price\":1,\"durationDays\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1709,10 +1709,10 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022offerAId\u0022, pm.response.json().offerId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
-                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"offerAId\", pm.response.json().offerId);",
+                  "pm.test(\"status is 1\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\"vendorProfileId is {{vendorAId}}\", function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\"vendorAId\"))); });"
                 ]
               }
             }
@@ -1741,7 +1741,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1850.500,\u0022durationDays\u0022:20,\u0022message\u0022:\u0022QA offer A\u0022}",
+              "raw": "{\"jobId\":{{jobId}},\"price\":1850.500,\"durationDays\":20,\"message\":\"QA offer A\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1758,8 +1758,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022offerBId\u0022, pm.response.json().offerId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"offerBId\", pm.response.json().offerId);"
                 ]
               }
             }
@@ -1788,7 +1788,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1950.000,\u0022durationDays\u0022:15}",
+              "raw": "{\"jobId\":{{jobId}},\"price\":1950.000,\"durationDays\":15}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1805,8 +1805,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022offerCId\u0022, pm.response.json().offerId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"offerCId\", pm.response.json().offerId);"
                 ]
               }
             }
@@ -1835,7 +1835,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{job2Id}},\u0022price\u0022:700.250,\u0022durationDays\u0022:7}",
+              "raw": "{\"jobId\":{{job2Id}},\"price\":700.250,\"durationDays\":7}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1852,7 +1852,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -1881,7 +1881,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "raw": "{\"jobId\":{{jobId}},\"price\":1,\"durationDays\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1898,7 +1898,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -1925,14 +1925,14 @@
           }
         },
         {
-          "name": "The job\u0027s homeowner sees it too",
+          "name": "The job's homeowner sees it too",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -1966,7 +1966,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1993,14 +1993,14 @@
           }
         },
         {
-          "name": "Vendor B cannot edit vendor A\u0027s offer",
+          "name": "Vendor B cannot edit vendor A's offer",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2030,7 +2030,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "raw": "{\"price\":1,\"durationDays\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2047,8 +2047,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022durationDays is 18\u0022, function () { pm.expect(String(pm.response.json().durationDays)).to.eql(String(18)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"durationDays is 18\", function () { pm.expect(String(pm.response.json().durationDays)).to.eql(String(18)); });"
                 ]
               }
             }
@@ -2078,7 +2078,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022price\u0022:1800.000,\u0022durationDays\u0022:18,\u0022message\u0022:\u0022QA revised\u0022}",
+              "raw": "{\"price\":1800.000,\"durationDays\":18,\"message\":\"QA revised\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2100,7 +2100,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2129,7 +2129,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
+              "raw": "{\"offerId\":{{offerAId}}}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2146,11 +2146,11 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022agreementId\u0022, pm.response.json().agreementId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
-                  "pm.test(\u0022paymentStatus is 1\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(1)); });",
-                  "pm.test(\u0022totalAmount is 1800.000\u0022, function () { pm.expect(String(pm.response.json().totalAmount)).to.eql(String(1800.000)); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"agreementId\", pm.response.json().agreementId);",
+                  "pm.test(\"status is 1\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\"paymentStatus is 1\", function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(1)); });",
+                  "pm.test(\"totalAmount is 1800.000\", function () { pm.expect(String(pm.response.json().totalAmount)).to.eql(String(1800.000)); });"
                 ]
               }
             }
@@ -2179,7 +2179,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
+              "raw": "{\"offerId\":{{offerAId}}}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2196,8 +2196,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 2\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
                 ]
               }
             }
@@ -2231,8 +2231,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 3\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
                 ]
               }
             }
@@ -2266,8 +2266,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 2\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
                 ]
               }
             }
@@ -2296,7 +2296,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2330,7 +2330,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -2364,7 +2364,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2394,7 +2394,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022paymentStatus\u0022:2}",
+              "raw": "{\"paymentStatus\":2}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2411,9 +2411,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });",
-                  "pm.test(\u0022paymentStatus is 2\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(2)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 2\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });",
+                  "pm.test(\"paymentStatus is 2\", function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(2)); });"
                 ]
               }
             }
@@ -2443,7 +2443,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022paymentStatus\u0022:2}",
+              "raw": "{\"paymentStatus\":2}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2460,8 +2460,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022balance is 1800.000\u0022, function () { pm.expect(String(pm.response.json().balance)).to.eql(String(1800.000)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"balance is 1800.000\", function () { pm.expect(String(pm.response.json().balance)).to.eql(String(1800.000)); });"
                 ]
               }
             }
@@ -2490,8 +2490,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 3\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
                 ]
               }
             }
@@ -2520,8 +2520,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022agreement2Id\u0022, pm.response.json().agreementId);"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"agreement2Id\", pm.response.json().agreementId);"
                 ]
               }
             }
@@ -2550,7 +2550,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022offerId\u0022:{{offerCId}}}",
+              "raw": "{\"offerId\":{{offerCId}}}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2567,7 +2567,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2597,7 +2597,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022paymentStatus\u0022:3}",
+              "raw": "{\"paymentStatus\":3}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2614,9 +2614,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });",
-                  "pm.test(\u0022paymentStatus is 3\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(3)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"status is 3\", function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });",
+                  "pm.test(\"paymentStatus is 3\", function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(3)); });"
                 ]
               }
             }
@@ -2646,7 +2646,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022paymentStatus\u0022:3}",
+              "raw": "{\"paymentStatus\":3}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2668,7 +2668,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2697,7 +2697,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:1}",
+              "raw": "{\"agreementId\":{{agreementId}},\"rating\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2714,11 +2714,11 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022reviewId\u0022, pm.response.json().reviewId);",
-                  "pm.test(\u0022rating is 5\u0022, function () { pm.expect(String(pm.response.json().rating)).to.eql(String(5)); });",
-                  "pm.test(\u0022reviewerId is {{homeownerId}}\u0022, function () { pm.expect(String(pm.response.json().reviewerId)).to.eql(String(pm.collectionVariables.get(\u0022homeownerId\u0022))); });",
-                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"reviewId\", pm.response.json().reviewId);",
+                  "pm.test(\"rating is 5\", function () { pm.expect(String(pm.response.json().rating)).to.eql(String(5)); });",
+                  "pm.test(\"reviewerId is {{homeownerId}}\", function () { pm.expect(String(pm.response.json().reviewerId)).to.eql(String(pm.collectionVariables.get(\"homeownerId\"))); });",
+                  "pm.test(\"vendorProfileId is {{vendorAId}}\", function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\"vendorAId\"))); });"
                 ]
               }
             }
@@ -2747,7 +2747,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:5,\u0022comment\u0022:\u0022QA excellent\u0022}",
+              "raw": "{\"agreementId\":{{agreementId}},\"rating\":5,\"comment\":\"QA excellent\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2764,7 +2764,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -2793,7 +2793,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2823,7 +2823,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022rating\u0022:1,\u0022comment\u0022:\u0022QA sabotage\u0022}",
+              "raw": "{\"rating\":1,\"comment\":\"QA sabotage\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2840,8 +2840,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022rating is 4\u0022, function () { pm.expect(String(pm.response.json().rating)).to.eql(String(4)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"rating is 4\", function () { pm.expect(String(pm.response.json().rating)).to.eql(String(4)); });"
                 ]
               }
             }
@@ -2871,7 +2871,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022rating\u0022:4,\u0022comment\u0022:\u0022QA good\u0022}",
+              "raw": "{\"rating\":4,\"comment\":\"QA good\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2888,8 +2888,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022averageRating is 4.00\u0022, function () { pm.expect(String(pm.response.json().averageRating)).to.eql(String(4.00)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"averageRating is 4.00\", function () { pm.expect(String(pm.response.json().averageRating)).to.eql(String(4.00)); });"
                 ]
               }
             }
@@ -2923,7 +2923,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2952,7 +2952,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA nope\u0022,\u0022unit\u0022:1,\u0022price\u0022:1}",
+              "raw": "{\"categoryId\":{{categoryId}},\"name\":\"QA nope\",\"unit\":1,\"price\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2969,9 +2969,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022productId\u0022, pm.response.json().productId);",
-                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"productId\", pm.response.json().productId);",
+                  "pm.test(\"vendorProfileId is {{vendorAId}}\", function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\"vendorAId\"))); });"
                 ]
               }
             }
@@ -3000,7 +3000,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA tile\u0022,\u0022unit\u0022:1,\u0022price\u0022:5.500,\u0022isAvailable\u0022:true}",
+              "raw": "{\"categoryId\":{{categoryId}},\"name\":\"QA tile\",\"unit\":1,\"price\":5.500,\"isAvailable\":true}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3017,7 +3017,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -3046,7 +3046,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3076,7 +3076,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022name\u0022:\u0022QA hijack\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:1,\u0022price\u0022:1,\u0022isAvailable\u0022:true}",
+              "raw": "{\"name\":\"QA hijack\",\"categoryId\":{{categoryId}},\"unit\":1,\"price\":1,\"isAvailable\":true}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3093,8 +3093,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022isAvailable is false\u0022, function () { pm.expect(String(pm.response.json().isAvailable)).to.eql(String(false)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"isAvailable is false\", function () { pm.expect(String(pm.response.json().isAvailable)).to.eql(String(false)); });"
                 ]
               }
             }
@@ -3124,7 +3124,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022name\u0022:\u0022QA tile v2\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:2,\u0022price\u0022:6.250,\u0022isAvailable\u0022:false}",
+              "raw": "{\"name\":\"QA tile v2\",\"categoryId\":{{categoryId}},\"unit\":2,\"price\":6.250,\"isAvailable\":false}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3146,7 +3146,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3175,7 +3175,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA\u0022,\u0022type\u0022:1}",
+              "raw": "{\"userId\":{{homeownerId}},\"message\":\"QA\",\"type\":1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3192,9 +3192,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022notificationId\u0022, pm.response.json().notificationId);",
-                  "pm.test(\u0022isRead is false\u0022, function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(false)); });"
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\"notificationId\", pm.response.json().notificationId);",
+                  "pm.test(\"isRead is false\", function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(false)); });"
                 ]
               }
             }
@@ -3223,7 +3223,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA notification\u0022,\u0022type\u0022:1,\u0022relatedId\u0022:{{offerAId}}}",
+              "raw": "{\"userId\":{{homeownerId}},\"message\":\"QA notification\",\"type\":1,\"relatedId\":{{offerAId}}}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3240,7 +3240,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -3273,7 +3273,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3307,7 +3307,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -3341,8 +3341,8 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022isRead is true\u0022, function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(true)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"isRead is true\", function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(true)); });"
                 ]
               }
             }
@@ -3372,7 +3372,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022isRead\u0022:true}",
+              "raw": "{\"isRead\":true}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3394,7 +3394,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3427,7 +3427,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -3460,7 +3460,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3494,7 +3494,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -3528,7 +3528,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                  "pm.test(\"Status is 403\", function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -3558,7 +3558,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Hijack\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\"fullName\":\"QA Hijack\",\"city\":\"Muscat\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3575,9 +3575,9 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022city is Sohar\u0022, function () { pm.expect(String(pm.response.json().city)).to.eql(String(\u0022Sohar\u0022)); });",
-                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "pm.test(\"city is Sohar\", function () { pm.expect(String(pm.response.json().city)).to.eql(String(\"Sohar\")); });",
+                  "pm.test(\"role is 1\", function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
                 ]
               }
             }
@@ -3607,7 +3607,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner Renamed\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000009\u0022,\u0022city\u0022:\u0022Sohar\u0022}",
+              "raw": "{\"fullName\":\"QA Homeowner Renamed\",\"phoneNumber\":\"+96890000009\",\"city\":\"Sohar\"}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3629,7 +3629,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -3663,7 +3663,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -3697,7 +3697,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -3731,7 +3731,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -3765,7 +3765,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\"Status is 409\", function () { pm.response.to.have.status(409); });"
                 ]
               }
             }
@@ -3804,7 +3804,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -3838,7 +3838,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -3872,7 +3872,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -3906,7 +3906,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -3940,7 +3940,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -3974,7 +3974,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4008,7 +4008,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4042,7 +4042,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4076,7 +4076,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4110,7 +4110,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4144,7 +4144,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4178,7 +4178,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4212,7 +4212,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4246,7 +4246,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4280,7 +4280,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4314,7 +4314,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                  "pm.test(\"Status is 204\", function () { pm.response.to.have.status(204); });"
                 ]
               }
             }
@@ -4348,7 +4348,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -4369,6 +4369,28 @@
           }
         }
       ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// A request that needs a token but has none would otherwise just come back",
+          "// 401, which looks like the API is broken. Say what actually happened.",
+          "// Headers are still unresolved here, so test the variable, not the header text.",
+          "const auth = pm.request.headers.get('Authorization');",
+          "const ref = auth ? /{{(.*?)}}/.exec(auth) : null;",
+          "if (ref && !pm.collectionVariables.get(ref[1])) {",
+          "    throw new Error('No value for {{' + ref[1] + '}} yet. The tokens are stored '",
+          "        + 'by the folder \"02 Register and sign in\", so run the whole collection '",
+          "        + 'from the top rather than one folder or request on its own. The admin '",
+          "        + 'token also needs the seeded accounts, so start the API once with '",
+          "        + 'SeedData enabled.');",
+          "}"
+        ]
+      }
     }
   ]
 }
