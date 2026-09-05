@@ -2,11 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models.Dtos
 {
+    /// <summary>
+    /// Lists a material item. VendorProfileId is absent: the listing belongs to the
+    /// signed-in vendor's own profile.
+    /// </summary>
     public class CreateProductRequest
     {
-        [Range(1, int.MaxValue)]
-        public int VendorProfileId { get; set; }
-
         [Range(1, int.MaxValue)]
         public int CategoryId { get; set; }
 

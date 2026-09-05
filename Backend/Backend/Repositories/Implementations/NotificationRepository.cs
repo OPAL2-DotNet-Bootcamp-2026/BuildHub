@@ -22,6 +22,12 @@ namespace Backend.Repositories.Implementations
             await _context.Notifications.AsNoTracking()
                 .FirstOrDefaultAsync(n => n.NotificationId == id);
 
+        public async Task<IEnumerable<Notification>> GetByUserIdAsync(int userId) =>
+            await _context.Notifications.AsNoTracking()
+                .Where(n => n.UserId == userId)
+                .OrderByDescending(n => n.CreatedAt)
+                .ToListAsync();
+
         public async Task<Notification> CreateAsync(Notification notification)
         {
             _context.Notifications.Add(notification);

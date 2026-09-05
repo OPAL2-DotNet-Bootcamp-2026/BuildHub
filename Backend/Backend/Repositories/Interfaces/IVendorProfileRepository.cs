@@ -10,6 +10,13 @@ namespace Backend.Repositories.Interfaces
         /// <summary>Returns null when no vendor profile has this id.</summary>
         Task<VendorProfile?> GetByIdAsync(int id);
 
+        /// <summary>
+        /// The profile belonging to an account, or null when that account has none.
+        /// UserId is unique, so there is at most one. Used to turn the signed-in user
+        /// into the vendor they are acting as.
+        /// </summary>
+        Task<VendorProfile?> GetByUserIdAsync(int userId);
+
         Task<VendorProfile> CreateAsync(VendorProfile vendorProfile);
 
         /// <summary>

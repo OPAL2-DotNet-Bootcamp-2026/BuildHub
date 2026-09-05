@@ -4,13 +4,11 @@ namespace Backend.Models.Dtos
 {
     /// <summary>
     /// Posts a job. Status is absent - a new job is always Open, decided by the
-    /// service rather than the caller.
+    /// service rather than the caller. HomeownerId is absent too: the job belongs to
+    /// whoever the token says is calling, so it cannot be posted in someone else's name.
     /// </summary>
     public class CreateJobRequest
     {
-        [Range(1, int.MaxValue)]
-        public int HomeownerId { get; set; }
-
         [Range(1, int.MaxValue)]
         public int CategoryId { get; set; }
 

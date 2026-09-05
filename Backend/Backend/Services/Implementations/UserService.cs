@@ -13,11 +13,16 @@ namespace Backend.Services.Implementations
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher<User> _passwordHasher;
+        private readonly ICurrentUser _currentUser;
 
-        public UserService(IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
+        public UserService(
+            IUserRepository userRepository,
+            IPasswordHasher<User> passwordHasher,
+            ICurrentUser currentUser)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _currentUser = currentUser;
         }
 
         public async Task<IEnumerable<UserResponse>> GetAllAsync()
@@ -28,6 +33,8 @@ namespace Backend.Services.Implementations
 
         public async Task<UserResponse?> GetByIdAsync(int id)
         {
+            EnsureSelfOrAdmin(id);
+
             var user = await _userRepository.GetByIdAsync(id);
             return user is null ? null : ToResponse(user);
         }
@@ -71,6 +78,8 @@ namespace Backend.Services.Implementations
 
         public async Task<UserResponse?> UpdateAsync(int id, UpdateUserRequest request)
         {
+            EnsureSelfOrAdmin(id);
+
             // Only the three editable fields are carried across - the repository
             // ignores everything else, so email, password and role cannot move.
             var input = new User
@@ -86,6 +95,8 @@ namespace Backend.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
+            EnsureSelfOrAdmin(id);
+
             try
             {
                 return await _userRepository.DeleteAsync(id);
@@ -96,6 +107,17 @@ namespace Backend.Services.Implementations
                 // posted work or left a rating cannot be erased out from under it.
                 throw new ConflictException(
                     "This user cannot be deleted while they still have jobs or reviews.");
+            }
+        }
+
+        /// <summary>
+        /// An account is only visible and editable to itself, or to an administrator.
+        /// </summary>
+        private void EnsureSelfOrAdmin(int userId)
+        {
+            if (!_currentUser.IsAdmin && userId != _currentUser.UserId)
+            {
+                throw new ForbiddenException($"User {userId} is a different account.");
             }
         }
 

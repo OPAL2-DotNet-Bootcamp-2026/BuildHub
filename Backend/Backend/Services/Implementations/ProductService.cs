@@ -12,15 +12,18 @@ namespace Backend.Services.Implementations
         private readonly IProductRepository _productRepository;
         private readonly IVendorProfileRepository _vendorProfileRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICurrentUser _currentUser;
 
         public ProductService(
             IProductRepository productRepository,
             IVendorProfileRepository vendorProfileRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            ICurrentUser currentUser)
         {
             _productRepository = productRepository;
             _vendorProfileRepository = vendorProfileRepository;
             _categoryRepository = categoryRepository;
+            _currentUser = currentUser;
         }
 
         public async Task<IEnumerable<ProductResponse>> GetAllAsync()
@@ -37,10 +40,8 @@ namespace Backend.Services.Implementations
 
         public async Task<ProductResponse> CreateAsync(CreateProductRequest request)
         {
-            if (await _vendorProfileRepository.GetByIdAsync(request.VendorProfileId) is null)
-            {
-                throw new NotFoundException($"No vendor profile with id {request.VendorProfileId}.");
-            }
+            // The listing belongs to the caller's own store.
+            var vendorProfile = await GetCallerVendorProfileAsync();
 
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
             {
@@ -49,7 +50,7 @@ namespace Backend.Services.Implementations
 
             var created = await _productRepository.CreateAsync(new Product
             {
-                VendorProfileId = request.VendorProfileId,
+                VendorProfileId = vendorProfile.VendorProfileId,
                 CategoryId = request.CategoryId,
                 Name = request.Name.Trim(),
                 Unit = request.Unit,
@@ -63,6 +64,11 @@ namespace Backend.Services.Implementations
 
         public async Task<ProductResponse?> UpdateAsync(int id, UpdateProductRequest request)
         {
+            var existing = await _productRepository.GetByIdAsync(id);
+            if (existing is null) return null;
+
+            await EnsureOwnedByCallerAsync(existing);
+
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
             {
                 throw new NotFoundException($"No category with id {request.CategoryId}.");
@@ -81,8 +87,33 @@ namespace Backend.Services.Implementations
             return updated is null ? null : ToResponse(updated);
         }
 
-        public async Task<bool> DeleteAsync(int id) =>
-            await _productRepository.DeleteAsync(id);
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var existing = await _productRepository.GetByIdAsync(id);
+            if (existing is null) return false;
+
+            await EnsureOwnedByCallerAsync(existing);
+
+            return await _productRepository.DeleteAsync(id);
+        }
+
+        private async Task<VendorProfile> GetCallerVendorProfileAsync()
+        {
+            return await _vendorProfileRepository.GetByUserIdAsync(_currentUser.UserId)
+                ?? throw new ForbiddenException(
+                    "This account has no vendor profile, so it cannot list products.");
+        }
+
+        private async Task EnsureOwnedByCallerAsync(Product product)
+        {
+            if (_currentUser.IsAdmin) return;
+
+            var vendorProfile = await GetCallerVendorProfileAsync();
+            if (product.VendorProfileId != vendorProfile.VendorProfileId)
+            {
+                throw new ForbiddenException($"Product {product.ProductId} belongs to another vendor.");
+            }
+        }
 
         private static ProductResponse ToResponse(Product product) => new()
         {

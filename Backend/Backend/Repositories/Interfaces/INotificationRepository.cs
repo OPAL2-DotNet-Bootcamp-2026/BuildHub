@@ -10,6 +10,9 @@ namespace Backend.Repositories.Interfaces
         /// <summary>Returns null when no notification has this id.</summary>
         Task<Notification?> GetByIdAsync(int id);
 
+        /// <summary>Every alert raised for one account, newest first.</summary>
+        Task<IEnumerable<Notification>> GetByUserIdAsync(int userId);
+
         Task<Notification> CreateAsync(Notification notification);
 
         /// <summary>

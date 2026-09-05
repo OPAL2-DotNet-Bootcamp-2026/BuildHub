@@ -13,15 +13,18 @@ namespace Backend.Services.Implementations
         private readonly IVendorProfileRepository _vendorProfileRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICurrentUser _currentUser;
 
         public VendorProfileService(
             IVendorProfileRepository vendorProfileRepository,
             IUserRepository userRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            ICurrentUser currentUser)
         {
             _vendorProfileRepository = vendorProfileRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _currentUser = currentUser;
         }
 
         public async Task<IEnumerable<VendorProfileResponse>> GetAllAsync()
@@ -38,14 +41,17 @@ namespace Backend.Services.Implementations
 
         public async Task<VendorProfileResponse> CreateAsync(CreateVendorProfileRequest request)
         {
-            var user = await _userRepository.GetByIdAsync(request.UserId)
-                ?? throw new NotFoundException($"No user with id {request.UserId}.");
+            // The profile is always opened over the caller's own account.
+            var userId = _currentUser.UserId;
+
+            var user = await _userRepository.GetByIdAsync(userId)
+                ?? throw new NotFoundException($"No user with id {userId}.");
 
             // "The business layer over a Vendor-role user."
             if (user.Role != UserRole.Vendor)
             {
                 throw new BadRequestException(
-                    $"User {request.UserId} has role {user.Role}; only a Vendor can have a vendor profile.");
+                    $"User {userId} has role {user.Role}; only a Vendor can have a vendor profile.");
             }
 
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
@@ -55,17 +61,16 @@ namespace Backend.Services.Implementations
 
             // One profile per vendor user - UserId is unique in the database, and this
             // check turns that into a clear 409 instead of a unique-index 500.
-            var existing = await _vendorProfileRepository.GetAllAsync();
-            if (existing.Any(v => v.UserId == request.UserId))
+            if (await _vendorProfileRepository.GetByUserIdAsync(userId) is not null)
             {
-                throw new ConflictException($"User {request.UserId} already has a vendor profile.");
+                throw new ConflictException($"User {userId} already has a vendor profile.");
             }
 
             try
             {
                 var created = await _vendorProfileRepository.CreateAsync(new VendorProfile
                 {
-                    UserId = request.UserId,
+                    UserId = userId,
                     CompanyName = request.CompanyName.Trim(),
                     VendorType = request.VendorType,
                     CategoryId = request.CategoryId,
@@ -82,12 +87,17 @@ namespace Backend.Services.Implementations
             catch (DbUpdateException)
             {
                 // Two requests for the same user can pass the check above and race.
-                throw new ConflictException($"User {request.UserId} already has a vendor profile.");
+                throw new ConflictException($"User {userId} already has a vendor profile.");
             }
         }
 
         public async Task<VendorProfileResponse?> UpdateAsync(int id, UpdateVendorProfileRequest request)
         {
+            var existing = await _vendorProfileRepository.GetByIdAsync(id);
+            if (existing is null) return null;
+
+            EnsureOwnedByCaller(existing);
+
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
             {
                 throw new NotFoundException($"No category with id {request.CategoryId}.");
@@ -107,6 +117,11 @@ namespace Backend.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
+            var existing = await _vendorProfileRepository.GetByIdAsync(id);
+            if (existing is null) return false;
+
+            EnsureOwnedByCaller(existing);
+
             try
             {
                 return await _vendorProfileRepository.DeleteAsync(id);
@@ -115,6 +130,15 @@ namespace Backend.Services.Implementations
             {
                 throw new ConflictException(
                     "This vendor cannot be deleted while they still have offers or reviews.");
+            }
+        }
+
+        private void EnsureOwnedByCaller(VendorProfile profile)
+        {
+            if (!_currentUser.IsAdmin && profile.UserId != _currentUser.UserId)
+            {
+                throw new ForbiddenException(
+                    $"Vendor profile {profile.VendorProfileId} belongs to another account.");
             }
         }
 

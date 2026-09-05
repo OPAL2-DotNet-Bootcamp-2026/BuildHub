@@ -42,6 +42,7 @@ namespace Backend
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
             // Services.
+            builder.Services.AddScoped<ICurrentUser, CurrentUser>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IVendorProfileService, VendorProfileService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
