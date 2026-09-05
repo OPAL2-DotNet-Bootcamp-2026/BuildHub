@@ -1,7 +1,11 @@
 
 using Backend.Data;
+using Backend.Models.Entities;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Interfaces;
+using Backend.Services.Implementations;
+using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend
@@ -28,6 +32,20 @@ namespace Backend
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+            // Services.
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IVendorProfileService, VendorProfileService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IJobService, JobService>();
+            builder.Services.AddScoped<IOfferService, OfferService>();
+            builder.Services.AddScoped<IAgreementService, AgreementService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+
+            // Password hashing (PBKDF2, salted per user) from ASP.NET Core Identity.
+            builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
