@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class OffersController : ControllerBase
     {
         private readonly IOfferService _offerService;
@@ -37,6 +40,7 @@ namespace Backend.Controllers
         /// <summary>
         /// Submits an offer on an Open job. One offer per vendor per job; it starts Pending.
         /// </summary>
+        [Authorize(Roles = nameof(UserRole.Vendor))]
         [HttpPost]
         [ProducesResponseType(typeof(OfferResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

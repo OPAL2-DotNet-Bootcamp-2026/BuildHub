@@ -26,6 +26,7 @@ namespace Backend.Middleware
             var (status, title) = exception switch
             {
                 UnauthorizedException => (StatusCodes.Status401Unauthorized, "Unauthorized"),
+                ForbiddenException => (StatusCodes.Status403Forbidden, "Forbidden"),
                 NotFoundException => (StatusCodes.Status404NotFound, "Not found"),
                 BadRequestException => (StatusCodes.Status400BadRequest, "Bad request"),
                 ConflictException => (StatusCodes.Status409Conflict, "Conflict"),

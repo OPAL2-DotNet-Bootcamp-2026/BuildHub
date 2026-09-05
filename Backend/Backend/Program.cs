@@ -11,6 +11,7 @@ using Backend.Repositories.Interfaces;
 using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -84,7 +85,15 @@ namespace Backend
                     };
                 });
 
-            builder.Services.AddAuthorization();
+            // Deny by default: an endpoint with no authorization attribute of its own
+            // still requires a signed-in caller, so a controller added later is
+            // protected without anyone having to remember. Genuinely public routes
+            // opt out with [AllowAnonymous].
+            builder.Services.AddAuthorization(options =>
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build());
+
             builder.Services.AddHttpContextAccessor();
 
             // Maps the service layer's domain exceptions onto 404 / 400 / 409 in one
@@ -117,7 +126,9 @@ namespace Backend
             if (app.Environment.IsDevelopment())
             {
                 // Serves the generated OpenAPI document at /openapi/v1.json.
-                app.MapOpenApi();
+                // AllowAnonymous because the fallback policy above would otherwise
+                // put the document itself behind a token, leaving Swagger UI empty.
+                app.MapOpenApi().AllowAnonymous();
 
                 // Swagger UI reads that same document - it only renders, it does not
                 // generate, so the document stays the single source of truth.

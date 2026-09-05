@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -17,6 +20,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Lists every user.</summary>
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<UserResponse>>> GetAll()
@@ -35,6 +39,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Registers a user.</summary>
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(typeof(UserResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class ReviewsController : ControllerBase
     {
         private readonly IReviewService _reviewService;
@@ -17,6 +20,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Lists every review.</summary>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ReviewResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<ReviewResponse>>> GetAll()
@@ -25,6 +29,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Gets one review by id.</summary>
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(ReviewResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -38,6 +43,7 @@ namespace Backend.Controllers
         /// Rates the vendor behind a Completed agreement. The reviewer must be that
         /// agreement's homeowner; the vendor is read from the agreement, not the request.
         /// </summary>
+        [Authorize(Roles = nameof(UserRole.Homeowner))]
         [HttpPost]
         [ProducesResponseType(typeof(ReviewResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

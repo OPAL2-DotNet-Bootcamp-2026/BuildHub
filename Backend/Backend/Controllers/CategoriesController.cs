@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -17,6 +20,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Lists every category.</summary>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CategoryResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<CategoryResponse>>> GetAll()
@@ -25,6 +29,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Gets one category by id.</summary>
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -35,6 +40,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Creates a category.</summary>
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPost]
         [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,6 +51,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Updates a category's names and icon.</summary>
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPut("{id:int}")]
         [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,6 +63,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Deletes a category no vendor, job or product uses.</summary>
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
