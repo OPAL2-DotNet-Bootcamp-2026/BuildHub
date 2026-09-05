@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class VendorProfilesController : ControllerBase
     {
         private readonly IVendorProfileService _vendorProfileService;
@@ -17,6 +20,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Lists every vendor profile.</summary>
+        [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<VendorProfileResponse>), StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<VendorProfileResponse>>> GetAll()
@@ -25,6 +29,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Gets one vendor profile by id.</summary>
+        [AllowAnonymous]
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(VendorProfileResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -35,6 +40,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Opens a vendor profile over an existing Vendor-role account.</summary>
+        [Authorize(Roles = nameof(UserRole.Vendor))]
         [HttpPost]
         [ProducesResponseType(typeof(VendorProfileResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

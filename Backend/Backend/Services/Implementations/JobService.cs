@@ -13,15 +13,18 @@ namespace Backend.Services.Implementations
         private readonly IJobRepository _jobRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ICurrentUser _currentUser;
 
         public JobService(
             IJobRepository jobRepository,
             IUserRepository userRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            ICurrentUser currentUser)
         {
             _jobRepository = jobRepository;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _currentUser = currentUser;
         }
 
         public async Task<IEnumerable<JobResponse>> GetAllAsync()
@@ -38,9 +41,12 @@ namespace Backend.Services.Implementations
 
         public async Task<JobResponse> CreateAsync(CreateJobRequest request)
         {
-            if (await _userRepository.GetByIdAsync(request.HomeownerId) is null)
+            // The poster is whoever the token says is calling, never a body field.
+            var homeownerId = _currentUser.UserId;
+
+            if (await _userRepository.GetByIdAsync(homeownerId) is null)
             {
-                throw new NotFoundException($"No user with id {request.HomeownerId}.");
+                throw new NotFoundException($"No user with id {homeownerId}.");
             }
 
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
@@ -50,7 +56,7 @@ namespace Backend.Services.Implementations
 
             var created = await _jobRepository.CreateAsync(new Job
             {
-                HomeownerId = request.HomeownerId,
+                HomeownerId = homeownerId,
                 CategoryId = request.CategoryId,
                 Title = request.Title.Trim(),
                 Description = request.Description.Trim(),
@@ -68,6 +74,11 @@ namespace Backend.Services.Implementations
 
         public async Task<JobResponse?> UpdateAsync(int id, UpdateJobRequest request)
         {
+            var existing = await _jobRepository.GetByIdAsync(id);
+            if (existing is null) return null;
+
+            EnsureOwnedByCaller(existing);
+
             if (await _categoryRepository.GetByIdAsync(request.CategoryId) is null)
             {
                 throw new NotFoundException($"No category with id {request.CategoryId}.");
@@ -88,6 +99,11 @@ namespace Backend.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
+            var existing = await _jobRepository.GetByIdAsync(id);
+            if (existing is null) return false;
+
+            EnsureOwnedByCaller(existing);
+
             try
             {
                 return await _jobRepository.DeleteAsync(id);
@@ -98,6 +114,18 @@ namespace Backend.Services.Implementations
                 // agreement is Restrict-protected, so the whole delete is refused.
                 throw new ConflictException(
                     "This job cannot be deleted because one of its offers has been accepted into an agreement.");
+            }
+        }
+
+        /// <summary>
+        /// A role check cannot express this: every homeowner may edit a job, but only
+        /// their own. An admin is allowed through for moderation.
+        /// </summary>
+        private void EnsureOwnedByCaller(Job job)
+        {
+            if (!_currentUser.IsAdmin && job.HomeownerId != _currentUser.UserId)
+            {
+                throw new ForbiddenException($"Job {job.JobId} belongs to another homeowner.");
             }
         }
 

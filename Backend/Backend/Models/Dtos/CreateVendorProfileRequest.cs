@@ -3,15 +3,13 @@ using System.ComponentModel.DataAnnotations;
 namespace Backend.Models.Dtos
 {
     /// <summary>
-    /// Opens the business layer over an existing Vendor-role account.
+    /// Opens the business layer over the signed-in Vendor-role account.
     /// IsVerified, AverageRating and Balance are absent: a vendor cannot arrive
-    /// pre-verified, pre-rated or pre-funded.
+    /// pre-verified, pre-rated or pre-funded. UserId is absent too - the profile is
+    /// always opened over the caller's own account.
     /// </summary>
     public class CreateVendorProfileRequest
     {
-        [Range(1, int.MaxValue)]
-        public int UserId { get; set; }
-
         [Required]
         [MaxLength(150)]
         public string CompanyName { get; set; } = string.Empty;

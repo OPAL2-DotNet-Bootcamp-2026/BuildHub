@@ -15,6 +15,7 @@ namespace Backend.Services.Implementations
         private readonly IJobRepository _jobRepository;
         private readonly IUserRepository _userRepository;
         private readonly IVendorProfileRepository _vendorProfileRepository;
+        private readonly ICurrentUser _currentUser;
 
         public ReviewService(
             IReviewRepository reviewRepository,
@@ -22,8 +23,10 @@ namespace Backend.Services.Implementations
             IOfferRepository offerRepository,
             IJobRepository jobRepository,
             IUserRepository userRepository,
-            IVendorProfileRepository vendorProfileRepository)
+            IVendorProfileRepository vendorProfileRepository,
+            ICurrentUser currentUser)
         {
+            _currentUser = currentUser;
             _reviewRepository = reviewRepository;
             _agreementRepository = agreementRepository;
             _offerRepository = offerRepository;
@@ -56,9 +59,12 @@ namespace Backend.Services.Implementations
                     $"Agreement {request.AgreementId} is {agreement.Status}; only a Completed agreement can be reviewed.");
             }
 
-            if (await _userRepository.GetByIdAsync(request.ReviewerId) is null)
+            // The reviewer is the signed-in caller, never a body field.
+            var reviewerId = _currentUser.UserId;
+
+            if (await _userRepository.GetByIdAsync(reviewerId) is null)
             {
-                throw new NotFoundException($"No user with id {request.ReviewerId}.");
+                throw new NotFoundException($"No user with id {reviewerId}.");
             }
 
             // Walk Agreement -> Offer -> Job to find both who may review and who is
@@ -69,16 +75,18 @@ namespace Backend.Services.Implementations
             var job = await _jobRepository.GetByIdAsync(offer.JobId)
                 ?? throw new NotFoundException($"No job with id {offer.JobId}.");
 
-            // "The reviewer must be that agreement's homeowner."
-            if (job.HomeownerId != request.ReviewerId)
+            // "The reviewer must be that agreement's homeowner." Now that the reviewer
+            // comes from the token, this is a real ownership check rather than a
+            // consistency check on two numbers the caller supplied.
+            if (job.HomeownerId != reviewerId)
             {
-                throw new BadRequestException(
-                    $"User {request.ReviewerId} is not the homeowner of agreement {request.AgreementId}.");
+                throw new ForbiddenException(
+                    $"User {reviewerId} is not the homeowner of agreement {request.AgreementId}.");
             }
 
             var created = await _reviewRepository.CreateAsync(new Review
             {
-                ReviewerId = request.ReviewerId,
+                ReviewerId = reviewerId,
                 VendorProfileId = offer.VendorProfileId,
                 AgreementId = request.AgreementId,
                 Rating = request.Rating,
@@ -94,6 +102,11 @@ namespace Backend.Services.Implementations
 
         public async Task<ReviewResponse?> UpdateAsync(int id, UpdateReviewRequest request)
         {
+            var existing = await _reviewRepository.GetByIdAsync(id);
+            if (existing is null) return null;
+
+            EnsureWrittenByCaller(existing);
+
             var updated = await _reviewRepository.UpdateAsync(id, new Review
             {
                 Rating = request.Rating,
@@ -112,6 +125,8 @@ namespace Backend.Services.Implementations
             var review = await _reviewRepository.GetByIdAsync(id);
             if (review is null) return false;
 
+            EnsureWrittenByCaller(review);
+
             var deleted = await _reviewRepository.DeleteAsync(id);
             if (deleted)
             {
@@ -119,6 +134,14 @@ namespace Backend.Services.Implementations
             }
 
             return deleted;
+        }
+
+        private void EnsureWrittenByCaller(Review review)
+        {
+            if (!_currentUser.IsAdmin && review.ReviewerId != _currentUser.UserId)
+            {
+                throw new ForbiddenException($"Review {review.ReviewId} was written by someone else.");
+            }
         }
 
         /// <summary>

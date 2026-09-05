@@ -13,27 +13,58 @@ namespace Backend.Services.Implementations
         private readonly IOfferRepository _offerRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IVendorProfileRepository _vendorProfileRepository;
+        private readonly ICurrentUser _currentUser;
 
         public OfferService(
             IOfferRepository offerRepository,
             IJobRepository jobRepository,
-            IVendorProfileRepository vendorProfileRepository)
+            IVendorProfileRepository vendorProfileRepository,
+            ICurrentUser currentUser)
         {
             _offerRepository = offerRepository;
             _jobRepository = jobRepository;
             _vendorProfileRepository = vendorProfileRepository;
+            _currentUser = currentUser;
         }
 
+        /// <summary>
+        /// Only the offers you are party to: the ones you made as a vendor, and the
+        /// ones sitting on your own jobs as a homeowner. A quote is commercially
+        /// sensitive, so a signed-in competitor must not be able to read the whole
+        /// board. An administrator sees everything.
+        /// </summary>
         public async Task<IEnumerable<OfferResponse>> GetAllAsync()
         {
             var offers = await _offerRepository.GetAllAsync();
-            return offers.Select(ToResponse);
+
+            if (_currentUser.IsAdmin)
+            {
+                return offers.Select(ToResponse);
+            }
+
+            var callerVendorProfileId = await GetCallerVendorProfileIdAsync();
+            var callerJobIds = (await _jobRepository.GetAllAsync())
+                .Where(job => job.HomeownerId == _currentUser.UserId)
+                .Select(job => job.JobId)
+                .ToHashSet();
+
+            return offers
+                .Where(offer => offer.VendorProfileId == callerVendorProfileId
+                    || callerJobIds.Contains(offer.JobId))
+                .Select(ToResponse);
         }
 
         public async Task<OfferResponse?> GetByIdAsync(int id)
         {
             var offer = await _offerRepository.GetByIdAsync(id);
-            return offer is null ? null : ToResponse(offer);
+            if (offer is null) return null;
+
+            if (!await CanCallerSeeAsync(offer))
+            {
+                throw new ForbiddenException($"Offer {id} is not yours to view.");
+            }
+
+            return ToResponse(offer);
         }
 
         public async Task<OfferResponse> CreateAsync(CreateOfferRequest request)
@@ -48,18 +79,16 @@ namespace Backend.Services.Implementations
                     $"Job {request.JobId} is {job.Status}; offers can only be submitted while it is Open.");
             }
 
-            if (await _vendorProfileRepository.GetByIdAsync(request.VendorProfileId) is null)
-            {
-                throw new NotFoundException($"No vendor profile with id {request.VendorProfileId}.");
-            }
+            // The offer comes from the caller's own vendor profile, never a body field.
+            var vendorProfile = await GetCallerVendorProfileAsync();
 
             // "One offer per (vendorProfileId, jobId)." The unique index enforces it;
             // this check turns the violation into a clear 409.
             var offersOnJob = await _offerRepository.GetByJobIdAsync(request.JobId);
-            if (offersOnJob.Any(o => o.VendorProfileId == request.VendorProfileId))
+            if (offersOnJob.Any(o => o.VendorProfileId == vendorProfile.VendorProfileId))
             {
                 throw new ConflictException(
-                    $"Vendor {request.VendorProfileId} has already made an offer on job {request.JobId}.");
+                    $"Vendor {vendorProfile.VendorProfileId} has already made an offer on job {request.JobId}.");
             }
 
             try
@@ -67,7 +96,7 @@ namespace Backend.Services.Implementations
                 var created = await _offerRepository.CreateAsync(new Offer
                 {
                     JobId = request.JobId,
-                    VendorProfileId = request.VendorProfileId,
+                    VendorProfileId = vendorProfile.VendorProfileId,
                     Price = request.Price,
                     DurationDays = request.DurationDays,
                     Message = request.Message,
@@ -81,7 +110,7 @@ namespace Backend.Services.Implementations
             catch (DbUpdateException)
             {
                 throw new ConflictException(
-                    $"Vendor {request.VendorProfileId} has already made an offer on job {request.JobId}.");
+                    $"Vendor {vendorProfile.VendorProfileId} has already made an offer on job {request.JobId}.");
             }
         }
 
@@ -89,6 +118,8 @@ namespace Backend.Services.Implementations
         {
             var offer = await _offerRepository.GetByIdAsync(id);
             if (offer is null) return null;
+
+            await EnsureOwnedByCallerAsync(offer);
 
             // "No revisions, no counter-offers" - once the homeowner has decided, the
             // quote is part of the record and cannot move.
@@ -110,6 +141,11 @@ namespace Backend.Services.Implementations
 
         public async Task<bool> DeleteAsync(int id)
         {
+            var offer = await _offerRepository.GetByIdAsync(id);
+            if (offer is null) return false;
+
+            await EnsureOwnedByCallerAsync(offer);
+
             try
             {
                 return await _offerRepository.DeleteAsync(id);
@@ -118,6 +154,42 @@ namespace Backend.Services.Implementations
             {
                 throw new ConflictException(
                     "This offer cannot be deleted because it has been accepted into an agreement.");
+            }
+        }
+
+        /// <summary>
+        /// Turns the signed-in user into the vendor they trade as. A Vendor-role
+        /// account without a profile has nothing to offer from yet.
+        /// </summary>
+        private async Task<VendorProfile> GetCallerVendorProfileAsync()
+        {
+            return await _vendorProfileRepository.GetByUserIdAsync(_currentUser.UserId)
+                ?? throw new ForbiddenException(
+                    "This account has no vendor profile, so it cannot make offers.");
+        }
+
+        /// <summary>Null for a homeowner or admin, who have no profile of their own.</summary>
+        private async Task<int?> GetCallerVendorProfileIdAsync() =>
+            (await _vendorProfileRepository.GetByUserIdAsync(_currentUser.UserId))?.VendorProfileId;
+
+        private async Task<bool> CanCallerSeeAsync(Offer offer)
+        {
+            if (_currentUser.IsAdmin) return true;
+
+            if (offer.VendorProfileId == await GetCallerVendorProfileIdAsync()) return true;
+
+            var job = await _jobRepository.GetByIdAsync(offer.JobId);
+            return job is not null && job.HomeownerId == _currentUser.UserId;
+        }
+
+        private async Task EnsureOwnedByCallerAsync(Offer offer)
+        {
+            if (_currentUser.IsAdmin) return;
+
+            var vendorProfile = await GetCallerVendorProfileAsync();
+            if (offer.VendorProfileId != vendorProfile.VendorProfileId)
+            {
+                throw new ForbiddenException($"Offer {offer.OfferId} belongs to another vendor.");
             }
         }
 

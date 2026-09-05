@@ -1,5 +1,7 @@
+using Backend.Models;
 using Backend.Models.Dtos;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -7,6 +9,7 @@ namespace Backend.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     public class AgreementsController : ControllerBase
     {
         private readonly IAgreementService _agreementService;
@@ -39,6 +42,7 @@ namespace Backend.Controllers
         /// offer on the job becomes NotSelected, the job becomes Hired, and the new
         /// agreement starts Active with its payment Held.
         /// </summary>
+        [Authorize(Roles = nameof(UserRole.Homeowner))]
         [HttpPost]
         [ProducesResponseType(typeof(AgreementResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,6 +71,7 @@ namespace Backend.Controllers
         }
 
         /// <summary>Deletes an agreement and any reviews left on it.</summary>
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

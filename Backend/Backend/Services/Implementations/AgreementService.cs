@@ -15,6 +15,7 @@ namespace Backend.Services.Implementations
         private readonly IOfferRepository _offerRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IVendorProfileRepository _vendorProfileRepository;
+        private readonly ICurrentUser _currentUser;
 
         // The context is injected only to open a transaction. Every repository shares
         // this same scoped instance, so their individual SaveChanges calls all enlist
@@ -26,8 +27,10 @@ namespace Backend.Services.Implementations
             IOfferRepository offerRepository,
             IJobRepository jobRepository,
             IVendorProfileRepository vendorProfileRepository,
+            ICurrentUser currentUser,
             BuildHubDbContext context)
         {
+            _currentUser = currentUser;
             _agreementRepository = agreementRepository;
             _offerRepository = offerRepository;
             _jobRepository = jobRepository;
@@ -35,16 +38,64 @@ namespace Backend.Services.Implementations
             _context = context;
         }
 
+        /// <summary>
+        /// Only the agreements you are party to - your own as the homeowner paying, or
+        /// as the vendor being paid. These carry amounts, so a signed-in stranger must
+        /// not be able to read them. An administrator sees everything.
+        /// </summary>
         public async Task<IEnumerable<AgreementResponse>> GetAllAsync()
         {
             var agreements = await _agreementRepository.GetAllAsync();
-            return agreements.Select(ToResponse);
+
+            if (_currentUser.IsAdmin)
+            {
+                return agreements.Select(ToResponse);
+            }
+
+            // Fetched once and joined in memory rather than walking
+            // agreement -> offer -> job per row.
+            var offers = (await _offerRepository.GetAllAsync())
+                .ToDictionary(offer => offer.OfferId);
+            var callerVendorProfileId =
+                (await _vendorProfileRepository.GetByUserIdAsync(_currentUser.UserId))?.VendorProfileId;
+            var callerJobIds = (await _jobRepository.GetAllAsync())
+                .Where(job => job.HomeownerId == _currentUser.UserId)
+                .Select(job => job.JobId)
+                .ToHashSet();
+
+            return agreements
+                .Where(agreement => offers.TryGetValue(agreement.OfferId, out var offer)
+                    && (offer.VendorProfileId == callerVendorProfileId
+                        || callerJobIds.Contains(offer.JobId)))
+                .Select(ToResponse);
         }
 
         public async Task<AgreementResponse?> GetByIdAsync(int id)
         {
             var agreement = await _agreementRepository.GetByIdAsync(id);
-            return agreement is null ? null : ToResponse(agreement);
+            if (agreement is null) return null;
+
+            if (!await CanCallerSeeAsync(agreement))
+            {
+                throw new ForbiddenException($"Agreement {id} is not yours to view.");
+            }
+
+            return ToResponse(agreement);
+        }
+
+        private async Task<bool> CanCallerSeeAsync(Agreement agreement)
+        {
+            if (_currentUser.IsAdmin) return true;
+
+            var offer = await _offerRepository.GetByIdAsync(agreement.OfferId);
+            if (offer is null) return false;
+
+            var callerVendorProfileId =
+                (await _vendorProfileRepository.GetByUserIdAsync(_currentUser.UserId))?.VendorProfileId;
+            if (offer.VendorProfileId == callerVendorProfileId) return true;
+
+            var job = await _jobRepository.GetByIdAsync(offer.JobId);
+            return job is not null && job.HomeownerId == _currentUser.UserId;
         }
 
         public async Task<AgreementResponse> CreateAsync(CreateAgreementRequest request)
@@ -65,6 +116,13 @@ namespace Backend.Services.Implementations
             {
                 throw new ConflictException(
                     $"Job {job.JobId} is {job.Status}; only an Open job can hire a vendor.");
+            }
+
+            // Only the homeowner who posted the job may hire against it. Without this,
+            // any signed-in homeowner could accept an offer on somebody else's job.
+            if (!_currentUser.IsAdmin && job.HomeownerId != _currentUser.UserId)
+            {
+                throw new ForbiddenException($"Job {job.JobId} belongs to another homeowner.");
             }
 
             // Step 3 of the flow. All four changes succeed together or none do.
@@ -125,6 +183,24 @@ namespace Backend.Services.Implementations
 
             var offer = await _offerRepository.GetByIdAsync(agreement.OfferId)
                 ?? throw new NotFoundException($"No offer with id {agreement.OfferId}.");
+            var job = await _jobRepository.GetByIdAsync(offer.JobId)
+                ?? throw new NotFoundException($"No job with id {offer.JobId}.");
+
+            // Releasing pays the vendor, so only the homeowner who is paying may do it.
+            // Refunding unwinds a deal that went wrong, which the data model makes an
+            // admin decision - a homeowner must not be able to claw money back alone.
+            if (request.PaymentStatus == PaymentStatus.Released)
+            {
+                if (!_currentUser.IsAdmin && job.HomeownerId != _currentUser.UserId)
+                {
+                    throw new ForbiddenException(
+                        $"Agreement {id} belongs to another homeowner.");
+                }
+            }
+            else if (!_currentUser.IsAdmin)
+            {
+                throw new ForbiddenException("Only an administrator can refund an agreement.");
+            }
 
             await using var transaction = await _context.Database.BeginTransactionAsync();
 

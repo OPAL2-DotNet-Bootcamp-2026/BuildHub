@@ -22,6 +22,10 @@ namespace Backend.Repositories.Implementations
             await _context.VendorProfiles.AsNoTracking()
                 .FirstOrDefaultAsync(v => v.VendorProfileId == id);
 
+        public async Task<VendorProfile?> GetByUserIdAsync(int userId) =>
+            await _context.VendorProfiles.AsNoTracking()
+                .FirstOrDefaultAsync(v => v.UserId == userId);
+
         public async Task<VendorProfile> CreateAsync(VendorProfile vendorProfile)
         {
             _context.VendorProfiles.Add(vendorProfile);

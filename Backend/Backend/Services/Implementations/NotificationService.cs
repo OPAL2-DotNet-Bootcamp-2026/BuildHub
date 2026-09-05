@@ -11,25 +11,38 @@ namespace Backend.Services.Implementations
     {
         private readonly INotificationRepository _notificationRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ICurrentUser _currentUser;
 
         public NotificationService(
             INotificationRepository notificationRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ICurrentUser currentUser)
         {
             _notificationRepository = notificationRepository;
             _userRepository = userRepository;
+            _currentUser = currentUser;
         }
 
+        /// <summary>
+        /// Your own alerts. An administrator sees everyone's; nobody else does, so this
+        /// list cannot be used to read another account's activity.
+        /// </summary>
         public async Task<IEnumerable<NotificationResponse>> GetAllAsync()
         {
-            var notifications = await _notificationRepository.GetAllAsync();
+            var notifications = _currentUser.IsAdmin
+                ? await _notificationRepository.GetAllAsync()
+                : await _notificationRepository.GetByUserIdAsync(_currentUser.UserId);
+
             return notifications.Select(ToResponse);
         }
 
         public async Task<NotificationResponse?> GetByIdAsync(int id)
         {
             var notification = await _notificationRepository.GetByIdAsync(id);
-            return notification is null ? null : ToResponse(notification);
+            if (notification is null) return null;
+
+            EnsureAddressedToCaller(notification);
+            return ToResponse(notification);
         }
 
         public async Task<NotificationResponse> CreateAsync(CreateNotificationRequest request)
@@ -55,6 +68,11 @@ namespace Backend.Services.Implementations
 
         public async Task<NotificationResponse?> UpdateAsync(int id, UpdateNotificationRequest request)
         {
+            var existing = await _notificationRepository.GetByIdAsync(id);
+            if (existing is null) return null;
+
+            EnsureAddressedToCaller(existing);
+
             var updated = await _notificationRepository.UpdateAsync(id, new Notification
             {
                 IsRead = request.IsRead
@@ -63,8 +81,24 @@ namespace Backend.Services.Implementations
             return updated is null ? null : ToResponse(updated);
         }
 
-        public async Task<bool> DeleteAsync(int id) =>
-            await _notificationRepository.DeleteAsync(id);
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var existing = await _notificationRepository.GetByIdAsync(id);
+            if (existing is null) return false;
+
+            EnsureAddressedToCaller(existing);
+
+            return await _notificationRepository.DeleteAsync(id);
+        }
+
+        private void EnsureAddressedToCaller(Notification notification)
+        {
+            if (!_currentUser.IsAdmin && notification.UserId != _currentUser.UserId)
+            {
+                throw new ForbiddenException(
+                    $"Notification {notification.NotificationId} was raised for another account.");
+            }
+        }
 
         private static NotificationResponse ToResponse(Notification notification) => new()
         {
