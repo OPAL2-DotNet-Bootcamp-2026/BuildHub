@@ -1,5 +1,7 @@
 
 using Backend.Data;
+using Backend.Repositories.Implementations;
+using Backend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend
@@ -15,6 +17,17 @@ namespace Backend
             builder.Services.AddDbContext<BuildHubDbContext>(options =>
                 options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Repositories. Scoped, so each one shares the request's DbContext.
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IVendorProfileRepository, VendorProfileRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IJobRepository, JobRepository>();
+            builder.Services.AddScoped<IOfferRepository, OfferRepository>();
+            builder.Services.AddScoped<IAgreementRepository, AgreementRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+            builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
