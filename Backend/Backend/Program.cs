@@ -57,6 +57,7 @@ namespace Backend
             builder.Services.Configure<JwtSettings>(
                 builder.Configuration.GetSection(JwtSettings.SectionName));
             builder.Services.AddSingleton<ITokenService, JwtTokenService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             // Maps the service layer's domain exceptions onto 404 / 400 / 409 in one
             // place, so controllers stay free of repeated try/catch.
