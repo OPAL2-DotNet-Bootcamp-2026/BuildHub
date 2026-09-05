@@ -13,7 +13,7 @@ namespace Backend
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +58,18 @@ namespace Backend
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+
+            // Local convenience only, and opt-in: appsettings.Development.json sets
+            // "SeedData": true. Applies any pending migrations, then fills an empty
+            // database with sample data. Turn the flag off to start from nothing.
+            if (app.Configuration.GetValue<bool>("SeedData"))
+            {
+                using var scope = app.Services.CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<BuildHubDbContext>();
+                await context.Database.MigrateAsync();
+                await DataSeeder.SeedAsync(
+                    context, scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>());
+            }
 
             app.UseExceptionHandler();
 
