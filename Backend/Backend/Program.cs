@@ -1,4 +1,5 @@
 
+using Backend.Configuration;
 using Backend.Data;
 using Backend.Middleware;
 using Backend.Models.Entities;
@@ -47,6 +48,15 @@ namespace Backend
 
             // Password hashing (PBKDF2, salted per user) from ASP.NET Core Identity.
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
+            // Bearer tokens. Validated at startup so a missing or too-short signing
+            // key stops the app here rather than producing tokens nobody can trust.
+            var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName)
+                .Get<JwtSettings>() ?? new JwtSettings();
+            jwtSettings.Validate();
+            builder.Services.Configure<JwtSettings>(
+                builder.Configuration.GetSection(JwtSettings.SectionName));
+            builder.Services.AddSingleton<ITokenService, JwtTokenService>();
 
             // Maps the service layer's domain exceptions onto 404 / 400 / 409 in one
             // place, so controllers stay free of repeated try/catch.
