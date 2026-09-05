@@ -1,14 +1,19 @@
 
+using System.Security.Claims;
+using System.Text;
 using Backend.Configuration;
 using Backend.Data;
 using Backend.Middleware;
 using Backend.Models.Entities;
+using Backend.OpenApi;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Interfaces;
 using Backend.Services.Implementations;
 using Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Backend
 {
@@ -59,6 +64,29 @@ namespace Backend
             builder.Services.AddSingleton<ITokenService, JwtTokenService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = jwtSettings.Audience,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(jwtSettings.Key)),
+                        ValidateLifetime = true,
+                        // The default five minutes would keep expired tokens working.
+                        ClockSkew = TimeSpan.FromSeconds(30),
+                        NameClaimType = ClaimTypes.NameIdentifier,
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                });
+
+            builder.Services.AddAuthorization();
+            builder.Services.AddHttpContextAccessor();
+
             // Maps the service layer's domain exceptions onto 404 / 400 / 409 in one
             // place, so controllers stay free of repeated try/catch.
             builder.Services.AddProblemDetails();
@@ -66,7 +94,8 @@ namespace Backend
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddOpenApi(options =>
+                options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
 
             var app = builder.Build();
 
@@ -100,6 +129,10 @@ namespace Backend
             }
 
             app.UseHttpsRedirection();
+
+            // Order matters: authentication establishes who the caller is, and
+            // authorization then decides what they may do.
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
