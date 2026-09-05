@@ -1,5 +1,6 @@
 
 using Backend.Data;
+using Backend.Middleware;
 using Backend.Models.Entities;
 using Backend.Repositories.Implementations;
 using Backend.Repositories.Interfaces;
@@ -47,11 +48,18 @@ namespace Backend
             // Password hashing (PBKDF2, salted per user) from ASP.NET Core Identity.
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
+            // Maps the service layer's domain exceptions onto 404 / 400 / 409 in one
+            // place, so controllers stay free of repeated try/catch.
+            builder.Services.AddProblemDetails();
+            builder.Services.AddExceptionHandler<DomainExceptionHandler>();
+
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+
+            app.UseExceptionHandler();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
