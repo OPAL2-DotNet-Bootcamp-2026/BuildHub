@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// Rating left after an agreement. All three FKs are required - every review is
@@ -36,11 +36,11 @@ namespace Backend.Models
         public User Reviewer { get; set; } = null!;
 
         /// <summary>M-1. The vendor being rated.</summary>
-        [InverseProperty(nameof(Models.VendorProfile.Reviews))]
+        [InverseProperty(nameof(Backend.Models.Entities.VendorProfile.Reviews))]
         public VendorProfile VendorProfile { get; set; } = null!;
 
         /// <summary>M-1. Must be Completed before a review is allowed.</summary>
-        [InverseProperty(nameof(Models.Agreement.Reviews))]
+        [InverseProperty(nameof(Backend.Models.Entities.Agreement.Reviews))]
         public Agreement Agreement { get; set; } = null!;
     }
 }

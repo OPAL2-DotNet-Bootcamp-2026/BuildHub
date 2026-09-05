@@ -22,7 +22,7 @@ namespace Backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Backend.Models.Agreement", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Agreement", b =>
                 {
                     b.Property<int>("AgreementId")
                         .ValueGeneratedOnAdd()
@@ -60,7 +60,7 @@ namespace Backend.Migrations
                     b.ToTable("Agreements");
                 });
 
-            modelBuilder.Entity("Backend.Models.Category", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Category", b =>
                 {
                     b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd()
@@ -87,7 +87,7 @@ namespace Backend.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Backend.Models.Job", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Job", b =>
                 {
                     b.Property<int>("JobId")
                         .ValueGeneratedOnAdd()
@@ -138,7 +138,7 @@ namespace Backend.Migrations
                     b.ToTable("Jobs");
                 });
 
-            modelBuilder.Entity("Backend.Models.Notification", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Notification", b =>
                 {
                     b.Property<int>("NotificationId")
                         .ValueGeneratedOnAdd()
@@ -173,7 +173,7 @@ namespace Backend.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("Backend.Models.Offer", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Offer", b =>
                 {
                     b.Property<int>("OfferId")
                         .ValueGeneratedOnAdd()
@@ -214,7 +214,7 @@ namespace Backend.Migrations
                     b.ToTable("Offers");
                 });
 
-            modelBuilder.Entity("Backend.Models.Product", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -256,7 +256,7 @@ namespace Backend.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Backend.Models.Review", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Review", b =>
                 {
                     b.Property<int>("ReviewId")
                         .ValueGeneratedOnAdd()
@@ -294,7 +294,7 @@ namespace Backend.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("Backend.Models.User", b =>
+            modelBuilder.Entity("Backend.Models.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -340,7 +340,7 @@ namespace Backend.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Backend.Models.VendorProfile", b =>
+            modelBuilder.Entity("Backend.Models.Entities.VendorProfile", b =>
                 {
                     b.Property<int>("VendorProfileId")
                         .ValueGeneratedOnAdd()
@@ -392,26 +392,26 @@ namespace Backend.Migrations
                     b.ToTable("VendorProfiles");
                 });
 
-            modelBuilder.Entity("Backend.Models.Agreement", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Agreement", b =>
                 {
-                    b.HasOne("Backend.Models.Offer", "Offer")
+                    b.HasOne("Backend.Models.Entities.Offer", "Offer")
                         .WithOne("Agreement")
-                        .HasForeignKey("Backend.Models.Agreement", "OfferId")
+                        .HasForeignKey("Backend.Models.Entities.Agreement", "OfferId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("Backend.Models.Job", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Job", b =>
                 {
-                    b.HasOne("Backend.Models.Category", "Category")
+                    b.HasOne("Backend.Models.Entities.Category", "Category")
                         .WithMany("Jobs")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.User", "Homeowner")
+                    b.HasOne("Backend.Models.Entities.User", "Homeowner")
                         .WithMany("Jobs")
                         .HasForeignKey("HomeownerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -422,9 +422,9 @@ namespace Backend.Migrations
                     b.Navigation("Homeowner");
                 });
 
-            modelBuilder.Entity("Backend.Models.Notification", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Notification", b =>
                 {
-                    b.HasOne("Backend.Models.User", "User")
+                    b.HasOne("Backend.Models.Entities.User", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -433,15 +433,15 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Backend.Models.Offer", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Offer", b =>
                 {
-                    b.HasOne("Backend.Models.Job", "Job")
+                    b.HasOne("Backend.Models.Entities.Job", "Job")
                         .WithMany("Offers")
                         .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.VendorProfile", "VendorProfile")
+                    b.HasOne("Backend.Models.Entities.VendorProfile", "VendorProfile")
                         .WithMany("Offers")
                         .HasForeignKey("VendorProfileId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -452,15 +452,15 @@ namespace Backend.Migrations
                     b.Navigation("VendorProfile");
                 });
 
-            modelBuilder.Entity("Backend.Models.Product", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Product", b =>
                 {
-                    b.HasOne("Backend.Models.Category", "Category")
+                    b.HasOne("Backend.Models.Entities.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.VendorProfile", "VendorProfile")
+                    b.HasOne("Backend.Models.Entities.VendorProfile", "VendorProfile")
                         .WithMany("Products")
                         .HasForeignKey("VendorProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,21 +471,21 @@ namespace Backend.Migrations
                     b.Navigation("VendorProfile");
                 });
 
-            modelBuilder.Entity("Backend.Models.Review", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Review", b =>
                 {
-                    b.HasOne("Backend.Models.Agreement", "Agreement")
+                    b.HasOne("Backend.Models.Entities.Agreement", "Agreement")
                         .WithMany("Reviews")
                         .HasForeignKey("AgreementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.User", "Reviewer")
+                    b.HasOne("Backend.Models.Entities.User", "Reviewer")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviewerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.VendorProfile", "VendorProfile")
+                    b.HasOne("Backend.Models.Entities.VendorProfile", "VendorProfile")
                         .WithMany("Reviews")
                         .HasForeignKey("VendorProfileId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -498,17 +498,17 @@ namespace Backend.Migrations
                     b.Navigation("VendorProfile");
                 });
 
-            modelBuilder.Entity("Backend.Models.VendorProfile", b =>
+            modelBuilder.Entity("Backend.Models.Entities.VendorProfile", b =>
                 {
-                    b.HasOne("Backend.Models.Category", "Category")
+                    b.HasOne("Backend.Models.Entities.Category", "Category")
                         .WithMany("VendorProfiles")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Backend.Models.User", "User")
+                    b.HasOne("Backend.Models.Entities.User", "User")
                         .WithOne("VendorProfile")
-                        .HasForeignKey("Backend.Models.VendorProfile", "UserId")
+                        .HasForeignKey("Backend.Models.Entities.VendorProfile", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -517,12 +517,12 @@ namespace Backend.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Backend.Models.Agreement", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Agreement", b =>
                 {
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("Backend.Models.Category", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Category", b =>
                 {
                     b.Navigation("Jobs");
 
@@ -531,17 +531,17 @@ namespace Backend.Migrations
                     b.Navigation("VendorProfiles");
                 });
 
-            modelBuilder.Entity("Backend.Models.Job", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Job", b =>
                 {
                     b.Navigation("Offers");
                 });
 
-            modelBuilder.Entity("Backend.Models.Offer", b =>
+            modelBuilder.Entity("Backend.Models.Entities.Offer", b =>
                 {
                     b.Navigation("Agreement");
                 });
 
-            modelBuilder.Entity("Backend.Models.User", b =>
+            modelBuilder.Entity("Backend.Models.Entities.User", b =>
                 {
                     b.Navigation("Jobs");
 
@@ -552,7 +552,7 @@ namespace Backend.Migrations
                     b.Navigation("VendorProfile");
                 });
 
-            modelBuilder.Entity("Backend.Models.VendorProfile", b =>
+            modelBuilder.Entity("Backend.Models.Entities.VendorProfile", b =>
                 {
                     b.Navigation("Offers");
 

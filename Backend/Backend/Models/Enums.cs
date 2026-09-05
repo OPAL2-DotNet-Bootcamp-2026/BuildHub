@@ -56,7 +56,8 @@ namespace Backend.Models
     }
 
     /// <summary>
-    /// What a notification is about. Determines what <see cref="Notification.RelatedId"/>
+    /// What a notification is about. Determines what
+    /// <see cref="Entities.Notification.RelatedId"/>
     /// points at, so the client can deep-link.
     /// </summary>
     public enum NotificationType

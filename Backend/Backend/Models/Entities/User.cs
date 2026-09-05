@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// The account. One table for everyone; <see cref="Role"/> distinguishes them.
@@ -41,7 +41,7 @@ namespace Backend.Models
         // --- Relations ---
 
         /// <summary>1-1. Only Vendor-role users have one.</summary>
-        [InverseProperty(nameof(Backend.Models.VendorProfile.User))]
+        [InverseProperty(nameof(Backend.Models.Entities.VendorProfile.User))]
         public VendorProfile? VendorProfile { get; set; }
 
         /// <summary>1-M. Jobs posted by this user as a homeowner.</summary>

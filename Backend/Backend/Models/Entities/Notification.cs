@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// In-app alert.
@@ -33,7 +33,7 @@ namespace Backend.Models
         // --- Relations ---
 
         /// <summary>M-1. The recipient.</summary>
-        [InverseProperty(nameof(Models.User.Notifications))]
+        [InverseProperty(nameof(Backend.Models.Entities.User.Notifications))]
         public User User { get; set; } = null!;
     }
 }

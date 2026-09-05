@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// A homeowner's request for work. The central object.
@@ -46,7 +46,7 @@ namespace Backend.Models
         public User Homeowner { get; set; } = null!;
 
         /// <summary>M-1.</summary>
-        [InverseProperty(nameof(Models.Category.Jobs))]
+        [InverseProperty(nameof(Backend.Models.Entities.Category.Jobs))]
         public Category Category { get; set; } = null!;
 
         /// <summary>

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// Created when an offer is accepted. Carries the payment state directly -
@@ -34,7 +34,7 @@ namespace Backend.Models
         // --- Relations ---
 
         /// <summary>1-1. The accepted offer this agreement was built from.</summary>
-        [InverseProperty(nameof(Models.Offer.Agreement))]
+        [InverseProperty(nameof(Backend.Models.Entities.Offer.Agreement))]
         public Offer Offer { get; set; } = null!;
 
         /// <summary>1-M. Proof the work happened.</summary>

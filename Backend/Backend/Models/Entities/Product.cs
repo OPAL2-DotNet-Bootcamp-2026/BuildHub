@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Models
+namespace Backend.Models.Entities
 {
     /// <summary>
     /// A material item a store sells. For price comparison only - never linked to
@@ -37,11 +37,11 @@ namespace Backend.Models
         // --- Relations ---
 
         /// <summary>M-1. The store listing this product.</summary>
-        [InverseProperty(nameof(Models.VendorProfile.Products))]
+        [InverseProperty(nameof(Backend.Models.Entities.VendorProfile.Products))]
         public VendorProfile VendorProfile { get; set; } = null!;
 
         /// <summary>M-1.</summary>
-        [InverseProperty(nameof(Models.Category.Products))]
+        [InverseProperty(nameof(Backend.Models.Entities.Category.Products))]
         public Category Category { get; set; } = null!;
     }
 }
