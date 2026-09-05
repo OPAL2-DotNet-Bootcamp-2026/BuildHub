@@ -1,0 +1,3602 @@
+{
+  "info": {
+    "_postman_id": "b0119b00-0000-4000-8000-b011d40b0001",
+    "name": "BuildHub API",
+    "description": "Every BuildHub endpoint, in an order that is safe to run top to bottom.\n\nFolders 01-09 create their own data and exercise CRUD plus the documented rules. Folder 10 proves the delete guards refuse - nothing is removed there. Folder 11 removes everything this run created, strictly leaf first, so no row is ever cascade-deleted and no request reads something an earlier delete took away. The seeded sample data is only ever read, never modified.\n\nSet baseUrl if your app is not on http://localhost:5158.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5158",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Seeded data",
+      "item": [
+        {
+          "name": "List categories (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List users (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List vendor profiles (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List jobs (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List offers (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List agreements (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List products (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List reviews (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List notifications (seeded)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Categories",
+      "item": [
+        {
+          "name": "Create category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022categoryId\u0022, pm.response.json().categoryId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category\u0022,\u0022iconUrl\u0022:\u0022https://cdn.buildhub.om/icons/qa.png\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get category by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022nameEn is QA Test Category\u0022, function () { pm.expect(pm.response.json().nameEn).to.eql(\u0022QA Test Category\u0022); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022nameEn is QA Test Category Updated\u0022, function () { pm.expect(pm.response.json().nameEn).to.eql(\u0022QA Test Category Updated\u0022); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631 \u0645\u062D\u062F\u062B\u0629\u0022,\u0022nameEn\u0022:\u0022QA Test Category Updated\u0022,\u0022iconUrl\u0022:\u0022https://cdn.buildhub.om/icons/qa2.png\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get category - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Users",
+      "item": [
+        {
+          "name": "Register homeowner",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022homeownerId\u0022, pm.response.json().userId);",
+                  "pm.collectionVariables.set(\u0022homeownerEmail\u0022, pm.response.json().email);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner\u0022,\u0022email\u0022:\u0022qa-owner-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000001\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register vendor user A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorUserAId\u0022, pm.response.json().userId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Vendor A\u0022,\u0022email\u0022:\u0022qa-vendor-a-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register vendor user B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorUserBId\u0022, pm.response.json().userId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Vendor B\u0022,\u0022email\u0022:\u0022qa-vendor-b-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Sohar\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register vendor user C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorUserCId\u0022, pm.response.json().userId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Vendor C\u0022,\u0022email\u0022:\u0022qa-vendor-c-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Nizwa\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get user by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(pm.response.json().role).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update user profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022city is Sohar\u0022, function () { pm.expect(pm.response.json().city).to.eql(\u0022Sohar\u0022); });",
+                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(pm.response.json().role).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner Renamed\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000009\u0022,\u0022city\u0022:\u0022Sohar\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register - duplicate email is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Duplicate\u0022,\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register - admin role is refused",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Admin\u0022,\u0022email\u0022:\u0022qa-admin-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:3,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register - short password is refused",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Short\u0022,\u0022email\u0022:\u0022qa-short-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022short\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get user - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 VendorProfiles",
+      "item": [
+        {
+          "name": "Create vendor profile A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorAId\u0022, pm.response.json().vendorProfileId);",
+                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(pm.response.json().balance).to.eql(0); });",
+                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(pm.response.json().isVerified).to.eql(false); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{vendorUserAId}},\u0022companyName\u0022:\u0022QA Kitchens\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022QA vendor A\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create vendor profile B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorBId\u0022, pm.response.json().vendorProfileId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{vendorUserBId}},\u0022companyName\u0022:\u0022QA Ceramics\u0022,\u0022vendorType\u0022:3,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Sohar\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create vendor profile C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorCId\u0022, pm.response.json().vendorProfileId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{vendorUserCId}},\u0022companyName\u0022:\u0022QA Electrical\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Nizwa\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get vendor profile by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update vendor profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022companyName is QA Kitchens LLC\u0022, function () { pm.expect(pm.response.json().companyName).to.eql(\u0022QA Kitchens LLC\u0022); });",
+                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(pm.response.json().balance).to.eql(0); });",
+                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(pm.response.json().isVerified).to.eql(false); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens LLC\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022Updated bio\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create - second profile for same user is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{vendorUserAId}},\u0022companyName\u0022:\u0022QA Duplicate\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create - homeowner cannot have a vendor profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022companyName\u0022:\u0022QA Wrong Role\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Create - missing user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:999999,\u0022companyName\u0022:\u0022QA Ghost\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get vendor profile - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Jobs",
+      "item": [
+        {
+          "name": "Post a job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022jobId\u0022, pm.response.json().jobId);",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA kitchen job\u0022,\u0022description\u0022:\u0022QA description of the work\u0022,\u0022city\u0022:\u0022Muscat\u0022,\u0022budget\u0022:2000.000}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Post a spare job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022jobSpareId\u0022, pm.response.json().jobId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA spare job\u0022,\u0022description\u0022:\u0022Stays open for the delete test\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get job by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022city is Seeb\u0022, function () { pm.expect(pm.response.json().city).to.eql(\u0022Seeb\u0022); });",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022title\u0022:\u0022QA kitchen job updated\u0022,\u0022description\u0022:\u0022QA description of the work\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Seeb\u0022,\u0022budget\u0022:2100.000}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Post job - missing category",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:999999,\u0022title\u0022:\u0022QA bad\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get job - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Offers",
+      "item": [
+        {
+          "name": "Submit offer A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022offerAId\u0022, pm.response.json().offerId);",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1850.500,\u0022durationDays\u0022:20,\u0022message\u0022:\u0022QA offer A\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Submit offer B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022offerBId\u0022, pm.response.json().offerId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorBId}},\u0022price\u0022:1950.000,\u0022durationDays\u0022:15}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get offer by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Correct a pending offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022durationDays is 18\u0022, function () { pm.expect(pm.response.json().durationDays).to.eql(18); });",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022price\u0022:1800.000,\u0022durationDays\u0022:18,\u0022message\u0022:\u0022QA revised offer\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Submit - same vendor twice on one job is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Submit - missing job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:999999,\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Submit - durationDays 0 fails validation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorCId}},\u0022price\u0022:1,\u0022durationDays\u0022:0}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get offer - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Agreements",
+      "item": [
+        {
+          "name": "Accept offer A (creates the agreement)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022agreementId\u0022, pm.response.json().agreementId);",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });",
+                  "pm.test(\u0022paymentStatus is 1\u0022, function () { pm.expect(pm.response.json().paymentStatus).to.eql(1); });",
+                  "pm.test(\u0022totalAmount is 1800.000\u0022, function () { pm.expect(pm.response.json().totalAmount).to.eql(1800.000); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get agreement by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "{{agreementId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Accepted offer is now Accepted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Losing offer is now NotSelected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(pm.response.json().status).to.eql(3); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerBId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Job is now Hired",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Accept - the same offer twice is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Offer on a job that is no longer Open is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorCId}},\u0022price\u0022:1700.000,\u0022durationDays\u0022:10}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Editing a decided offer is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerBId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Release the escrow",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });",
+                  "pm.test(\u0022paymentStatus is 2\u0022, function () { pm.expect(pm.response.json().paymentStatus).to.eql(2); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "{{agreementId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022paymentStatus\u0022:2}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor balance was credited",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022balance is 1800.000\u0022, function () { pm.expect(pm.response.json().balance).to.eql(1800.000); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Job is now Completed",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(pm.response.json().status).to.eql(3); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Releasing twice is rejected",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "{{agreementId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022paymentStatus\u0022:3}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get agreement - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Reviews",
+      "item": [
+        {
+          "name": "Leave a review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022reviewId\u0022, pm.response.json().reviewId);",
+                  "pm.test(\u0022rating is 5\u0022, function () { pm.expect(pm.response.json().rating).to.eql(5); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:5,\u0022comment\u0022:\u0022QA excellent work\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get review by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews/{{reviewId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews",
+                "{{reviewId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update the rating",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022rating is 4\u0022, function () { pm.expect(pm.response.json().rating).to.eql(4); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews/{{reviewId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews",
+                "{{reviewId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022rating\u0022:4,\u0022comment\u0022:\u0022QA good work\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor average rating follows the review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022averageRating is 4.00\u0022, function () { pm.expect(pm.response.json().averageRating).to.eql(4.00); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Review - a stranger cannot review",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022reviewerId\u0022:{{vendorUserAId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Review - rating out of range",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:9}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Review - missing agreement",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:999999,\u0022rating\u0022:5}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get review - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Products",
+      "item": [
+        {
+          "name": "List a product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022productId\u0022, pm.response.json().productId);",
+                  "pm.test(\u0022isAvailable is true\u0022, function () { pm.expect(pm.response.json().isAvailable).to.eql(true); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022vendorProfileId\u0022:{{vendorAId}},\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA porcelain tile\u0022,\u0022unit\u0022:1,\u0022price\u0022:5.500,\u0022isAvailable\u0022:true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get product by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update the listing",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022isAvailable is false\u0022, function () { pm.expect(pm.response.json().isAvailable).to.eql(false); });",
+                  "pm.test(\u0022unit is 2\u0022, function () { pm.expect(pm.response.json().unit).to.eql(2); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products",
+                "{{productId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022name\u0022:\u0022QA porcelain tile v2\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:2,\u0022price\u0022:6.250,\u0022isAvailable\u0022:false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List - missing vendor",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022vendorProfileId\u0022:999999,\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA ghost\u0022,\u0022unit\u0022:1,\u0022price\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get product - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Notifications",
+      "item": [
+        {
+          "name": "Raise a notification",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022notificationId\u0022, pm.response.json().notificationId);",
+                  "pm.test(\u0022isRead is false\u0022, function () { pm.expect(pm.response.json().isRead).to.eql(false); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA notification message\u0022,\u0022type\u0022:1,\u0022relatedId\u0022:{{offerAId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get notification by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications",
+                "{{notificationId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark it read",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022isRead is true\u0022, function () { pm.expect(pm.response.json().isRead).to.eql(true); });",
+                  "pm.test(\u0022message is QA notification message\u0022, function () { pm.expect(pm.response.json().message).to.eql(\u0022QA notification message\u0022); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications",
+                "{{notificationId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022isRead\u0022:true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Raise - missing user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:999999,\u0022message\u0022:\u0022QA ghost\u0022,\u0022type\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get notification - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Delete guards",
+      "item": [
+        {
+          "name": "Category in use cannot be deleted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Vendor with offers and reviews cannot be deleted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Job whose offer became an agreement cannot be deleted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Accepted offer cannot be deleted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "User with jobs and reviews cannot be deleted",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete - missing id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "999999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11 Cleanup",
+      "item": [
+        {
+          "name": "Delete review (before its agreement, so no cascade)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews/{{reviewId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews",
+                "{{reviewId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete notification",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications",
+                "{{notificationId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete product (frees the vendor and the category)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete agreement (its review is already gone)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "{{agreementId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete offer B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerBId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete offer A (its agreement is already gone)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete job (its offers are already gone)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete spare job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobSpareId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobSpareId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor profile A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor profile B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorBId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor profile C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorCId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorCId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor user A (profile already gone)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{vendorUserAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{vendorUserAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor user B",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{vendorUserBId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{vendorUserBId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete vendor user C",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{vendorUserCId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{vendorUserCId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete homeowner (jobs, review and notification already gone)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete category (nothing references it now)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Seeded data is still intact",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
