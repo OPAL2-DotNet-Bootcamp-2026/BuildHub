@@ -1,8 +1,8 @@
 {
   "info": {
-    "_postman_id": "b0119b00-0000-4000-8000-b011d40b0001",
+    "_postman_id": "b0119b00-0000-4000-8000-b011d40b0002",
     "name": "BuildHub API",
-    "description": "Every BuildHub endpoint, in an order that is safe to run top to bottom.\n\nFolders 01-09 create their own data and exercise CRUD plus the documented rules. Folder 10 proves the delete guards refuse - nothing is removed there. Folder 11 removes everything this run created, strictly leaf first, so no row is ever cascade-deleted and no request reads something an earlier delete took away. The seeded sample data is only ever read, never modified.\n\nSet baseUrl if your app is not on http://localhost:5158.",
+    "description": "Every BuildHub endpoint, in an order that is safe to run top to bottom.\n\nFolder 00 shows what the public may read without an account and folder 01 what it may not. Folder 02 registers three accounts, signs each in, and signs in as the seeded administrator, storing four tokens as collection variables; every later request carries the one belonging to whoever should be making it.\n\nFolders 03-11 cover CRUD and the domain rules, and each includes the authorization failures: the wrong role (403), and the right role acting on somebody else\u0027s record (403). Folder 12 proves the delete guards refuse without removing anything. Folder 13 removes everything this run created, strictly leaf first, so no row is ever cascade-deleted. The seeded data is only ever read.\n\nSet baseUrl if the app is not on http://localhost:5158. The seeded accounts all share the password Password123!.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -10,14 +10,19 @@
       "key": "baseUrl",
       "value": "http://localhost:5158",
       "type": "string"
+    },
+    {
+      "key": "badToken",
+      "value": "not.a.real.token",
+      "type": "string"
     }
   ],
   "item": [
     {
-      "name": "00 Seeded data",
+      "name": "00 Public access",
       "item": [
         {
-          "name": "List categories (seeded)",
+          "name": "Browse categories anonymously",
           "event": [
             {
               "listen": "test",
@@ -45,63 +50,7 @@
           }
         },
         {
-          "name": "List users (seeded)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Users"
-              ]
-            }
-          }
-        },
-        {
-          "name": "List vendor profiles (seeded)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles"
-              ]
-            }
-          }
-        },
-        {
-          "name": "List jobs (seeded)",
+          "name": "Browse jobs anonymously",
           "event": [
             {
               "listen": "test",
@@ -129,7 +78,7 @@
           }
         },
         {
-          "name": "List offers (seeded)",
+          "name": "Browse vendor profiles anonymously",
           "event": [
             {
               "listen": "test",
@@ -145,47 +94,19 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/Offers",
+              "raw": "{{baseUrl}}/api/VendorProfiles",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Offers"
+                "VendorProfiles"
               ]
             }
           }
         },
         {
-          "name": "List agreements (seeded)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Agreements",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Agreements"
-              ]
-            }
-          }
-        },
-        {
-          "name": "List products (seeded)",
+          "name": "Browse products anonymously",
           "event": [
             {
               "listen": "test",
@@ -213,7 +134,7 @@
           }
         },
         {
-          "name": "List reviews (seeded)",
+          "name": "Browse reviews anonymously",
           "event": [
             {
               "listen": "test",
@@ -239,16 +160,77 @@
               ]
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "01 Rejected without a token",
+      "item": [
         {
-          "name": "List notifications (seeded)",
+          "name": "Offers require a token",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Agreements require a token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Notifications require a token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -267,22 +249,44 @@
               ]
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "01 Categories",
-      "item": [
+        },
         {
-          "name": "Create category",
+          "name": "Listing users requires a token",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022categoryId\u0022, pm.response.json().categoryId);"
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Posting a job requires a token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
@@ -296,18 +300,18 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Categories",
+              "raw": "{{baseUrl}}/api/Jobs",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Categories"
+                "Jobs"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category\u0022,\u0022iconUrl\u0022:\u0022https://cdn.buildhub.om/icons/qa.png\u0022}",
+              "raw": "{\u0022categoryId\u0022:1,\u0022title\u0022:\u0022x\u0022,\u0022description\u0022:\u0022y\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -317,104 +321,34 @@
           }
         },
         {
-          "name": "Get category by id",
+          "name": "A garbage token is refused",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022nameEn is QA Test Category\u0022, function () { pm.expect(pm.response.json().nameEn).to.eql(\u0022QA Test Category\u0022); });"
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
                 ]
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Categories",
-                "{{categoryId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update category",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022nameEn is QA Test Category Updated\u0022, function () { pm.expect(pm.response.json().nameEn).to.eql(\u0022QA Test Category Updated\u0022); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "Bearer {{badToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "raw": "{{baseUrl}}/api/Offers",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Categories",
-                "{{categoryId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631 \u0645\u062D\u062F\u062B\u0629\u0022,\u0022nameEn\u0022:\u0022QA Test Category Updated\u0022,\u0022iconUrl\u0022:\u0022https://cdn.buildhub.om/icons/qa2.png\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get category - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Categories/999999",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Categories",
-                "999999"
+                "Offers"
               ]
             }
           }
@@ -422,7 +356,7 @@
       ]
     },
     {
-      "name": "02 Users",
+      "name": "02 Register and sign in",
       "item": [
         {
           "name": "Register homeowner",
@@ -459,7 +393,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner\u0022,\u0022email\u0022:\u0022qa-owner-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000001\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner\u0022,\u0022email\u0022:\u0022qa-owner-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -469,7 +403,52 @@
           }
         },
         {
-          "name": "Register vendor user A",
+          "name": "Sign in as the homeowner",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\u0022ownerToken\u0022, pm.response.json().token);",
+                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register vendor A",
           "event": [
             {
               "listen": "test",
@@ -477,7 +456,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorUserAId\u0022, pm.response.json().userId);"
+                  "pm.collectionVariables.set(\u0022vendorUserAId\u0022, pm.response.json().userId);",
+                  "pm.collectionVariables.set(\u0022vendorAEmail\u0022, pm.response.json().email);"
                 ]
               }
             }
@@ -512,7 +492,51 @@
           }
         },
         {
-          "name": "Register vendor user B",
+          "name": "Sign in as vendor A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\u0022vendorAToken\u0022, pm.response.json().token);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022email\u0022:\u0022{{vendorAEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Register vendor B",
           "event": [
             {
               "listen": "test",
@@ -520,7 +544,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorUserBId\u0022, pm.response.json().userId);"
+                  "pm.collectionVariables.set(\u0022vendorUserBId\u0022, pm.response.json().userId);",
+                  "pm.collectionVariables.set(\u0022vendorBEmail\u0022, pm.response.json().email);"
                 ]
               }
             }
@@ -555,15 +580,15 @@
           }
         },
         {
-          "name": "Register vendor user C",
+          "name": "Sign in as vendor B",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorUserCId\u0022, pm.response.json().userId);"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.collectionVariables.set(\u0022vendorBToken\u0022, pm.response.json().token);"
                 ]
               }
             }
@@ -577,18 +602,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Users",
+              "raw": "{{baseUrl}}/api/Auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Users"
+                "Auth",
+                "login"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Vendor C\u0022,\u0022email\u0022:\u0022qa-vendor-c-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:2,\u0022city\u0022:\u0022Nizwa\u0022}",
+              "raw": "{\u0022email\u0022:\u0022{{vendorBEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -598,7 +624,7 @@
           }
         },
         {
-          "name": "Get user by id",
+          "name": "Sign in as the seeded administrator",
           "event": [
             {
               "listen": "test",
@@ -606,44 +632,14 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(pm.response.json().role).to.eql(1); });"
+                  "pm.collectionVariables.set(\u0022adminToken\u0022, pm.response.json().token);",
+                  "pm.test(\u0022role is 3\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(3)); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Users",
-                "{{homeownerId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update user profile",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022city is Sohar\u0022, function () { pm.expect(pm.response.json().city).to.eql(\u0022Sohar\u0022); });",
-                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(pm.response.json().role).to.eql(1); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -651,19 +647,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "raw": "{{baseUrl}}/api/Auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Users",
-                "{{homeownerId}}"
+                "Auth",
+                "login"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner Renamed\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000009\u0022,\u0022city\u0022:\u0022Sohar\u0022}",
+              "raw": "{\u0022email\u0022:\u0022admin@buildhub.om\u0022,\u0022password\u0022:\u0022Password123!\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -673,7 +669,93 @@
           }
         },
         {
-          "name": "Register - duplicate email is rejected",
+          "name": "Wrong password is refused",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022definitely-not-it\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Unknown email is refused the same way",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 401\u0022, function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022email\u0022:\u0022nobody-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Duplicate email is rejected",
           "event": [
             {
               "listen": "test",
@@ -705,7 +787,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Duplicate\u0022,\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\u0022fullName\u0022:\u0022QA Dup\u0022,\u0022email\u0022:\u0022{{homeownerEmail}}\u0022,\u0022password\u0022:\u0022Str0ngPass!\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -715,7 +797,7 @@
           }
         },
         {
-          "name": "Register - admin role is refused",
+          "name": "Self-registering as admin is refused",
           "event": [
             {
               "listen": "test",
@@ -755,16 +837,21 @@
               }
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "03 Categories",
+      "item": [
         {
-          "name": "Register - short password is refused",
+          "name": "A homeowner cannot create a category",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -775,21 +862,25 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Users",
+              "raw": "{{baseUrl}}/api/Categories",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Users"
+                "Categories"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022fullName\u0022:\u0022QA Short\u0022,\u0022email\u0022:\u0022qa-short-{{$guid}}@example.om\u0022,\u0022password\u0022:\u0022short\u0022,\u0022role\u0022:1,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\u0022nameAr\u0022:\u0022x\u0022,\u0022nameEn\u0022:\u0022QA Nope\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -799,41 +890,7 @@
           }
         },
         {
-          "name": "Get user - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Users/999999",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Users",
-                "999999"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "03 VendorProfiles",
-      "item": [
-        {
-          "name": "Create vendor profile A",
+          "name": "An admin can",
           "event": [
             {
               "listen": "test",
@@ -841,9 +898,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorAId\u0022, pm.response.json().vendorProfileId);",
-                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(pm.response.json().balance).to.eql(0); });",
-                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(pm.response.json().isVerified).to.eql(false); });"
+                  "pm.collectionVariables.set(\u0022categoryId\u0022, pm.response.json().categoryId);"
                 ]
               }
             }
@@ -854,6 +909,185 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Anyone can read it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "A vendor cannot edit it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022nameAr\u0022:\u0022x\u0022,\u0022nameEn\u0022:\u0022QA Hijack\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "An admin can edit it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022nameEn is QA Test Category Updated\u0022, function () { pm.expect(String(pm.response.json().nameEn)).to.eql(String(\u0022QA Test Category Updated\u0022)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022nameAr\u0022:\u0022\u0641\u0626\u0629 \u0627\u062E\u062A\u0628\u0627\u0631\u0022,\u0022nameEn\u0022:\u0022QA Test Category Updated\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Vendor profiles",
+      "item": [
+        {
+          "name": "A homeowner cannot open a vendor profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -868,7 +1102,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{vendorUserAId}},\u0022companyName\u0022:\u0022QA Kitchens\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022QA vendor A\u0022}",
+              "raw": "{\u0022companyName\u0022:\u0022QA Nope\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -878,7 +1112,57 @@
           }
         },
         {
-          "name": "Create vendor profile B",
+          "name": "Vendor A opens their own",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022vendorAId\u0022, pm.response.json().vendorProfileId);",
+                  "pm.test(\u0022userId is {{vendorUserAId}}\u0022, function () { pm.expect(String(pm.response.json().userId)).to.eql(String(pm.collectionVariables.get(\u0022vendorUserAId\u0022))); });",
+                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(String(pm.response.json().balance)).to.eql(String(0)); });",
+                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(String(pm.response.json().isVerified)).to.eql(String(false)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor B opens theirs",
           "event": [
             {
               "listen": "test",
@@ -897,6 +1181,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
               }
             ],
             "url": {
@@ -911,7 +1199,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{vendorUserBId}},\u0022companyName\u0022:\u0022QA Ceramics\u0022,\u0022vendorType\u0022:3,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Sohar\u0022}",
+              "raw": "{\u0022companyName\u0022:\u0022QA Ceramics\u0022,\u0022vendorType\u0022:3,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Sohar\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -921,125 +1209,7 @@
           }
         },
         {
-          "name": "Create vendor profile C",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022vendorCId\u0022, pm.response.json().vendorProfileId);"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{vendorUserCId}},\u0022companyName\u0022:\u0022QA Electrical\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Nizwa\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get vendor profile by id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles",
-                "{{vendorAId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Update vendor profile",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022companyName is QA Kitchens LLC\u0022, function () { pm.expect(pm.response.json().companyName).to.eql(\u0022QA Kitchens LLC\u0022); });",
-                  "pm.test(\u0022balance is 0\u0022, function () { pm.expect(pm.response.json().balance).to.eql(0); });",
-                  "pm.test(\u0022isVerified is false\u0022, function () { pm.expect(pm.response.json().isVerified).to.eql(false); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles",
-                "{{vendorAId}}"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens LLC\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022Updated bio\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Create - second profile for same user is rejected",
+          "name": "A second profile for the same account is rejected",
           "event": [
             {
               "listen": "test",
@@ -1057,48 +1227,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{vendorUserAId}},\u0022companyName\u0022:\u0022QA Duplicate\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Create - homeowner cannot have a vendor profile",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
+              },
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -1113,7 +1245,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022companyName\u0022:\u0022QA Wrong Role\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\u0022companyName\u0022:\u0022QA Twice\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1123,56 +1255,14 @@
           }
         },
         {
-          "name": "Create - missing user",
+          "name": "Anyone can read a profile",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022userId\u0022:999999,\u0022companyName\u0022:\u0022QA Ghost\u0022,\u0022vendorType\u0022:2,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get vendor profile - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
@@ -1181,25 +1271,166 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles/999999",
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "VendorProfiles",
-                "999999"
+                "{{vendorAId}}"
               ]
+            }
+          }
+        },
+        {
+          "name": "Vendor B cannot edit vendor A\u0027s profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022companyName\u0022:\u0022QA Hijacked\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor A can edit their own",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022companyName is QA Kitchens LLC\u0022, function () { pm.expect(String(pm.response.json().companyName)).to.eql(String(\u0022QA Kitchens LLC\u0022)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022companyName\u0022:\u0022QA Kitchens LLC\u0022,\u0022vendorType\u0022:1,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022,\u0022bio\u0022:\u0022Updated\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }
       ]
     },
     {
-      "name": "04 Jobs",
+      "name": "05 Jobs",
       "item": [
         {
-          "name": "Post a job",
+          "name": "A vendor cannot post a job",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA nope\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "The homeowner posts one, owned by the token",
           "event": [
             {
               "listen": "test",
@@ -1208,7 +1439,8 @@
                 "exec": [
                   "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
                   "pm.collectionVariables.set(\u0022jobId\u0022, pm.response.json().jobId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\u0022homeownerId is {{homeownerId}}\u0022, function () { pm.expect(String(pm.response.json().homeownerId)).to.eql(String(pm.collectionVariables.get(\u0022homeownerId\u0022))); });"
                 ]
               }
             }
@@ -1219,6 +1451,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -1233,7 +1469,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA kitchen job\u0022,\u0022description\u0022:\u0022QA description of the work\u0022,\u0022city\u0022:\u0022Muscat\u0022,\u0022budget\u0022:2000.000}",
+              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA kitchen job\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022city\u0022:\u0022Muscat\u0022,\u0022budget\u0022:2000.000}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1243,7 +1479,7 @@
           }
         },
         {
-          "name": "Post a spare job",
+          "name": "And a second for the refund path",
           "event": [
             {
               "listen": "test",
@@ -1251,7 +1487,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022jobSpareId\u0022, pm.response.json().jobId);"
+                  "pm.collectionVariables.set(\u0022job2Id\u0022, pm.response.json().jobId);"
                 ]
               }
             }
@@ -1262,6 +1498,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -1276,7 +1516,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA spare job\u0022,\u0022description\u0022:\u0022Stays open for the delete test\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022title\u0022:\u0022QA refund job\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1286,7 +1526,7 @@
           }
         },
         {
-          "name": "Get job by id",
+          "name": "Anyone can read a job",
           "event": [
             {
               "listen": "test",
@@ -1315,16 +1555,14 @@
           }
         },
         {
-          "name": "Update job",
+          "name": "A vendor cannot edit someone\u0027s job",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022city is Seeb\u0022, function () { pm.expect(pm.response.json().city).to.eql(\u0022Seeb\u0022); });",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1335,6 +1573,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -1350,7 +1592,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022title\u0022:\u0022QA kitchen job updated\u0022,\u0022description\u0022:\u0022QA description of the work\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Seeb\u0022,\u0022budget\u0022:2100.000}",
+              "raw": "{\u0022title\u0022:\u0022QA hijack\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Muscat\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1360,92 +1602,68 @@
           }
         },
         {
-          "name": "Post job - missing category",
+          "name": "The owner can edit it",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022city is Seeb\u0022, function () { pm.expect(String(pm.response.json().city)).to.eql(String(\u0022Seeb\u0022)); });",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Jobs",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Jobs"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022homeownerId\u0022:{{homeownerId}},\u0022categoryId\u0022:999999,\u0022title\u0022:\u0022QA bad\u0022,\u0022description\u0022:\u0022QA\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get job - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Jobs/999999",
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Jobs",
-                "999999"
+                "{{jobId}}"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022title\u0022:\u0022QA kitchen job v2\u0022,\u0022description\u0022:\u0022QA description\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022city\u0022:\u0022Seeb\u0022,\u0022budget\u0022:2100.000}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }
       ]
     },
     {
-      "name": "05 Offers",
+      "name": "06 Offers",
       "item": [
         {
-          "name": "Submit offer A",
+          "name": "A homeowner cannot bid",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022offerAId\u0022, pm.response.json().offerId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1456,6 +1674,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -1470,7 +1692,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1850.500,\u0022durationDays\u0022:20,\u0022message\u0022:\u0022QA offer A\u0022}",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1480,7 +1702,56 @@
           }
         },
         {
-          "name": "Submit offer B",
+          "name": "Vendor A bids as themselves",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022offerAId\u0022, pm.response.json().offerId);",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1850.500,\u0022durationDays\u0022:20,\u0022message\u0022:\u0022QA offer A\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor B bids too",
           "event": [
             {
               "listen": "test",
@@ -1499,6 +1770,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
               }
             ],
             "url": {
@@ -1513,7 +1788,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorBId}},\u0022price\u0022:1950.000,\u0022durationDays\u0022:15}",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1950.000,\u0022durationDays\u0022:15}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1523,71 +1798,44 @@
           }
         },
         {
-          "name": "Get offer by id",
+          "name": "Vendor B bids on the refund job",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022offerCId\u0022, pm.response.json().offerId);"
                 ]
               }
             }
           ],
           "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Offers",
-                "{{offerAId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Correct a pending offer",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022durationDays is 18\u0022, function () { pm.expect(pm.response.json().durationDays).to.eql(18); });",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "raw": "{{baseUrl}}/api/Offers",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Offers",
-                "{{offerAId}}"
+                "Offers"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022price\u0022:1800.000,\u0022durationDays\u0022:18,\u0022message\u0022:\u0022QA revised offer\u0022}",
+              "raw": "{\u0022jobId\u0022:{{job2Id}},\u0022price\u0022:700.250,\u0022durationDays\u0022:7}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1597,7 +1845,7 @@
           }
         },
         {
-          "name": "Submit - same vendor twice on one job is rejected",
+          "name": "The same vendor cannot bid twice",
           "event": [
             {
               "listen": "test",
@@ -1615,48 +1863,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Offers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Offers"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Submit - missing job",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
+              },
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -1671,7 +1881,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022jobId\u0022:999999,\u0022vendorProfileId\u0022:{{vendorAId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022price\u0022:1,\u0022durationDays\u0022:1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1681,94 +1891,216 @@
           }
         },
         {
-          "name": "Submit - durationDays 0 fails validation",
+          "name": "Vendor A sees their own offer",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Offers",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Offers"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorCId}},\u0022price\u0022:1,\u0022durationDays\u0022:0}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get offer - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Offers/999999",
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Offers",
-                "999999"
+                "{{offerAId}}"
               ]
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "06 Agreements",
-      "item": [
+        },
         {
-          "name": "Accept offer A (creates the agreement)",
+          "name": "The job\u0027s homeowner sees it too",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022agreementId\u0022, pm.response.json().agreementId);",
-                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(pm.response.json().status).to.eql(1); });",
-                  "pm.test(\u0022paymentStatus is 1\u0022, function () { pm.expect(pm.response.json().paymentStatus).to.eql(1); });",
-                  "pm.test(\u0022totalAmount is 1800.000\u0022, function () { pm.expect(pm.response.json().totalAmount).to.eql(1800.000); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "A rival vendor cannot read it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Vendor B cannot edit vendor A\u0027s offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Vendor A can correct their own",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022durationDays is 18\u0022, function () { pm.expect(String(pm.response.json().durationDays)).to.eql(String(18)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022price\u0022:1800.000,\u0022durationDays\u0022:18,\u0022message\u0022:\u0022QA revised\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Agreements",
+      "item": [
+        {
+          "name": "A vendor cannot accept an offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -1779,6 +2111,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -1803,36 +2139,57 @@
           }
         },
         {
-          "name": "Get agreement by id",
+          "name": "The homeowner accepts",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022agreementId\u0022, pm.response.json().agreementId);",
+                  "pm.test(\u0022status is 1\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(1)); });",
+                  "pm.test(\u0022paymentStatus is 1\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(1)); });",
+                  "pm.test(\u0022totalAmount is 1800.000\u0022, function () { pm.expect(String(pm.response.json().totalAmount)).to.eql(String(1800.000)); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "raw": "{{baseUrl}}/api/Agreements",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Agreements",
-                "{{agreementId}}"
+                "Agreements"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         },
         {
-          "name": "Accepted offer is now Accepted",
+          "name": "Winning offer became Accepted",
           "event": [
             {
               "listen": "test",
@@ -1840,14 +2197,19 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });"
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
                 ]
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
               "host": [
@@ -1862,7 +2224,7 @@
           }
         },
         {
-          "name": "Losing offer is now NotSelected",
+          "name": "Losing offer became NotSelected",
           "event": [
             {
               "listen": "test",
@@ -1870,14 +2232,19 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(pm.response.json().status).to.eql(3); });"
+                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
                 ]
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
               "host": [
@@ -1892,7 +2259,7 @@
           }
         },
         {
-          "name": "Job is now Hired",
+          "name": "Job became Hired",
           "event": [
             {
               "listen": "test",
@@ -1900,7 +2267,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });"
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });"
                 ]
               }
             }
@@ -1922,98 +2289,82 @@
           }
         },
         {
-          "name": "Accept - the same offer twice is rejected",
+          "name": "A stranger cannot read the agreement",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Agreements",
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Agreements"
+                "Agreements",
+                "{{agreementId}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022offerId\u0022:{{offerAId}}}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           }
         },
         {
-          "name": "Offer on a job that is no longer Open is rejected",
+          "name": "The vendor being paid can",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Offers",
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Offers"
+                "Agreements",
+                "{{agreementId}}"
               ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022jobId\u0022:{{jobId}},\u0022vendorProfileId\u0022:{{vendorCId}},\u0022price\u0022:1700.000,\u0022durationDays\u0022:10}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
             }
           }
         },
         {
-          "name": "Editing a decided offer is rejected",
+          "name": "A vendor cannot release their own escrow",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2024,22 +2375,26 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
+              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Offers",
-                "{{offerBId}}"
+                "Agreements",
+                "{{agreementId}}"
               ]
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022price\u0022:1,\u0022durationDays\u0022:1}",
+              "raw": "{\u0022paymentStatus\u0022:2}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2049,7 +2404,7 @@
           }
         },
         {
-          "name": "Release the escrow",
+          "name": "The paying homeowner releases it",
           "event": [
             {
               "listen": "test",
@@ -2057,8 +2412,8 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(pm.response.json().status).to.eql(2); });",
-                  "pm.test(\u0022paymentStatus is 2\u0022, function () { pm.expect(pm.response.json().paymentStatus).to.eql(2); });"
+                  "pm.test(\u0022status is 2\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(2)); });",
+                  "pm.test(\u0022paymentStatus is 2\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(2)); });"
                 ]
               }
             }
@@ -2069,6 +2424,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -2102,7 +2461,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022balance is 1800.000\u0022, function () { pm.expect(pm.response.json().balance).to.eql(1800.000); });"
+                  "pm.test(\u0022balance is 1800.000\u0022, function () { pm.expect(String(pm.response.json().balance)).to.eql(String(1800.000)); });"
                 ]
               }
             }
@@ -2124,7 +2483,7 @@
           }
         },
         {
-          "name": "Job is now Completed",
+          "name": "Job became Completed",
           "event": [
             {
               "listen": "test",
@@ -2132,7 +2491,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(pm.response.json().status).to.eql(3); });"
+                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });"
                 ]
               }
             }
@@ -2154,14 +2513,61 @@
           }
         },
         {
-          "name": "Releasing twice is rejected",
+          "name": "Accept the second offer for the refund path",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022agreement2Id\u0022, pm.response.json().agreementId);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022offerId\u0022:{{offerCId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "A homeowner cannot refund",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2172,17 +2578,21 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
+              "raw": "{{baseUrl}}/api/Agreements/{{agreement2Id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Agreements",
-                "{{agreementId}}"
+                "{{agreement2Id}}"
               ]
             },
             "body": {
@@ -2197,50 +2607,68 @@
           }
         },
         {
-          "name": "Get agreement - missing id",
+          "name": "Only an admin can",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022status is 3\u0022, function () { pm.expect(String(pm.response.json().status)).to.eql(String(3)); });",
+                  "pm.test(\u0022paymentStatus is 3\u0022, function () { pm.expect(String(pm.response.json().paymentStatus)).to.eql(String(3)); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "GET",
-            "header": [],
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Agreements/999999",
+              "raw": "{{baseUrl}}/api/Agreements/{{agreement2Id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Agreements",
-                "999999"
+                "{{agreement2Id}}"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022paymentStatus\u0022:3}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }
       ]
     },
     {
-      "name": "07 Reviews",
+      "name": "08 Reviews",
       "item": [
         {
-          "name": "Leave a review",
+          "name": "A vendor cannot write a review",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022reviewId\u0022, pm.response.json().reviewId);",
-                  "pm.test(\u0022rating is 5\u0022, function () { pm.expect(pm.response.json().rating).to.eql(5); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2251,6 +2679,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -2265,7 +2697,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:5,\u0022comment\u0022:\u0022QA excellent work\u0022}",
+              "raw": "{\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2275,7 +2707,57 @@
           }
         },
         {
-          "name": "Get review by id",
+          "name": "The homeowner reviews the completed work",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022reviewId\u0022, pm.response.json().reviewId);",
+                  "pm.test(\u0022rating is 5\u0022, function () { pm.expect(String(pm.response.json().rating)).to.eql(String(5)); });",
+                  "pm.test(\u0022reviewerId is {{homeownerId}}\u0022, function () { pm.expect(String(pm.response.json().reviewerId)).to.eql(String(pm.collectionVariables.get(\u0022homeownerId\u0022))); });",
+                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:5,\u0022comment\u0022:\u0022QA excellent\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Reviews are public",
           "event": [
             {
               "listen": "test",
@@ -2304,15 +2786,14 @@
           }
         },
         {
-          "name": "Update the rating",
+          "name": "Someone else cannot edit it",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022rating is 4\u0022, function () { pm.expect(pm.response.json().rating).to.eql(4); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2323,6 +2804,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
@@ -2338,7 +2823,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022rating\u0022:4,\u0022comment\u0022:\u0022QA good work\u0022}",
+              "raw": "{\u0022rating\u0022:1,\u0022comment\u0022:\u0022QA sabotage\u0022}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2348,7 +2833,7 @@
           }
         },
         {
-          "name": "Vendor average rating follows the review",
+          "name": "The author can",
           "event": [
             {
               "listen": "test",
@@ -2356,7 +2841,55 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022averageRating is 4.00\u0022, function () { pm.expect(pm.response.json().averageRating).to.eql(4.00); });"
+                  "pm.test(\u0022rating is 4\u0022, function () { pm.expect(String(pm.response.json().rating)).to.eql(String(4)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Reviews/{{reviewId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Reviews",
+                "{{reviewId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022rating\u0022:4,\u0022comment\u0022:\u0022QA good\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Average rating followed it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022averageRating is 4.00\u0022, function () { pm.expect(String(pm.response.json().averageRating)).to.eql(String(4.00)); });"
                 ]
               }
             }
@@ -2376,178 +2909,21 @@
               ]
             }
           }
-        },
-        {
-          "name": "Review - a stranger cannot review",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Reviews",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Reviews"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022reviewerId\u0022:{{vendorUserAId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:1}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Review - rating out of range",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 400\u0022, function () { pm.response.to.have.status(400); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Reviews",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Reviews"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:{{agreementId}},\u0022rating\u0022:9}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Review - missing agreement",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Reviews",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Reviews"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022reviewerId\u0022:{{homeownerId}},\u0022agreementId\u0022:999999,\u0022rating\u0022:5}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get review - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Reviews/999999",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Reviews",
-                "999999"
-              ]
-            }
-          }
         }
       ]
     },
     {
-      "name": "08 Products",
+      "name": "09 Products",
       "item": [
         {
-          "name": "List a product",
+          "name": "A homeowner cannot list a product",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022productId\u0022, pm.response.json().productId);",
-                  "pm.test(\u0022isAvailable is true\u0022, function () { pm.expect(pm.response.json().isAvailable).to.eql(true); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2558,6 +2934,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -2572,7 +2952,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022vendorProfileId\u0022:{{vendorAId}},\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA porcelain tile\u0022,\u0022unit\u0022:1,\u0022price\u0022:5.500,\u0022isAvailable\u0022:true}",
+              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA nope\u0022,\u0022unit\u0022:1,\u0022price\u0022:1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2582,7 +2962,55 @@
           }
         },
         {
-          "name": "Get product by id",
+          "name": "Vendor A lists one on their own store",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022productId\u0022, pm.response.json().productId);",
+                  "pm.test(\u0022vendorProfileId is {{vendorAId}}\u0022, function () { pm.expect(String(pm.response.json().vendorProfileId)).to.eql(String(pm.collectionVariables.get(\u0022vendorAId\u0022))); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Products"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA tile\u0022,\u0022unit\u0022:1,\u0022price\u0022:5.500,\u0022isAvailable\u0022:true}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Products are public",
           "event": [
             {
               "listen": "test",
@@ -2611,16 +3039,14 @@
           }
         },
         {
-          "name": "Update the listing",
+          "name": "A rival cannot edit it",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022isAvailable is false\u0022, function () { pm.expect(pm.response.json().isAvailable).to.eql(false); });",
-                  "pm.test(\u0022unit is 2\u0022, function () { pm.expect(pm.response.json().unit).to.eql(2); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2631,6 +3057,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
               }
             ],
             "url": {
@@ -2646,7 +3076,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022name\u0022:\u0022QA porcelain tile v2\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:2,\u0022price\u0022:6.250,\u0022isAvailable\u0022:false}",
+              "raw": "{\u0022name\u0022:\u0022QA hijack\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:1,\u0022price\u0022:1,\u0022isAvailable\u0022:true}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2656,92 +3086,67 @@
           }
         },
         {
-          "name": "List - missing vendor",
+          "name": "The owner can",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022isAvailable is false\u0022, function () { pm.expect(String(pm.response.json().isAvailable)).to.eql(String(false)); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/Products",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Products"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022vendorProfileId\u0022:999999,\u0022categoryId\u0022:{{categoryId}},\u0022name\u0022:\u0022QA ghost\u0022,\u0022unit\u0022:1,\u0022price\u0022:1}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get product - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Products/999999",
+              "raw": "{{baseUrl}}/api/Products/{{productId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Products",
-                "999999"
+                "{{productId}}"
               ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022name\u0022:\u0022QA tile v2\u0022,\u0022categoryId\u0022:{{categoryId}},\u0022unit\u0022:2,\u0022price\u0022:6.250,\u0022isAvailable\u0022:false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             }
           }
         }
       ]
     },
     {
-      "name": "09 Notifications",
+      "name": "10 Notifications",
       "item": [
         {
-          "name": "Raise a notification",
+          "name": "A homeowner cannot raise one",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
-                  "pm.collectionVariables.set(\u0022notificationId\u0022, pm.response.json().notificationId);",
-                  "pm.test(\u0022isRead is false\u0022, function () { pm.expect(pm.response.json().isRead).to.eql(false); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
@@ -2752,6 +3157,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -2766,7 +3175,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA notification message\u0022,\u0022type\u0022:1,\u0022relatedId\u0022:{{offerAId}}}",
+              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA\u0022,\u0022type\u0022:1}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2776,7 +3185,55 @@
           }
         },
         {
-          "name": "Get notification by id",
+          "name": "An admin can",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 201\u0022, function () { pm.response.to.have.status(201); });",
+                  "pm.collectionVariables.set(\u0022notificationId\u0022, pm.response.json().notificationId);",
+                  "pm.test(\u0022isRead is false\u0022, function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(false)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022userId\u0022:{{homeownerId}},\u0022message\u0022:\u0022QA notification\u0022,\u0022type\u0022:1,\u0022relatedId\u0022:{{offerAId}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "The recipient reads their own list",
           "event": [
             {
               "listen": "test",
@@ -2790,7 +3247,45 @@
           ],
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Someone else cannot read it",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
               "host": [
@@ -2805,7 +3300,41 @@
           }
         },
         {
-          "name": "Mark it read",
+          "name": "The recipient can",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Notifications",
+                "{{notificationId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "And can mark it read",
           "event": [
             {
               "listen": "test",
@@ -2813,8 +3342,7 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
-                  "pm.test(\u0022isRead is true\u0022, function () { pm.expect(pm.response.json().isRead).to.eql(true); });",
-                  "pm.test(\u0022message is QA notification message\u0022, function () { pm.expect(pm.response.json().message).to.eql(\u0022QA notification message\u0022); });"
+                  "pm.test(\u0022isRead is true\u0022, function () { pm.expect(String(pm.response.json().isRead)).to.eql(String(true)); });"
                 ]
               }
             }
@@ -2825,6 +3353,10 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
             ],
             "url": {
@@ -2848,215 +3380,99 @@
               }
             }
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "11 Users",
+      "item": [
         {
-          "name": "Raise - missing user",
+          "name": "Listing every user is admin only",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/api/Notifications",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Notifications"
-              ]
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\u0022userId\u0022:999999,\u0022message\u0022:\u0022QA ghost\u0022,\u0022type\u0022:1}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          }
-        },
-        {
-          "name": "Get notification - missing id",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
           ],
           "request": {
             "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Notifications/999999",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Notifications",
-                "999999"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    {
-      "name": "10 Delete guards",
-      "item": [
-        {
-          "name": "Category in use cannot be deleted",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
-                ]
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "raw": "{{baseUrl}}/api/Users",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "Categories",
-                "{{categoryId}}"
+                "Users"
               ]
             }
           }
         },
         {
-          "name": "Vendor with offers and reviews cannot be deleted",
+          "name": "An admin may",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "DELETE",
-            "header": [],
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "raw": "{{baseUrl}}/api/Users",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
-                "VendorProfiles",
-                "{{vendorAId}}"
+                "Users"
               ]
             }
           }
         },
         {
-          "name": "Job whose offer became an agreement cannot be deleted",
+          "name": "One account cannot read another",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Jobs",
-                "{{jobId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Accepted offer cannot be deleted",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
-                ]
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Offers",
-                "{{offerAId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "User with jobs and reviews cannot be deleted",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
-                ]
-              }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
               "host": [
@@ -3071,30 +3487,306 @@
           }
         },
         {
-          "name": "Delete - missing id",
+          "name": "But can read itself",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test(\u0022Status is 404\u0022, function () { pm.response.to.have.status(404); });"
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });"
                 ]
               }
             }
           ],
           "request": {
-            "method": "DELETE",
-            "header": [],
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Users/999999",
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Users",
-                "999999"
+                "{{homeownerId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "And cannot edit another",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 403\u0022, function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Hijack\u0022,\u0022city\u0022:\u0022Muscat\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Editing itself is fine",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 200\u0022, function () { pm.response.to.have.status(200); });",
+                  "pm.test(\u0022city is Sohar\u0022, function () { pm.expect(String(pm.response.json().city)).to.eql(String(\u0022Sohar\u0022)); });",
+                  "pm.test(\u0022role is 1\u0022, function () { pm.expect(String(pm.response.json().role)).to.eql(String(1)); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\u0022fullName\u0022:\u0022QA Homeowner Renamed\u0022,\u0022phoneNumber\u0022:\u0022\u002B96890000009\u0022,\u0022city\u0022:\u0022Sohar\u0022}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Delete guards",
+      "item": [
+        {
+          "name": "Category in use",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Categories",
+                "{{categoryId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Vendor with offers and reviews",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "VendorProfiles",
+                "{{vendorAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Job whose offer became an agreement",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Jobs",
+                "{{jobId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Accepted offer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerAId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "User with jobs and reviews",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 409\u0022, function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Users",
+                "{{homeownerId}}"
               ]
             }
           }
@@ -3102,10 +3794,10 @@
       ]
     },
     {
-      "name": "11 Cleanup",
+      "name": "13 Cleanup",
       "item": [
         {
-          "name": "Delete review (before its agreement, so no cascade)",
+          "name": "Delete review (before its agreement)",
           "event": [
             {
               "listen": "test",
@@ -3119,7 +3811,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Reviews/{{reviewId}}",
               "host": [
@@ -3148,7 +3845,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Notifications/{{notificationId}}",
               "host": [
@@ -3163,7 +3865,7 @@
           }
         },
         {
-          "name": "Delete product (frees the vendor and the category)",
+          "name": "Delete product",
           "event": [
             {
               "listen": "test",
@@ -3177,7 +3879,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Products/{{productId}}",
               "host": [
@@ -3192,7 +3899,7 @@
           }
         },
         {
-          "name": "Delete agreement (its review is already gone)",
+          "name": "Delete agreement",
           "event": [
             {
               "listen": "test",
@@ -3206,7 +3913,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Agreements/{{agreementId}}",
               "host": [
@@ -3216,6 +3928,40 @@
                 "api",
                 "Agreements",
                 "{{agreementId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete the refunded agreement",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Agreements/{{agreement2Id}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Agreements",
+                "{{agreement2Id}}"
               ]
             }
           }
@@ -3235,7 +3981,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Offers/{{offerBId}}",
               "host": [
@@ -3250,7 +4001,7 @@
           }
         },
         {
-          "name": "Delete offer A (its agreement is already gone)",
+          "name": "Delete offer C",
           "event": [
             {
               "listen": "test",
@@ -3264,7 +4015,46 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Offers/{{offerCId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Offers",
+                "{{offerCId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete offer A",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Offers/{{offerAId}}",
               "host": [
@@ -3279,7 +4069,7 @@
           }
         },
         {
-          "name": "Delete job (its offers are already gone)",
+          "name": "Delete the job",
           "event": [
             {
               "listen": "test",
@@ -3293,7 +4083,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Jobs/{{jobId}}",
               "host": [
@@ -3308,7 +4103,7 @@
           }
         },
         {
-          "name": "Delete spare job",
+          "name": "Delete the refund job",
           "event": [
             {
               "listen": "test",
@@ -3322,16 +4117,21 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
+              }
+            ],
             "url": {
-              "raw": "{{baseUrl}}/api/Jobs/{{jobSpareId}}",
+              "raw": "{{baseUrl}}/api/Jobs/{{job2Id}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "api",
                 "Jobs",
-                "{{jobSpareId}}"
+                "{{job2Id}}"
               ]
             }
           }
@@ -3351,7 +4151,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorAId}}",
               "host": [
@@ -3380,7 +4185,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorBId}}",
               "host": [
@@ -3395,7 +4205,7 @@
           }
         },
         {
-          "name": "Delete vendor profile C",
+          "name": "Delete vendor user A",
           "event": [
             {
               "listen": "test",
@@ -3409,36 +4219,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/VendorProfiles/{{vendorCId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "VendorProfiles",
-                "{{vendorCId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Delete vendor user A (profile already gone)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
-                ]
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorAToken}}"
               }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Users/{{vendorUserAId}}",
               "host": [
@@ -3467,7 +4253,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{vendorBToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Users/{{vendorUserBId}}",
               "host": [
@@ -3482,7 +4273,7 @@
           }
         },
         {
-          "name": "Delete vendor user C",
+          "name": "Delete the homeowner",
           "event": [
             {
               "listen": "test",
@@ -3496,36 +4287,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/Users/{{vendorUserCId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "Users",
-                "{{vendorUserCId}}"
-              ]
-            }
-          }
-        },
-        {
-          "name": "Delete homeowner (jobs, review and notification already gone)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test(\u0022Status is 204\u0022, function () { pm.response.to.have.status(204); });"
-                ]
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{ownerToken}}"
               }
-            }
-          ],
-          "request": {
-            "method": "DELETE",
-            "header": [],
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Users/{{homeownerId}}",
               "host": [
@@ -3540,7 +4307,7 @@
           }
         },
         {
-          "name": "Delete category (nothing references it now)",
+          "name": "Delete the category",
           "event": [
             {
               "listen": "test",
@@ -3554,7 +4321,12 @@
           ],
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/Categories/{{categoryId}}",
               "host": [
