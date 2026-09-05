@@ -64,7 +64,16 @@ namespace Backend
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                // Serves the generated OpenAPI document at /openapi/v1.json.
                 app.MapOpenApi();
+
+                // Swagger UI reads that same document - it only renders, it does not
+                // generate, so the document stays the single source of truth.
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/openapi/v1.json", "BuildHub API v1");
+                    options.DocumentTitle = "BuildHub API";
+                });
             }
 
             app.UseHttpsRedirection();
