@@ -1,0 +1,79 @@
+---
+config:
+  layout: elk
+---
+flowchart TB
+    %% --- ENTITIES & ATTRIBUTE BINDINGS ---
+
+    User["User"] --- UserId["userId PK"] & FullName["fullName"] & Email["email UK"] & PasswordHash["passwordHash"] & Phone["phoneNumber (Opt)"] & Role["role (Homeowner/Vendor/Admin)"] & City["city"] & CreatedAt["createdAt"]
+
+    VendorProfile["VendorProfile"] --- VendorProfileId["vendorProfileId PK"] & VUserId["userId FK UK"] & CompanyName["companyName"] & VendorType["vendorType (Contractor/Designer/Store)"] & VCategoryId["categoryId FK"] & VCity["city"] & Bio["bio (Opt)"] & IsVerified["isVerified"] & AverageRating["averageRating (Opt)"] & Balance["balance"]
+
+    Category["Category"] --- CategoryId["categoryId PK"] & NameAr["nameAr"] & NameEn["nameEn"] & IconUrl["iconUrl (Opt)"]
+
+    Job["Job"] --- JobId["jobId PK"] & JHomeownerId["homeownerId FK (User)"] & JCategoryId["categoryId FK"] & JTitle["title"] & JDescription["description"] & JCity["city"] & Budget["budget (Opt)"] & Deadline["deadline (Opt)"] & JStatus["status (Open/Hired/Completed/Cancelled)"] & JCreatedAt["createdAt"]
+
+    Offer["Offer"] --- OfferId["offerId PK"] & OJobId["jobId FK"] & OVendorProfileId["vendorProfileId FK"] & Price["price"] & DurationDays["durationDays"] & Message["message (Opt)"] & OStatus["status (Pending/Accepted/NotSelected)"] & SubmittedAt["submittedAt"]
+
+    Agreement["Agreement"] --- AgreementId["agreementId PK"] & AOfferId["offerId FK UK"] & TotalAmount["totalAmount"] & AStatus["status (Active/Completed/Cancelled)"] & PaymentStatus["paymentStatus (Held/Released/Refunded)"] & HeldAt["heldAt (Opt)"] & ReleasedAt["releasedAt (Opt)"] & StartedAt["startedAt"]
+
+    Product["Product"] --- ProductId["productId PK"] & PVendorProfileId["vendorProfileId FK"] & PCategoryId["categoryId FK"] & PName["name"] & Unit["unit (m2/piece/set)"] & Price2["price"] & ImageUrl["imageUrl (Opt)"] & IsAvailable["isAvailable"]
+
+    Review["Review"] --- ReviewId["reviewId PK"] & ReviewerId["reviewerId FK (User)"] & RVendorProfileId["vendorProfileId FK"] & RAgreementId["agreementId FK"] & Rating["rating (1-5)"] & Comment["comment (Opt)"] & ReviewDate["reviewDate"]
+
+    Notification["Notification"] --- NotificationId["notificationId PK"] & NUserId["userId FK"] & NMessage["message"] & NType["type"] & NLinkId["relatedId (Opt, for deep-link)"] & IsRead["isRead"] & NCreatedAt["createdAt"]
+
+    %% --- RELATIONSHIPS ---
+
+    %% User - VendorProfile -> 1:1 (Partial both sides; only Vendor-role users have one)
+    User -- 1 --> HasProfileRel{"Has"} -- 1 --> VendorProfile
+
+    %% User - Job -> 1:M (Partial on User, Total on Job) - homeowner posts jobs
+    User -- 1 --> PostsRel{"Posts"} -- M --> Job
+
+    %% User - Review -> 1:M (Partial on User, Total on Review)
+    User -- 1 --> WritesRel{"Writes"} -- M --> Review
+
+    %% User - Notification -> 1:M (Partial on User, Total on Notification)
+    User -- 1 --> ReceivesRel{"Receives"} -- M --> Notification
+
+    %% Category - VendorProfile -> 1:M (Partial on Category, Total on VendorProfile) - vendor's main trade
+    Category -- 1 --> ClassifiesVendorRel{"Classifies"} -- M --> VendorProfile
+
+    %% Category - Job -> 1:M (Partial on Category, Total on Job)
+    Category -- 1 --> ClassifiesJobRel{"Classifies"} -- M --> Job
+
+    %% Category - Product -> 1:M (Partial on Category, Total on Product)
+    Category -- 1 --> ClassifiesProdRel{"Classifies"} -- M --> Product
+
+    %% Job - Offer -> 1:M (Partial on Job, Total on Offer)
+    Job -- 1 --> ReceivesOfferRel{"ReceivesOffer"} -- M --> Offer
+
+    %% VendorProfile - Offer -> 1:M (Partial on VendorProfile, Total on Offer)
+    VendorProfile -- 1 --> SendsRel{"Sends"} -- M --> Offer
+
+    %% VendorProfile - Product -> 1:M (Partial on VendorProfile, Total on Product)
+    VendorProfile -- 1 --> ListsRel{"Lists"} -- M --> Product
+
+    %% VendorProfile - Review -> 1:M (Partial on VendorProfile, Total on Review)
+    VendorProfile -- 1 --> RatedRel{"IsRated"} -- M --> Review
+
+    %% Offer - Agreement -> 1:1 (Partial on Offer, Total on Agreement) - only the accepted offer
+    Offer -- 1 --> AcceptedIntoRel{"AcceptedInto"} -- 1 --> Agreement
+
+    %% Agreement - Review -> 1:M (Partial on Agreement, Total on Review) - proof the work happened
+    Agreement -- 1 --> ReviewedAfterRel{"ReviewedAfter"} -- M --> Review
+
+    %% NOTE: Job -> Agreement is derived, not a direct edge:
+    %% Job -1:M-> Offer -1:1-> Agreement (only one Offer per Job is ever Accepted)
+
+    %% --- STYLING ---
+    class User,VendorProfile,Category,Job,Offer,Agreement,Product,Review,Notification entity
+
+    class UserId,VendorProfileId,CategoryId,JobId,OfferId,AgreementId,ProductId,ReviewId,NotificationId keyAttribute
+
+    class FullName,Email,PasswordHash,Phone,Role,City,CreatedAt,VUserId,CompanyName,VendorType,VCategoryId,VCity,Bio,IsVerified,AverageRating,Balance,NameAr,NameEn,IconUrl,JHomeownerId,JCategoryId,JTitle,JDescription,JCity,Budget,Deadline,JStatus,JCreatedAt,OJobId,OVendorProfileId,Price,DurationDays,Message,OStatus,SubmittedAt,AOfferId,TotalAmount,AStatus,PaymentStatus,HeldAt,ReleasedAt,StartedAt,PVendorProfileId,PCategoryId,PName,Unit,Price2,ImageUrl,IsAvailable,ReviewerId,RVendorProfileId,RAgreementId,Rating,Comment,ReviewDate,NUserId,NMessage,NType,NLinkId,IsRead,NCreatedAt attribute
+
+    classDef entity fill:#1f77b4,stroke:#0d47a1,stroke-width:2px,color:#fff,font-weight:bold
+    classDef attribute fill:#f0f4c3,stroke:#afb42b,stroke-width:1px,color:#000
+    classDef keyAttribute fill:#d1c4e9,stroke:#512da8,stroke-width:2px,color:#000,font-weight:bold
