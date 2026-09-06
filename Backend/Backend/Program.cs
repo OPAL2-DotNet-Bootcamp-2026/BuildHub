@@ -140,7 +140,17 @@ namespace Backend
                 });
             }
 
-            app.UseHttpsRedirection();
+            // Not in Development: the dev launch profile serves both
+            // http://localhost:5158 and https://localhost:7101, and the 307 from one to
+            // the other crosses an origin, so Postman and browsers drop the Authorization
+            // header on the way. Every authenticated request would then arrive anonymous
+            // and come back 401, hiding the real answer - usually 403 for a wrong role.
+            // Kestrel listens on the http port either way, so skipping the bounce locally
+            // gives up nothing.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             // Order matters: authentication establishes who the caller is, and
             // authorization then decides what they may do.
