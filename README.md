@@ -4,7 +4,11 @@ A marketplace for home renovation in Oman. Homeowners post jobs, vendors (contra
 designers and stores) bid on them, the homeowner accepts one bid, the payment is held in
 a mocked escrow until the work is done, and the homeowner rates the vendor afterwards.
 
-> The frontend is being reworked and is not documented yet.
+### Frontend
+
+```
+
+```
 
 ## Tech stack
 
@@ -20,7 +24,7 @@ a mocked escrow until the work is done, and the homeowner rates the vendor after
 ```
 Backend/Backend/        The API project (see below)
 DOCS/                   ERD - Build_Hub.mmd (Mermaid source) and Build_Hub.png
-FrontEnd/               Being reworked
+FrontEnd/               In Progress
 ```
 
 ### Backend
@@ -94,18 +98,6 @@ ownership checks ("this job is not yours") live in the services and return `403`
 
 `Backend/Backend/BuildHub.postman_collection.json` covers every endpoint and rule, and
 is safe to run top to bottom against a freshly seeded database.
-
-## Core flow
-
-1. A homeowner posts a job - it starts `Open`.
-2. Vendors submit offers while it is open - each starts `Pending`.
-3. The homeowner accepts one. In a single transaction the offer becomes `Accepted`, the
-   rest become `NotSelected`, the job becomes `Hired`, and an agreement opens with the
-   payment `Held`.
-4. The work happens off-platform.
-5. The homeowner releases the escrow: the vendor's balance is credited and the job is
-   `Completed`. An admin can refund instead, which cancels both.
-6. The homeowner reviews the vendor, and the vendor's average rating is recalculated.
 
 ## License
 
