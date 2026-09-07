@@ -2,6 +2,7 @@
 const parameters = new URLSearchParams(window.location.search);
 const offerId = 4;
 
+
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
 const cancelButton = document.querySelector("#cancelButton");
@@ -69,7 +70,7 @@ throw new Error("Could not accept the offer.");
 
     alert("Offer accepted successfully.");
 
-    window.location.href =`offer-accepted.html?quoteId=${offerId}`;
+    window.location.href =`offer-accepted.html?offerId=${offerId}`;
 } catch (error) {
     console.log(error);
     alert(error.message);
@@ -87,4 +88,4 @@ window.location.href = "View_Job.html";
 });
 
 // Run GET when the page opens
-getQuoteInformation();
+getOfferInformation();
