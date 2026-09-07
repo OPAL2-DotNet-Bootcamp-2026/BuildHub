@@ -107,6 +107,18 @@ namespace Backend
             builder.Services.AddOpenApi(options =>
                 options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
 
+            //cors to link backend to frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
             // Local convenience only, and opt-in: appsettings.Development.json sets
