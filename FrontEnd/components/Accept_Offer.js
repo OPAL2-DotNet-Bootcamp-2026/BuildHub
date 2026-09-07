@@ -3,7 +3,7 @@ const parameters = new URLSearchParams(window.location.search);
 const offerId = 4;
 
 // Get the saved token from login
-const token = localStorage.getItem("token");
+const Token = localStorage.getItem("Token");
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
@@ -18,6 +18,12 @@ if (!offerId) {
     return;
     }
 
+if (!Token) {
+        alert("Please log in first.");
+        window.location.href = "login.html";
+        return;
+    }
+    
 try {
     const response = await fetch(
     `https://localhost:7101/api/offers/${offerId}`,
