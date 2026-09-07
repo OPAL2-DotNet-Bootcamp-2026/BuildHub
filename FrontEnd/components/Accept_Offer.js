@@ -17,7 +17,7 @@ if (!quoteId) {
 
 try {
     const response = await fetch(
-    `https://localhost:7102/api/quotes/${quoteId}`,
+    `https://localhost:7101/api/quotes/${quoteId}`,
     {
         method: "GET"
     }
@@ -56,7 +56,7 @@ acceptButton.disabled = true;
 acceptButton.textContent = "Accepting...";
 //POST
 try {
-    const response = await fetch(`https://localhost:7102/api/quotes/${quoteId}/accept`,
+    const response = await fetch(`https://localhost:7101/api/quotes/${quoteId}/accept`,
 {
     method: "POST"
 }
