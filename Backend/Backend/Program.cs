@@ -164,12 +164,13 @@ namespace Backend
                 app.UseHttpsRedirection();
             }
 
+            app.UseCors("AllowFrontend");
+
             // Order matters: authentication establishes who the caller is, and
             // authorization then decides what they may do.
             app.UseAuthentication();
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 
