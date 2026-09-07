@@ -3,7 +3,7 @@ const parameters = new URLSearchParams(window.location.search);
 const offerId = 4;
 
 // Get the saved token from login
-const Token = localStorage.getItem("Token");
+const token = localStorage.getItem("token");
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
@@ -18,12 +18,12 @@ if (!offerId) {
     return;
     }
 
-if (!Token) {
-        alert("Please log in first.");
-        window.location.href = "login.html";
-        return;
-    }
-    
+//if (!token) {
+     //   alert("Please log in first.");
+     //   window.location.href = "login.html";
+     //   return;
+  //  }
+
 try {
     const response = await fetch(
     `https://localhost:7101/api/offers/${offerId}`,
@@ -49,15 +49,15 @@ if (!response.ok) {
 
     // Display backend information in HTML
     agreedPrice.textContent =`OMR ${offer.price}`;
-
     timeline.textContent =`${offer.durationDays} days`;
+
 } catch (error) {
     console.error("GET error:", error);
     alert(error.message);
 }
 }
 
-
+//POST: Accept offer and create agreement
 // accept button for event (click)
 acceptButton.addEventListener("click", async () => {
 if (!offerId) {
@@ -65,26 +65,45 @@ if (!offerId) {
     return;
 }
 
+//if (!token) {
+     //   alert("Please log in first.");
+      //  window.location.href = "login.html";
+      //  return;
+ //   }
+
+
 acceptButton.disabled = true;
 acceptButton.textContent = "Accepting...";
 
 //POST
 try {
-    const response = await fetch(`https://localhost:7101/api/offers/${offerId}/accept`,
-{
-    method: "POST"
-}
-    );
+    const response = await fetch("https://localhost:7101/api/Agreements",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+        },
+
+            body: JSON.stringify({offerId: Number(offerId)})
+            }
+        );
 
 if (!response.ok) {
 throw new Error("Could not accept the offer.");
     }
 
+// Get the newly created agreement
+    const agreement = await response.json();
+
+    console.log("Agreement created:", agreement);
     alert("Offer accepted successfully.");
 
-    window.location.href =`offer-accepted.html?offerId=${offerId}`;
+
+    // to send the agreement ID to the next page
+    window.location.href =`offer-accepted.html?agreementId=${agreement.agreementId}`;
 } catch (error) {
-    console.log(error);
+    console.error("POST error:", error);
     alert(error.message);
 
     acceptButton.disabled = false;
