@@ -41,7 +41,7 @@ if (!response.ok) {
     }
 
 // Convert backend JSON into a JavaScript object
-    const offer  = await response.json();
+    const offer = await response.json();
 
  // Show the result in the Console , because i want to check the get work or not
     console.log("GET successful:", offer);
