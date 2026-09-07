@@ -22,7 +22,11 @@ try {
     const response = await fetch(
     `https://localhost:7101/api/offers/${offerId}`,
     {
-        method: "GET"
+        method: "GET",
+
+        headers: {
+            "Authorization": `Bearer ${token}`
+                }
     }
     );
 
