@@ -18,11 +18,11 @@ if (!offerId) {
     return;
     }
 
-//if (!token) {
-     //   alert("Please log in first.");
-     //   window.location.href = "login.html";
-     //   return;
-  //  }
+if (!token) {
+     alert("Please log in first.");
+     window.location.href = "login.html";
+     return;
+   }
 
 try {
     const response = await fetch(
@@ -65,11 +65,11 @@ if (!offerId) {
     return;
 }
 
-//if (!token) {
-     //   alert("Please log in first.");
-      //  window.location.href = "login.html";
-      //  return;
- //   }
+if (!token) {
+    alert("Please log in first.");
+    window.location.href = "login.html";
+    return;
+    }
 
 
 acceptButton.disabled = true;
