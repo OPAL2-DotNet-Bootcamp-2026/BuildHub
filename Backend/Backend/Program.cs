@@ -170,6 +170,7 @@ namespace Backend
 
             app.UseAuthorization();
 
+            app.UseCors("AllowFrontend");
 
             app.MapControllers();
 
