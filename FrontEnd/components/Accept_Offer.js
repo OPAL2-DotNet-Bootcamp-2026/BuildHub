@@ -1,6 +1,6 @@
 // Read the quote ID from the page URL
 const parameters = new URLSearchParams(window.location.search);
-const quoteId = 4;
+const offerId = 4;
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
@@ -9,35 +9,35 @@ const agreedPrice =document.querySelector("#agreedPrice");
 const timeline =document.querySelector("#timeline");
 
 // GET 
-async function getQuoteInformation() {
-if (!quoteId) {
-    alert("Quote ID is missing.");
+async function getOfferInformation() {
+if (!offerId) {
+    alert("Offer ID is missing.");
     return;
     }
 
 try {
     const response = await fetch(
-    `https://localhost:7101/api/quotes/${quoteId}`,
+    `https://localhost:7101/api/offers/${offerId}`,
     {
         method: "GET"
     }
     );
 
 if (!response.ok) {
-    throw new Error("Could not get the quote.");
+    throw new Error("Could not get the offer.");
     }
 
 // Convert backend JSON into a JavaScript object
     const quote = await response.json();
 
  // Show the result in the Console , because i want to check the get work or not
-    console.log("GET successful:", quote);
+    console.log("GET successful:", offer);
 
 
     // Display backend information in HTML
-    agreedPrice.textContent =`OMR ${quote.price}`;
+    agreedPrice.textContent =`OMR ${offer.price}`;
 
-    timeline.textContent =`${quote.durationDays} days`;
+    timeline.textContent =`${offer.durationDays} days`;
 } catch (error) {
     console.error("GET error:", error);
     alert(error.message);
@@ -47,16 +47,17 @@ if (!response.ok) {
 
 // accept button for event (click)
 acceptButton.addEventListener("click", async () => {
-if (!quoteId) {
-    alert("Quote ID is missing.");
+if (!offerId) {
+    alert("Offer ID is missing.");
     return;
 }
 
 acceptButton.disabled = true;
 acceptButton.textContent = "Accepting...";
+
 //POST
 try {
-    const response = await fetch(`https://localhost:7101/api/quotes/${quoteId}/accept`,
+    const response = await fetch(`https://localhost:7101/api/offers/${offerId}/accept`,
 {
     method: "POST"
 }
@@ -68,7 +69,7 @@ throw new Error("Could not accept the offer.");
 
     alert("Offer accepted successfully.");
 
-    window.location.href =`offer-accepted.html?quoteId=${quoteId}`;
+    window.location.href =`offer-accepted.html?quoteId=${offerId}`;
 } catch (error) {
     console.log(error);
     alert(error.message);
@@ -87,8 +88,3 @@ window.location.href = "View_Job.html";
 
 // Run GET when the page opens
 getQuoteInformation();
-
-
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-};
