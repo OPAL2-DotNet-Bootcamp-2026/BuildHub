@@ -2,6 +2,8 @@
 const parameters = new URLSearchParams(window.location.search);
 const offerId = 4;
 
+// Get the saved token from login
+const token = localStorage.getItem("token");
 
 // find the HTML buttons by ids
 const acceptButton = document.querySelector("#acceptButton");
