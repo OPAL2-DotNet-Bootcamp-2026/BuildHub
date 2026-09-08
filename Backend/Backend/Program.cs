@@ -105,7 +105,10 @@ namespace Backend
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi(options =>
-                options.AddDocumentTransformer<BearerSecuritySchemeTransformer>());
+            {
+                options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+                options.AddOperationTransformer<BearerSecurityRequirementTransformer>();
+            });
 
             //cors to link backend to frontend
             builder.Services.AddCors(options =>
