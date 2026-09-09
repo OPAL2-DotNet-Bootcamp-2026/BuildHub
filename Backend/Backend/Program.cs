@@ -131,7 +131,11 @@ namespace Backend
             {
                 using var scope = app.Services.CreateScope();
                 var context = scope.ServiceProvider.GetRequiredService<BuildHubDbContext>();
+                
+                // Wipes all data and tables, then applies clean migrations
+                await context.Database.EnsureDeletedAsync();
                 await context.Database.MigrateAsync();
+                
                 await DataSeeder.SeedAsync(
                     context, scope.ServiceProvider.GetRequiredService<IPasswordHasher<User>>());
             }
