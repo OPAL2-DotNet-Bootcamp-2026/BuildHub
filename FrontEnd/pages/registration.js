@@ -7,7 +7,7 @@ const responseMessage = document.getElementById("responseMessage");
 
 const homeownerBtn = document.getElementById("homeownerBtn");
 const vendorBtn = document.getElementById("vendorBtn");
-let selectedRole = "";
+let selectedRole = 0;
 
 function selectRole(activeBtn, inactiveBtn, roleValue) {
   selectedRole = roleValue;
@@ -18,11 +18,11 @@ function selectRole(activeBtn, inactiveBtn, roleValue) {
 }
 
 homeownerBtn.addEventListener("click", function () {
-  selectRole(homeownerBtn, vendorBtn, "Homeowner");
+  selectRole(homeownerBtn, vendorBtn, 1);
 });
 
 vendorBtn.addEventListener("click", function () {
-  selectRole(vendorBtn, homeownerBtn, "Vendor");
+  selectRole(vendorBtn, homeownerBtn, 2);
 });
 
 const createAccountBtn = document.getElementById("createAccountBtn");
@@ -43,17 +43,20 @@ createAccountBtn.addEventListener("click", async function () {
     email: email.value,
     phoneNumber: phoneNumber.value,
     city: city.value,
-    passwordHash: password.value,
-    role: selectedRole,
-    isVerified: false
+    password: password.value,
+    role: selectedRole
   };
+
+ // Show the data in the browser console
+  console.log(userData);
+  console.log(JSON.stringify(userData));
 
   try {
     // Show temporary loading state
     createAccountBtn.disabled = true;
     createAccountBtn.textContent = "Creating Account...";
 
-    const response = await fetch("https://localhost:7102/user/AddUser", {
+    const response = await fetch("https://localhost:7101/api/Users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -70,9 +73,9 @@ createAccountBtn.addEventListener("click", async function () {
 
       // Delay redirect by 1.5 seconds to allow user to read the message
       setTimeout(() => {
-        if (selectedRole === "Homeowner") {
+        if (selectedRole === 1) {
           window.location.href = "Dashboard.html";
-        } else if (selectedRole === "Vendor") {
+        } else if (selectedRole === 2) {
           window.location.href = "../vendor-dashboard/vendor-dashboard.html";
         }
       }, 1500);
