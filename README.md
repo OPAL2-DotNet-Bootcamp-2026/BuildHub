@@ -55,7 +55,7 @@ resource has its own request and response DTOs.
 `dotnet tool install --global dotnet-ef` for migrations.
 
 ```bash
-dotnet run --project Backend/Backend --launch-profile http
+dotnet run --project Backend/Backend --launch-profile https
 ```
 
 Runs on `http://localhost:5158` with Swagger UI at `/swagger`.
