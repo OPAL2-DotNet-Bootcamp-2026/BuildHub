@@ -1,3 +1,6 @@
+import {base_url} from "../scripts/base_url.js"
+
+
 // Read the quote ID from the page URL
 const parameters = new URLSearchParams(window.location.search);
 const offerId = 5;
@@ -26,7 +29,7 @@ if (!token) {
 
 try {
     const response = await fetch(
-    `https://localhost:7101/api/offers/${offerId}`,
+    `${base_url}/api/offers/${offerId}`,
     {
         method: "GET",
 
@@ -77,7 +80,7 @@ acceptButton.textContent = "Accepting...";
 
 //POST
 try {
-    const response = await fetch("https://localhost:7101/api/Agreements",
+    const response = await fetch(`${base_url}/api/Agreements`,
         {
             method: "POST",
             headers: {
