@@ -1,4 +1,5 @@
 import { base_url } from "./base_url.js";
+import {parseJwt} from "./parseJwt.js";
 
 const emailInput = document.getElementById("inputEmail");
 const passwordInput = document.getElementById("inputPassword");
@@ -23,6 +24,8 @@ async function login(event) {
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem("token", data.token);
+
+            parseJwt(data.token);
             window.location.href = "../pages/dashboard.html";
         } else {
             // Handle server-side errors (e.g., 401 Unauthorized)
