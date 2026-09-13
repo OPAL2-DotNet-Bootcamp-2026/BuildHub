@@ -23,10 +23,10 @@ const jobsContainer = document.getElementById("jobs-container");
                                 <span class="badge bg-primary badge-color">${job.status}</span>
                             </h3>
                             <p class="card-text">
-                                ${job.description} | ${job.location} | ${job.budget} | Due: ${job.dueDate}
+                                ${job.description} | ${job.city} | ${job.budget} | Due: ${job.deadline}
                             </p>
                             <div class="text-end">
-                                <span class="fs-3 fw-bold d-block lh-1">${job.offerCount}</span>
+                                <span class="fs-3 fw-bold d-block lh-1">${job.offers}</span>
                                 <small class="text-muted">offers</small>
                             </div>
                         </div>
