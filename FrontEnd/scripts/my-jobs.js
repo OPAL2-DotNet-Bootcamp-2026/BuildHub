@@ -13,7 +13,9 @@ const jobsContainer = document.getElementById("jobs-container");
 
         if (response.ok) {
             const jobs = await response.json();
-            jobs.forEach(job => {
+            jobs
+                .filter(job => job.homeownerId == localStorage.getItem("userId"))
+                .forEach(job => {
                 const jobCard = document.createElement("div");
                 jobCard.innerHTML = `
                     <div class="card mx-auto my-3 px-4 py-2" style="max-width: 80%">
