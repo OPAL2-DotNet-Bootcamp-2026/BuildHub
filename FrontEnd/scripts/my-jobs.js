@@ -1,6 +1,7 @@
 import { base_url } from "./base_url.js";
 
 const jobsContainer = document.getElementById("jobs-container");
+const token = localStorage.getItem("token");
 
 (async function login() {
     try {
@@ -11,9 +12,22 @@ const jobsContainer = document.getElementById("jobs-container");
             }
         });
 
+        const response2 = await fetch(`${base_url}/api/Offers`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const offers =response2.ok ?  await response2.json(): null;
+        localStorage.setItem("offers", JSON.stringify(offers));
+
         if (response.ok) {
             const jobs = await response.json();
-            jobs.forEach(job => {
+            jobs
+                .filter(job => job.homeownerId == localStorage.getItem("userId"))
+                .forEach(job => {
                 const jobCard = document.createElement("div");
                 jobCard.innerHTML = `
                     <div class="card mx-auto my-3 px-4 py-2" style="max-width: 80%">
@@ -26,12 +40,12 @@ const jobsContainer = document.getElementById("jobs-container");
                                 ${job.description} | ${job.city} | ${job.budget} | Due: ${job.deadline}
                             </p>
                             <div class="text-end">
-                                <span class="fs-3 fw-bold d-block lh-1">${job.offers}</span>
+                                <span class="fs-3 fw-bold d-block lh-1">${offers.filter(offer => offer.jobId == job.jobId).length}</span>
                                 <small class="text-muted">offers</small>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between align-items-center pt-3">
-                            <span class="text-muted small"> ${job.newOffers} new offers waiting for review </span>
+                            <span class="text-muted small"> ${offers.filter(offer => offer.jobId == job.jobId).length} new offers waiting for review </span>
                             <button
                                 class="btn btn-navy px-4 py-2"
                                 id="review-button"
