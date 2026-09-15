@@ -1,4 +1,4 @@
-import {base_url} from "../scripts/base_url.js"
+// import {base_url} from "../scripts/base_url.js"
 
 
 // Read the quote ID from the page URL
