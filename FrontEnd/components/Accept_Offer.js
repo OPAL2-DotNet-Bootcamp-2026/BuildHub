@@ -1,9 +1,8 @@
 import {base_url} from "../scripts/base_url.js"
 
-
-// Read the quote ID from the page URL
-const parameters = new URLSearchParams(window.location.search);
-const offerId = 5;
+// Read the offer ID from the page URL
+const urlParams = new URLSearchParams(window.location.search);
+const offerId = urlParams.get("offerId");
 
 // Get the saved token from login
 const token = localStorage.getItem("token");
