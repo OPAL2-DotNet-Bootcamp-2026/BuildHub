@@ -1,0 +1,9 @@
+{
+"compilerOptions": {
+"target": "ES2020", // which JS version to compile down to
+"module": "ES2020", // module system: import/export style to emit
+"strict": true, // enables the full set of strict type-checking rules
+"outDir": "./scripts", // where compiled .js files are written
+"rootDir": "./src" // where your .ts source files live
+}
+}
