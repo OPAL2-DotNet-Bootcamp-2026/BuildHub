@@ -181,7 +181,7 @@ namespace Backend
 
             app.MapControllers();
 
-            app.Run();
+            app.Run(); 
         }
     }
 }
