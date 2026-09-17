@@ -118,6 +118,7 @@
 
     <shared-footer></shared-footer>
 
+        <!--                                         // now this script will add in typescript
     <script>
       const stars = document.querySelectorAll(".star-rating .star");
       const submitBtn = document.querySelector(".btn-submit-review");
@@ -134,12 +135,18 @@
         });
       });
 
+      
+
       const textarea = document.querySelector(".review-textarea");
       const counter = document.querySelector(".char-counter");
       textarea.addEventListener("input", () => {
         counter.textContent = `${textarea.value.length}/500`;
       });
     </script>
+
+-->
+    <script type="module" src="../scripts/leave-review.js"></script>    <!-- to connect java script-->
+
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
