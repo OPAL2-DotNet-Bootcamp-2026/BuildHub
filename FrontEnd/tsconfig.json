@@ -5,7 +5,7 @@
 "strict": true, // enables the full set of strict type-checking rules
 "outDir": "./scripts", // where compiled .js files are written
 "rootDir": "./src", // where your .ts source files live
-"noEmitOnError": true
+"noEmitOnError": true // if there is an error in typescript , the js it will not generated until fix it 
 },
 "include": ["src/**/*.ts"]
 }
