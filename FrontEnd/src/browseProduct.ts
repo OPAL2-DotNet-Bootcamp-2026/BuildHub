@@ -86,6 +86,7 @@ compareButtons.forEach((button) => {
         // Show selected products in console
         console.log("Selected products:", selectedProducts);
     });
+     
 
 });
 
