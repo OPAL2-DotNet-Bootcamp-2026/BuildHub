@@ -1,92 +1,77 @@
-//search for products by name, store, price range, location, and category
+// ===============================
+// Backend API
+// ===============================
+
+const BASE_URL = "https://localhost:7101";
+
+
+// Product interface
 
 interface Product {
-    id: number;
+    productId: number;
+    vendorProfileId: number;
+    categoryId: number;
     name: string;
-    store: string;
+    unit: number;
     price: number;
-    location: string;
-    category: string;
+    imageUrl: string | null;
+    isAvailable: boolean;
 }
 
 
-//creat products array with 3 products
-const products: Product[] = [
-    {
-        id: 1,
-        name: "Beige Marble Floor Tile 60×60",
-        store: "Salalah Tiles & Ceramics",
-        price: 14.5,
-        location: "Salalah",
-        category: "Floor Tiles"
-    },
+// Get products from Backend
 
-    {
-        id: 2,
-        name: "White Marble Floor Tile 60×60",
-        store: "Muscat Ceramics",
-        price: 16,
-        location: "Muscat",
-        category: "Floor Tiles"
-    },
+async function getProducts(): Promise<Product[]> {
 
-    {
-        id: 3,
-        name: "Modern Wall Tile 30×60",
-        store: "Oman Tiles",
-        price: 12,
-        location: "Muscat",
-        category: "Wall Tiles"
+    const response = await fetch(
+        `${BASE_URL}/api/Products`
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load products. Status: ${response.status}`
+        );
     }
-];
+
+    const products: Product[] = await response.json();
+
+    return products;
+}
 
 
-//save selected products in an array
-const selectedProducts: Product[] = [];
+// Display products
 
-// Get all compare buttons from the HTML page
-const compareButtons =
-    document.querySelectorAll<HTMLButtonElement>(".compare-btn");
+function displayProducts(products: Product[]): void {
+
+    console.log("Products from Backend:");
+    console.log(products);
+
+}
 
 
-// Add click event to every compare button
-compareButtons.forEach((button) => {
+// Load products
 
-    button.addEventListener("click", () => {
+async function loadProducts(): Promise<void> {
 
-        // Get the product ID from the HTML button
-        const productId = Number(button.dataset.productId);
+    try {
 
-        // Find the product using its ID
-        const product = products.find(
-            (item) => item.id === productId
+        const products = await getProducts();
+
+        displayProducts(products);
+
+    } catch (error) {
+
+        console.error(
+            "Error loading products:",
+            error
         );
 
-        // If the product does not exist, stop
-        if (!product) {
-            return;
-        }
+    }
 
-        // Check if the product is already selected
-        const alreadySelected = selectedProducts.some(
-            (item) => item.id === productId
-        );
-
-        if (alreadySelected) {
-            alert("This product is already selected.");
-            return;
-        }
-
-        // Add product to selected products
-        selectedProducts.push(product);
-
-        // Change button text
-        button.textContent = "✓ Selected";
-
-        // Show selected products in console
-        console.log("Selected products:", selectedProducts);
-    });
-
-});
+}
 
 
+
+// Start application
+
+loadProducts();
