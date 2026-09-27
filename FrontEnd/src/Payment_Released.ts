@@ -18,3 +18,8 @@ if (agreementElement) { agreementElement.textContent = `OMR ${agreementValue}`;}
 if (feeElement) { feeElement.textContent = `OMR ${fee}`;}
 
 if (totalElement) {totalElement.textContent = `OMR ${total}`;}
+
+const reviewButton = document.querySelector<HTMLButtonElement>("#reviewButton");
+
+reviewButton?.addEventListener("click", () => { window.location.href = "leave-review.html";
+});
