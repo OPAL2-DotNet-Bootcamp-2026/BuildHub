@@ -1,4 +1,4 @@
-import {base_url} from "../scripts/base_url.js"
+import {base_url} from "./base_url.js"
 
 // Read the offer ID from the page URL
 const urlParams = new URLSearchParams(window.location.search);
