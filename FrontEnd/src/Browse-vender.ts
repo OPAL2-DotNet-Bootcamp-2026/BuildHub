@@ -1,4 +1,4 @@
-const API_BASE_URL: string = 'https://localhost:7102/VendorProfile/Vendors';
+import { base_url } from "./base_url.js";
 
 const vendorTypes: Record<number, string> = {
     0: 'General Contractor',
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', (): void => {
 
 async function fetchVendors(): Promise<void> {
     try {
-        const response: Response = await fetch(API_BASE_URL);
+        const response: Response = await fetch(`${base_url}/api/VendorProfiles`);
 
         if (response.status === 204) {
             renderNoData();
