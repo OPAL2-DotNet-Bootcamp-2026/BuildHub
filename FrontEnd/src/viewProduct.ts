@@ -1,119 +1,106 @@
+// ===============================
+// View Product Page
+// ===============================
 
-// Central place for all API calls
+ const base_url = "https://localhost:7101";
 
-export const base_url = "https://localhost:7101";
+// Product interface
 
-export interface Product {
-  productId: number;
-  vendorProfileId: number;
-  categoryId: number;
-  name: string;
-  unit: number;
-  price: number;
-  imageUrl: string;
-  isAvailable: boolean;
-}
-
-/**
- * Fetches all products (GET /api/products)
- */
-export async function getAllProducts(): Promise<Product[]> {
-  const response = await fetch(`${base_url}/api/products`);
-  if (!response.ok) {
-    throw new Error(`failed to load products: ${response.status}`);
-  }
-  return response.json();
-}
-
-/**
- * Fetches a single product by id (GET /api/products/{id})
- * Returns null if the product doesn't exist (404)
- */
-export async function getProductById(id: number): Promise<Product | null> {
-  const response = await fetch(`${base_url}/api/products/${id}`);
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  if (!response.ok) {
-    throw new Error(`failed to load product: ${response.status}`);
-  }
-
-  return response.json();
+interface Product {
+    productId: number;
+    vendorProfileId: number;
+    categoryId: number;
+    name: string;
+    unit: number;
+    price: number;
+    imageUrl: string | null;
+    isAvailable: boolean;
 }
 
 
+// Get product id from the page URL
 
-
-import { getProductById, Product } from "./api";
-
-/**
- * Reads the product id from the page URL
- * Example: view-product.html?id=5
- */
 function getProductIdFromUrl(): number | null {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-  return id ? parseInt(id, 10) : null;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    return id ? parseInt(id, 10) : null;
 }
 
-/**
- * Fills the page elements with the product data
- */
-function renderProduct(product: Product): void {
-  const titleEl = document.querySelector<HTMLElement>(".product-title");
-  const priceEl = document.querySelector<HTMLElement>(".price-amount");
-  const mainImgEl = document.querySelector<HTMLImageElement>(
-    ".gallery-container > img"
-  );
-  const availabilityEl = document.querySelector<HTMLElement>(
-    ".spec-row:last-child .spec-value"
-  );
 
-  if (titleEl) titleEl.textContent = product.name;
-  if (priceEl) priceEl.textContent = `OMR ${product.price.toFixed(2)}`;
-  if (mainImgEl) mainImgEl.src = product.imageUrl;
-  if (availabilityEl) {
-    availabilityEl.textContent = product.isAvailable
-      ? "In Stock"
-      : "Out of Stock";
-  }
-}
+// Get a single product from Backend
 
-/**
- * Shows a simple error message inside the page
- */
-function renderError(message: string): void {
-  const container = document.querySelector<HTMLElement>(".details-container");
-  if (container) {
-    container.innerHTML = `<p class="text-danger">${message}</p>`;
-  }
-}
+async function getProductById(id: number): Promise<Product | null> {
 
-async function init(): Promise<void> {
-  const productId = getProductIdFromUrl();
+    const response = await fetch(
+        `${BASE_URL}/api/Products/${id}`
+    );
 
-  if (productId === null) {
-    renderError("Product ID not specified.");
-    return;
-  }
-
-  try {
-    const product = await getProductById(productId);
-
-    if (!product) {
-      renderError("Product not found.");
-      return;
+    if (response.status === 404) {
+        return null;
     }
 
-    renderProduct(product);
-  } catch (error) {
-    console.error(error);
-    renderError("Error while loading product data.");
-  }
+    if (!response.ok) {
+        throw new Error(
+            `Failed to load product. Status: ${response.status}`
+        );
+    }
+
+    const product: Product = await response.json();
+
+    return product;
 }
 
-document.addEventListener("DOMContentLoaded", init);
+
+// Display product on the page
+
+function displayProduct(product: Product): void {
+
+    const titleEl = document.querySelector<HTMLElement>(".product-title");
+    const priceEl = document.querySelector<HTMLElement>(".price-amount");
+    const mainImgEl = document.querySelector<HTMLImageElement>(".gallery-container > img");
+
+    if (titleEl) titleEl.textContent = product.name;
+    if (priceEl) priceEl.textContent = `OMR ${product.price.toFixed(2)}`;
+    if (mainImgEl && product.imageUrl) mainImgEl.src = product.imageUrl;
+
+}
 
 
+// Load product
+
+async function loadProduct(): Promise<void> {
+
+    try {
+
+        const id = getProductIdFromUrl();
+
+        if (id === null) {
+            console.error("No product id in URL");
+            return;
+        }
+
+        const product = await getProductById(id);
+
+        if (!product) {
+            console.error("Product not found");
+            return;
+        }
+
+        displayProduct(product);
+
+    } catch (error) {
+
+        console.error(
+            "Error loading product:",
+            error
+        );
+
+    }
+
+}
+
+
+
+// Start application
+
+loadProduct();
