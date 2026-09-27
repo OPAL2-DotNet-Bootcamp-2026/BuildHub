@@ -1,6 +1,4 @@
-const API_BASE_URL = 'https://localhost:7102/VendorProfile/Vendors'; // الرابط الخاص بك
-
-// خريطة تحويل رقم الـ VendorType لنص مناسب مع اسم الكاتيجوري
+import { base_url } from "./base_url.js";
 const vendorTypes = {
     0: 'General Contractor',
     1: 'Interior Designer',
@@ -8,48 +6,44 @@ const vendorTypes = {
     3: 'Plumber',
     4: 'Electrician'
 };
-
 document.addEventListener('DOMContentLoaded', () => {
     fetchVendors();
 });
-
 async function fetchVendors() {
     try {
-        const response = await fetch(API_BASE_URL);
-        
+        const response = await fetch(`${base_url}/api/VendorProfiles`);
         if (response.status === 204) {
             renderNoData();
             return;
         }
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const vendors = await response.json();
         renderVendors(vendors);
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error fetching vendors:', error);
-        document.getElementById('vendors-container').innerHTML = `
+        const container = document.getElementById('vendors-container');
+        if (container) {
+            container.innerHTML = `
             <div class="col-12 text-center py-5">
                 <p class="text-danger">Failed to load vendors. Please check API connection.</p>
             </div>`;
+        }
     }
 }
-
 function renderVendors(vendors) {
     const container = document.getElementById('vendors-container');
     const countElement = document.getElementById('vendors-count');
-    
+    if (!container || !countElement)
+        return;
     container.innerHTML = '';
     countElement.textContent = `${vendors.length} vendors available`;
-
-    vendors.forEach(vendor => {
-        // حساب النجوم وتنسيق التقييم
+    vendors.forEach((vendor) => {
         const rating = vendor.averageRating || 0;
         const totalReviews = vendor.reviews ? vendor.reviews.length : 0;
         const categoryName = vendorTypes[vendor.vendorType] || 'Vendor';
-
         const cardHtml = `
         <div class="col-xl-4 col-lg-6">
           <div class="card h-100 rounded-3 overflow-hidden shadow-sm">
@@ -92,15 +86,18 @@ function renderVendors(vendors) {
             </div>
           </div>
         </div>`;
-
         container.insertAdjacentHTML('beforeend', cardHtml);
     });
 }
-
 function renderNoData() {
-    document.getElementById('vendors-count').textContent = '0 vendors available';
-    document.getElementById('vendors-container').innerHTML = `
+    const countElement = document.getElementById('vendors-count');
+    const container = document.getElementById('vendors-container');
+    if (countElement)
+        countElement.textContent = '0 vendors available';
+    if (container) {
+        container.innerHTML = `
         <div class="col-12 text-center py-5">
             <p class="text-muted">No vendor profiles found.</p>
         </div>`;
+    }
 }

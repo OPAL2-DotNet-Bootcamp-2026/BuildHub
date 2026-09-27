@@ -1,31 +1,15 @@
 import { base_url } from "./base_url.js";
-
-// Product interface matching your API response
-interface Product {
-    productId: number;
-    vendorProfileId: number;
-    categoryId: number;
-    name: string;
-    unit: number;
-    price: number;
-    imageUrl: string | null;
-    isAvailable: boolean;
-}
-
 // Fetch products from Backend API
-async function getProducts(): Promise<Product[]> {
+async function getProducts() {
     const response = await fetch(`${base_url}/api/Products`);
-
     if (!response.ok) {
         throw new Error(`Failed to load products. Status: ${response.status}`);
     }
-
-    const products: Product[] = await response.json();
+    const products = await response.json();
     return products;
 }
-
 // Map unit IDs or values to readable labels if needed
-function getUnitLabel(unit: number): string {
+function getUnitLabel(unit) {
     switch (unit) {
         case 1:
             return "per sqm";
@@ -37,17 +21,14 @@ function getUnitLabel(unit: number): string {
             return "per unit";
     }
 }
-
 // Create single product HTML template string
-function createProductCard(product: Product): string {
+function createProductCard(product) {
     // Fallback image if imageUrl is null
     const imageSrc = product.imageUrl || "../assets/placeHolder.png";
-    
     // Dynamic stock badge styling
     const stockBadge = product.isAvailable
         ? `<span class="badge rounded-pill bg-success-subtle text-success position-absolute top-0 start-0 m-3">In Stock</span>`
         : `<span class="badge rounded-pill bg-danger-subtle text-danger position-absolute top-0 start-0 m-3">Out of Stock</span>`;
-
     return `
         <div class="col-12 col-md-6 col-lg-4">
           <article class="card h-100 border shadow-sm rounded-3">
@@ -97,34 +78,29 @@ function createProductCard(product: Product): string {
         </div>
     `;
 }
-
 // Display products in DOM
-function displayProducts(products: Product[]): void {
+function displayProducts(products) {
     const container = document.getElementById("products-container");
-
     if (!container) {
         console.error("Container element '#products-container' not found in DOM.");
         return;
     }
-
     if (products.length === 0) {
         container.innerHTML = `<p class="text-muted">No products available.</p>`;
         return;
     }
-
     // Map each product to HTML string and join them
     container.innerHTML = products.map((product) => createProductCard(product)).join("");
 }
-
 // Load products
-async function loadProducts(): Promise<void> {
+async function loadProducts() {
     try {
         const products = await getProducts();
         displayProducts(products);
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error loading products:", error);
     }
 }
-
 // Start application
 loadProducts();
