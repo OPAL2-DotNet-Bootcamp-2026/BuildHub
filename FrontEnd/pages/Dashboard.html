@@ -31,10 +31,10 @@
       <!-- Welcome section -->
 
       <section class="mb-4">
-        <h1 class="fs-3 fw-bold">Good morning, Salim 👋</h1>
+      <h1 class="fs-3 fw-bold"> Good morning, <span id="loggedUserName"></span> 👋</h1>
 
         <p class="small text-secondary">
-          You have 3 new offers waiting for your review.
+            You have <span id="newOffersText">0</span> new offers waiting for your review.
         </p>
       </section>
 
@@ -53,7 +53,7 @@
                   Open Jobs
                 </p>
 
-                <h2 class="fs-4 fw-bold mb-0">2</h2>
+                <h2 class="fs-4 fw-bold mb-0"  id="openJobs" >2</h2>
               </div>
 
               <span class="bg-secondary-subtle rounded-circle p-3">📋 </span>
@@ -73,7 +73,7 @@
                   New Offers
                 </p>
 
-                <h2 class="fs-4 fw-bold mb-0">3</h2>
+                <h2 class="fs-4 fw-bold mb-0" id="newOffers" >3</h2>
               </div>
 
               <span class="bg-danger-subtle rounded-circle p-3"> 📬 </span>
@@ -92,7 +92,7 @@
                   In Progress
                 </p>
 
-                <h2 class="fs-4 fw-bold mb-0">1</h2>
+                <h2 class="fs-4 fw-bold mb-0" id="inProgress"  >1</h2>
               </div>
 
               <span class="bg-warning-subtle rounded-circle p-3"> 🔨 </span>
@@ -112,7 +112,7 @@
                   Completed
                 </p>
 
-                <h2 class="fs-4 fw-bold mb-0">4</h2>
+                <h2 class="fs-4 fw-bold mb-0" id="completedJobs" >4</h2>
               </div>
 
               <span
@@ -346,13 +346,13 @@
         <!-- Right side: Notifications -->
 
         <aside class="col-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-3" id="allNotifications">
             <h2 class="fs-4 fw-bold mb-0">Notifications</h2>
 
             <a href="#" class="small text-decoration-none"> All </a>
           </div>
 
-          <div class="d-grid gap-3">
+          <div class="d-grid gap-3"    id="notificationsList">
             <!-- First notification -->
 
             <article class="card border shadow-sm rounded-3">
@@ -419,5 +419,8 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <script type="module" src="../scripts/Dashboard.js"></script>
+
   </body>
 </html>
