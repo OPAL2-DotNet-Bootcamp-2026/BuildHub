@@ -1,6 +1,10 @@
-const base_url = "https://localhost:7101";
+import { base_url } from "./base_url.js";
 
 const token = localStorage.getItem("token");
+
+if (!token) {
+console.error("Token is missing.");
+}
 
 const openJobsElement = document.querySelector<HTMLElement>("#openJobs");
 
@@ -11,6 +15,80 @@ const inProgressElement = document.querySelector<HTMLElement>("#inProgress");
 const completedJobsElement = document.querySelector<HTMLElement>("#completedJobs");
 
 const notificationsList = document.querySelector<HTMLElement>("#notificationsList");
+
+const allNotifications = document.querySelector<HTMLAnchorElement>("#allNotifications");
+
+// to click "All" and navigate to notification page
+allNotifications?.addEventListener("click", (event) => {event.preventDefault();
+window.location.href = "notifications.html";
+});
+
+//for loggedUserName 
+const loggedUserName = document.querySelector<HTMLElement>("#loggedUserName");
+
+//for calculate newOffers from the database
+const newOffersText =document.querySelector<HTMLElement>("#newOffersText");
+
+
+function getUserIdFromToken(): number | null {
+
+  if (!token) {
+    return null;
+  }
+
+  const payload = JSON.parse(
+    atob(token.split(".")[1])
+  );
+
+  console.log("Token payload:", payload);
+
+  const userId =
+    payload.nameid ??
+    payload.sub ??
+    payload[
+      "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+    ];
+
+  return userId ? Number(userId) : null;
+}
+
+async function getLoggedUser(): Promise<void> {
+
+  const userId = getUserIdFromToken();
+
+  if (!userId) {
+    console.error("User ID was not found in token.");
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      `${base_url}/api/Users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not get user.");
+    }
+
+    const user = await response.json();
+
+    console.log("Logged user:", user);
+
+    if (loggedUserName) {loggedUserName.textContent =user.fullName;}
+
+  } catch (error) {
+
+    console.error("User error:", error);
+
+  }
+}
 
 
 //enums same as backend
@@ -120,6 +198,8 @@ const response = await fetch(`${base_url}/api/Offers`,
 
     const newOffers =offers.filter((offer: any) =>offer.status === OfferStatus.Pending).length;
 
+if (newOffersText) {newOffersText.textContent = newOffers.toString();}
+
 
     // Show number in HTML
 
@@ -128,6 +208,12 @@ const response = await fetch(`${base_url}/api/Offers`,
     newOffersElement.textContent =newOffers.toString();
 
     }
+
+// Number in welcome message
+if (newOffersText) {
+  newOffersText.textContent =
+    newOffers.toString();
+}
 
 }
 
@@ -170,3 +256,114 @@ function getNotificationTitle(type: NotificationType): string {
     return "Notification";
 }
 }
+
+// GET NOTIFICATIONS
+
+
+async function getNotifications(): Promise<void> {
+
+try {
+
+    const response = await fetch(
+    `${base_url}/api/Notifications`,
+    {
+        method: "GET",
+
+        headers: {
+        "Authorization": `Bearer ${token}`
+        }
+    }
+    );
+
+
+    if (!response.ok) {throw new Error("Could not get notifications.");
+    }
+
+
+    const notifications = await response.json();
+
+    console.log("Notifications:",notifications);
+
+
+    if (!notificationsList) {
+    return;
+    }
+
+
+    // Remove old HTML notifications
+    notificationsList.innerHTML = "";
+
+
+    notifications.forEach((notification: any) => {
+
+    const card =document.createElement("article");
+
+    card.className ="card border shadow-sm rounded-3";
+
+    const title =getNotificationTitle(notification.type);
+
+    card.innerHTML = `
+        <div class="card-body d-flex">
+
+            <span class="${
+              notification.isRead
+                ? "text-secondary"
+                : "text-danger"
+            } me-2">
+              ●
+            </span>
+
+            <div>
+
+              <h3 class="small fw-bold mb-1">
+                ${title}
+              </h3>
+
+              <p class="small text-secondary mb-1">
+                ${
+                  notification.message ??
+                  "You have a new notification."
+                }
+              </p>
+
+              <small class="text-secondary">
+                ${
+                  notification.createdAt
+                    ? new Date(
+                        notification.createdAt
+                      ).toLocaleString()
+                    : ""
+                }
+              </small>
+
+            </div>
+
+          </div>
+        `;
+
+
+        notificationsList.appendChild(card);
+
+      }
+    );
+
+}
+
+catch (error) {
+
+    console.error("Notification error:",error);
+
+}
+
+}
+
+
+// RUN WHEN PAGE OPENS
+
+getLoggedUser();
+
+getJobs();
+
+getOffers();
+
+getNotifications();
