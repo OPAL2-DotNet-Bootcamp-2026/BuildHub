@@ -18,8 +18,9 @@
    with `n.message` as soon as the DTO has real text.
 ========================================= */
 
-const API_BASE = " https://localhost:7102/api"; // change to your deployed API origin in production
-const CURRENT_USER_ID = 3;    // see note in that function below
+import { base_url } from "./base_url.js";
+const token = localStorage.getItem("token");
+
 
 document.addEventListener("DOMContentLoaded", loadNotifications);
 
@@ -30,7 +31,13 @@ async function loadNotifications() {
   const subtitle = document.querySelector(".notif-page .page-subtitle");
 
   try {
-    const response = await fetch(`${API_BASE}/notifications/${CURRENT_USER_ID}`);
+    const response = await fetch(`${base_url}/api/Notifications`,  {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
 
     if (response.status === 204) {
       renderEmptyState();

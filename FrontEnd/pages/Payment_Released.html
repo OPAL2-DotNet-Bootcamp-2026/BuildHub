@@ -199,7 +199,8 @@
     </div>
 
     <!-- Open the review page -->
-    <a href="leave-review.html" class="btn btn-primary fw-bold btn-sm" style="background-color: var(--primary);"> ⭐ Leave a Review</a>
+<button id="reviewButton" class="btn btn-primary fw-bold btn-sm">⭐ Leave a Review
+</button>
 
 </section>
 
@@ -240,9 +241,9 @@
 <!-- Agreement value -->
     <div class="d-flex justify-content-between mb-2">
 
-    <span class="text-secondary small"> Agreement Value </span>
+    <span class="text-secondary small" id="agreementValue"> Agreement Value </span>
 
-        <span class="small"> OMR 1,200 </span>
+        <span class="small" id="agreementValue" > OMR 1,200 </span>
 
     </div>
 
@@ -251,7 +252,7 @@
 
         <span class="text-secondary small"> BuildHub Fee (2%) </span>
 
-            <span class="small"> OMR 24 </span>
+            <span class="small"  id="buildHubFee" > OMR 24 </span>
 
     </div>
 
@@ -260,7 +261,7 @@
 
     <span class="text-secondary small"> Total Paid </span>
 
-    <strong class="small"> OMR 1,224
+    <strong class="small" id="totalPaid" > OMR 1,224
     </strong>
 
     </div>
@@ -285,6 +286,11 @@
       integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Connect the JavaScript generated from TypeScript -->
+<script type="module" src="../scripts/Payment_Released.js"></script>
+
+
   </body>
 
 </html>
