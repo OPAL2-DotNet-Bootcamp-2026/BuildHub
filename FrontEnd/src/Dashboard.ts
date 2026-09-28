@@ -91,3 +91,51 @@ catch (error) {
 }
 
 }
+
+
+// GET OFFERS
+
+async function getOffers(): Promise<void> {
+
+try {
+
+const response = await fetch(`${base_url}/api/Offers`,
+    {
+        method: "GET",
+
+        headers: {"Authorization": `Bearer ${token}`}
+    }
+    );
+
+
+    if (!response.ok) {throw new Error("Could not get offers.");}
+
+
+    const offers = await response.json();
+
+    console.log("Offers:", offers);
+
+
+    // Count only Pending offers
+
+    const newOffers =offers.filter((offer: any) =>offer.status === OfferStatus.Pending).length;
+
+
+    // Show number in HTML
+
+    if (newOffersElement) {
+
+    newOffersElement.textContent =newOffers.toString();
+
+    }
+
+}
+
+catch (error) {
+
+    console.error("Offers error:", error);
+
+}
+
+}
+
