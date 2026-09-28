@@ -31,3 +31,36 @@ var NotificationType;
     NotificationType[NotificationType["PaymentRefunded"] = 7] = "PaymentRefunded";
     NotificationType[NotificationType["ReviewReceived"] = 8] = "ReviewReceived";
 })(NotificationType || (NotificationType = {}));
+// GET JOBS
+async function getJobs() {
+    try {
+        const response = await fetch(`${base_url}/api/Jobs`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error("Could not get jobs.");
+        }
+        const jobs = await response.json();
+        console.log("Jobs:", jobs);
+        // Count jobs by status
+        const openJobs = jobs.filter((job) => job.status === JobStatus.Open).length;
+        const inProgress = jobs.filter((job) => job.status === JobStatus.Hired).length;
+        const completedJobs = jobs.filter((job) => job.status === JobStatus.Completed).length;
+        // Show job numbers in HTML
+        if (openJobsElement) {
+            openJobsElement.textContent = openJobs.toString();
+        }
+        if (inProgressElement) {
+            inProgressElement.textContent = inProgress.toString();
+        }
+        if (completedJobsElement) {
+            completedJobsElement.textContent = completedJobs.toString();
+        }
+    }
+    catch (error) {
+        console.error("Jobs error:", error);
+    }
+}
