@@ -1,5 +1,8 @@
 "use strict";
 const confirmPaymentBtn = document.getElementById("confirmPaymentBtn");
+// For testing with the existing Agreement in the database
+const agreementId = 2;
 confirmPaymentBtn.addEventListener("click", () => {
-    window.location.href = "Release_payment.html";
+    window.location.href =
+        `Release_payment.html?agreementId=${agreementId}`;
 });
