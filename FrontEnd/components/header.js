@@ -284,7 +284,7 @@ class SharedHeader extends HTMLElement {
           
           <a href="../pages/personalization.html"><div class="user-profile">
             <span class="user-avatar">SA</span>
-            <span class="user-name d-none d-sm-inline">Salim Al-Balushi</span>
+            <span class="user-name d-none d-sm-inline">${localStorage.getItem("fullName")}</span>
           </div>
           </a>
 
