@@ -139,3 +139,34 @@ catch (error) {
 
 }
 
+function getNotificationTitle(type: NotificationType): string {
+  switch (type) {
+
+    case NotificationType.OfferReceived: 
+    return "New Offer Received";
+
+    case NotificationType.OfferAccepted:
+    return "Offer Accepted";
+
+    case NotificationType.OfferNotSelected:
+    return "Offer Not Selected";
+
+    case NotificationType.AgreementStarted:
+    return "Agreement Started";
+
+    case NotificationType.JobCompleted:
+    return "Job Completed";
+
+    case NotificationType.PaymentReleased:
+    return "Payment Released";
+
+    case NotificationType.PaymentRefunded:
+    return "Payment Refunded";
+
+    case NotificationType.ReviewReceived:
+    return "Review Received";
+
+    default:
+    return "Notification";
+}
+}

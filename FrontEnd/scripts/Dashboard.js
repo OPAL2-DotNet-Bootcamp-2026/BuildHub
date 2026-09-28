@@ -64,3 +64,48 @@ async function getJobs() {
         console.error("Jobs error:", error);
     }
 }
+// GET OFFERS
+async function getOffers() {
+    try {
+        const response = await fetch(`${base_url}/api/Offers`, {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (!response.ok) {
+            throw new Error("Could not get offers.");
+        }
+        const offers = await response.json();
+        console.log("Offers:", offers);
+        // Count only Pending offers
+        const newOffers = offers.filter((offer) => offer.status === OfferStatus.Pending).length;
+        // Show number in HTML
+        if (newOffersElement) {
+            newOffersElement.textContent = newOffers.toString();
+        }
+    }
+    catch (error) {
+        console.error("Offers error:", error);
+    }
+}
+function getNotificationTitle(type) {
+    switch (type) {
+        case NotificationType.OfferReceived:
+            return "New Offer Received";
+        case NotificationType.OfferAccepted:
+            return "Offer Accepted";
+        case NotificationType.OfferNotSelected:
+            return "Offer Not Selected";
+        case NotificationType.AgreementStarted:
+            return "Agreement Started";
+        case NotificationType.JobCompleted:
+            return "Job Completed";
+        case NotificationType.PaymentReleased:
+            return "Payment Released";
+        case NotificationType.PaymentRefunded:
+            return "Payment Refunded";
+        case NotificationType.ReviewReceived:
+            return "Review Received";
+        default:
+            return "Notification";
+    }
+}
