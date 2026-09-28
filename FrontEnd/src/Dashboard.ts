@@ -9,3 +9,5 @@ const newOffersElement = document.querySelector<HTMLElement>("#newOffers");
 const inProgressElement = document.querySelector<HTMLElement>("#inProgress");
 
 const completedJobsElement = document.querySelector<HTMLElement>("#completedJobs");
+
+const notificationsList = document.querySelector<HTMLElement>("#notificationsList");
