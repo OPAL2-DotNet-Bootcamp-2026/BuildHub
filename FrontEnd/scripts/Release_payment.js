@@ -20,7 +20,13 @@ releasePaymentBtn.addEventListener("click", async () => {
         if (!response.ok) {
             throw new Error("Failed to release payment");
         }
-        window.location.href = "Payment_Released.html";
+        // Redirect and pass the agreementId along to the next page
+        if (releaseAgreementId) {
+            window.location.href = `Payment_Released.html?agreementId=${encodeURIComponent(releaseAgreementId)}`;
+        }
+        else {
+            window.location.href = `Payment_Released.html`;
+        }
     }
     catch (error) {
         console.error(error);

@@ -1,4 +1,4 @@
-
+const currentParams = window.location.search;
 
 
 const agreementValue: number = 1200;
@@ -21,5 +21,5 @@ if (totalElement) {totalElement.textContent = `OMR ${total}`;}
 
 const reviewButton = document.querySelector<HTMLButtonElement>("#reviewButton");
 
-reviewButton?.addEventListener("click", () => { window.location.href = "leave-review.html";
+reviewButton?.addEventListener("click", () => { window.location.href = `leave-review.html${currentParams}`;
 });

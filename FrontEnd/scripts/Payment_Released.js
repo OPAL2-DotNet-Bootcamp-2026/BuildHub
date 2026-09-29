@@ -1,4 +1,5 @@
 "use strict";
+const currentParams = window.location.search;
 const agreementValue = 1200;
 const feePercentage = 0.02;
 const fee = agreementValue * feePercentage;
@@ -17,5 +18,5 @@ if (totalElement) {
 }
 const reviewButton = document.querySelector("#reviewButton");
 reviewButton?.addEventListener("click", () => {
-    window.location.href = "leave-review.html";
+    window.location.href = `leave-review.html${currentParams}`;
 });
