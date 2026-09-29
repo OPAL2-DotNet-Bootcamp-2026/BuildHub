@@ -32,7 +32,7 @@ function getProductIdFromUrl(): number | null {
 async function getProductById(id: number): Promise<Product | null> {
 
     const response = await fetch(
-        `${BASE_URL}/api/Products/${id}`
+        `${base_url}/api/Products/${id}`
     );
 
     if (response.status === 404) {
