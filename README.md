@@ -4,12 +4,6 @@ A marketplace for home renovation in Oman. Homeowners post jobs, vendors (contra
 designers and stores) bid on them, the homeowner accepts one bid, the payment is held in
 a mocked escrow until the work is done, and the homeowner rates the vendor afterwards.
 
-### Frontend
-
-```
-
-```
-
 ## Tech stack
 
 | | |
@@ -24,7 +18,7 @@ a mocked escrow until the work is done, and the homeowner rates the vendor after
 ```
 Backend/Backend/        The API project (see below)
 DOCS/                   ERD - Build_Hub.mmd (Mermaid source) and Build_Hub.png
-FrontEnd/               In Progress
+FrontEnd/               Static HTML/CSS/TypeScript client (see below)
 ```
 
 ### Backend
@@ -48,6 +42,24 @@ Configuration/          JWT settings, validated at startup
 Requests flow `Controller -> Service -> Repository -> DbContext`. Controllers stay thin,
 services hold every rule, repositories only query. Entities are never serialized - each
 resource has its own request and response DTOs.
+
+### Frontend
+
+```
+pages/                  One HTML file per screen (landing, login, dashboard, jobs,
+                        offers, payment, reviews, products, vendors, notifications)
+components/             Shared custom elements - header, footer, landing header/footer
+styles/                 styles.css holds the design tokens; one stylesheet per page
+src/                    TypeScript sources, one entry file per page
+scripts/                Compiled JavaScript (tsc output) loaded by the pages
+  base_url.js           API base URL
+  parseJwt.js           Reads the role and user id from the stored token
+assets/                 Logos, icons and sample images
+tsconfig.json           Compiles src/*.ts to scripts/ (ES2020 modules, strict)
+```
+
+No framework or bundler - each page loads its shared components and its own script as
+an ES module, and talks to the API with `fetch` using the stored bearer token.
 
 ## Getting started
 
