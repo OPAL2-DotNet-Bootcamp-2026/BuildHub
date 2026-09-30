@@ -8,7 +8,7 @@ namespace Backend.Models.Entities
     {
             public int PaymentId { get; set; }
 
-            
+          
             public int AgreementId { get; set; }
 
        
