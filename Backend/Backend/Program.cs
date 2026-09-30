@@ -64,6 +64,8 @@ namespace Backend
 
             builder.Services.AddHttpClient<ThawaniGateway>();
 
+            builder.Services.AddScoped<PaymentService>();
+
 
             // Bearer tokens. Validated at startup so a missing or too-short signing
             // key stops the app here rather than producing tokens nobody can trust.
