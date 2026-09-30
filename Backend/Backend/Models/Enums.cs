@@ -45,9 +45,19 @@ namespace Backend.Models
     {
         Held = 1,
         Released = 2,
-        Refunded = 3
+        Refunded = 3,
+        Pending = 4
     }
 
+    //adding this to apply payment gateway
+    public enum GatewayPaymentStatus
+    {
+        Pending = 1,
+        Held = 2,
+        Failed = 3,
+        Cancelled = 4,
+        Refunded = 5
+    }
     public enum ProductUnit
     {
         SquareMeter = 1,
