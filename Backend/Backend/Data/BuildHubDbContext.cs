@@ -1,3 +1,4 @@
+using Backend.Models.Dtos;
 using Backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ namespace Backend.Data
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<Notification> Notifications => Set<Notification>();
+        public DbSet<Payment> Payments => Set<Payment>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
