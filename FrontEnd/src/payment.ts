@@ -6,14 +6,17 @@
   checkoutUrl: string;
 }
 const token = localStorage.getItem("token");
+const params = new URLSearchParams(window.location.search);
+const payButton = document.querySelector<HTMLButtonElement>("#payButton");
 
-const payButton =
-  document.querySelector<HTMLButtonElement>("#payButton");
 
- const params = new URLSearchParams(window.location.search);
+const confirmPaymentBtn = document.getElementById("confirmPaymentBtn") as HTMLButtonElement;
 
-const confirmPaymentBtn =
-  document.getElementById("confirmPaymentBtn") as HTMLButtonElement;
+const checkoutSection =
+  document.querySelector<HTMLElement>("#checkoutSection");
+
+const releaseSection =
+  document.querySelector<HTMLElement>("#releaseSection");
 
   
 // For testing with the existing Agreement in the database
