@@ -82,6 +82,20 @@ namespace Backend.Data
                 .HasForeignKey<Agreement>(a => a.OfferId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // A payment belongs to one agreement
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Agreement)
+                .WithMany()
+                .HasForeignKey(p => p.AgreementId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // A payment belongs to one homeowner
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Homeowner)
+                .WithMany()
+                .HasForeignKey(p => p.HomeownerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Deliberately left cascading:
             //   User -> VendorProfile, User -> Notification,
             //   Job  -> Offer,         VendorProfile -> Product,
