@@ -56,6 +56,15 @@ namespace Backend
             // Password hashing (PBKDF2, salted per user) from ASP.NET Core Identity.
             builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
+
+            // Thawani configuration
+            builder.Services.Configure<ThawaniSettings>(
+                builder.Configuration.GetSection(
+                    ThawaniSettings.SectionName));
+
+            builder.Services.AddHttpClient<ThawaniGateway>();
+
+
             // Bearer tokens. Validated at startup so a missing or too-short signing
             // key stops the app here rather than producing tokens nobody can trust.
             var jwtSettings = builder.Configuration.GetSection(JwtSettings.SectionName)
@@ -110,6 +119,7 @@ namespace Backend
                 options.AddOperationTransformer<BearerSecurityRequirementTransformer>();
             });
 
+
             //cors to link backend to frontend
             builder.Services.AddCors(options =>
             {
@@ -121,6 +131,7 @@ namespace Backend
                         .AllowAnyMethod();
                 });
             });
+
 
             var app = builder.Build();
 
