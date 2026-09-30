@@ -148,7 +148,7 @@ namespace Backend.Services.Implementations
                     TotalAmount = offer.Price,
                     Status = AgreementStatus.Active,
                     PaymentStatus = PaymentStatus.Held,
-                    HeldAt = now,
+                    HeldAt = null,  //change it to null ,  Payment is not held until Thawani confirms it
                     StartedAt = now
                 });
 
