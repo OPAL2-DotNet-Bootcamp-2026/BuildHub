@@ -25,7 +25,7 @@ namespace Backend.Data
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<Notification> Notifications => Set<Notification>();
-        public DbSet<Payment> Payments => Set<Payment>();
+        public DbSet<Payment> Payments => Set<Payment>();  //for ThawaniPayments
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
