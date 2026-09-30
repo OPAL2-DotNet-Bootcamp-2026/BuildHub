@@ -1,6 +1,6 @@
 ﻿namespace Backend.Configuration
 {
-    public class ThawaniSettings
+    public class ThawaniSettings          //for Configuration → no database table
     {
         // The section name inside appsettings
         public const string SectionName = "Thawani";
