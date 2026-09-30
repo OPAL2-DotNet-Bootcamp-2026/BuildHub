@@ -1,9 +1,8 @@
-﻿using Backend.Models.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Backend.Models.Dtos
+namespace Backend.Models.Entities
 {
     public class Payment
     {

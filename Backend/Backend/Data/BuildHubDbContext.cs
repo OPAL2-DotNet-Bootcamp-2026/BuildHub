@@ -1,4 +1,3 @@
-using Backend.Models.Dtos;
 using Backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
