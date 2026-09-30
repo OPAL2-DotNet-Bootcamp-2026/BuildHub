@@ -27,6 +27,54 @@ confirmPaymentBtn.addEventListener("click", () => {
     `Release_payment.html?agreementId=${agreementId}`;
 });
 
+// This function gets the payment status from the backend and
+//  shows either the Pay with Thawani button or the Confirm and Release Payment button.
+interface AgreementPaymentResponse {
+  paymentStatus: number | string;
+}
+
+async function loadPaymentStatus(): Promise<void> {
+  if (!agreementId || !token) {
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${base_url}/api/Agreements/${agreementId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Could not get payment status.");
+    }
+
+    const agreement =
+      await response.json() as AgreementPaymentResponse;
+
+    const isPending =
+      agreement.paymentStatus === 4 ||
+      agreement.paymentStatus === "Pending";
+
+    const isHeld =
+      agreement.paymentStatus === 1 ||
+      agreement.paymentStatus === "Held";
+
+    if (checkoutSection) {
+      checkoutSection.hidden = !isPending;
+    }
+
+    if (releaseSection) {
+      releaseSection.hidden = !isHeld;
+    }
+  } catch (error) {
+    console.error("Payment status error:", error);
+  }
+}
+
 
 // Start the Thawani payment
 payButton?.addEventListener("click", async () => {
